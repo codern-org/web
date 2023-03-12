@@ -8,7 +8,7 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:preact/recommended',
+    'plugin:react/recommended',
     'plugin:jsx-a11y/recommended',
     'plugin:prettier/recommended',
   ],
@@ -21,5 +21,8 @@ module.exports = {
   },
   rules: {
     'prettier/prettier': ['error'],
+
+    // preact stuffs
+    'react/react-in-jsx-scope': 'off',
   },
 };
