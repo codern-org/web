@@ -1,7 +1,3 @@
 export const Hero = () => {
-  return (
-    <div>
-      Codern
-    </div>
-  );
+  return <div>Codern</div>;
 };
