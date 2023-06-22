@@ -1,0 +1,42 @@
+{
+  "name": "Frontend of Codern",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:0-18",
+
+  // Features to add to the dev container. More info: https://containers.dev/features.
+  "features": {
+    "ghcr.io/devcontainers-contrib/features/pnpm:2": {}
+  },
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [5555],
+
+  // Use 'postCreateCommand' to run commands after the container is created.
+  "postCreateCommand": "pnpm install",
+
+  // Configure tool-specific properties.
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        // Improve highlighting of errors, warnings and other language diagnostics.
+        "usernamehw.errorlens",
+        // Improve your code commenting by annotating with alert, informational, TODOs, and more!
+        "aaron-bond.better-comments",
+
+        // Enforce Editor config
+        "EditorConfig.EditorConfig",
+        // Linter
+        "dbaeumer.vscode-eslint",
+        // Code formatter
+        "esbenp.prettier-vscode",
+
+        // TailwindCSS Intellisense
+        "bradlc.vscode-tailwindcss",
+        // Better TypeScript error information
+        "yoavbls.pretty-ts-errors"
+      ]
+    }
+  },
+
+  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+  "remoteUser": "root"
+}
