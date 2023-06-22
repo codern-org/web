@@ -1,9 +1,3 @@
-import { Hero } from '@/features/home/Hero';
-
 export const HomePage = () => {
-  return (
-    <div>
-      <Hero />
-    </div>
-  );
+  return <div className="flex h-screen items-center justify-center"></div>;
 };
