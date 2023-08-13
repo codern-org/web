@@ -53,7 +53,7 @@ export const SignInForm = () => {
       >
         <div>
           <h1 className="text-3xl font-semibold tracking-tight">Welcome back</h1>
-          <p className="text-secondary-foreground">Start coding and imporve your skills!</p>
+          <p className="text-secondary-foreground">Start coding and improve your skills!</p>
         </div>
 
         <FormField
@@ -95,7 +95,7 @@ export const SignInForm = () => {
             type="submit"
             className="w-full"
           >
-            Sign In
+            Sign in
           </Button>
 
           <DividerWithText
