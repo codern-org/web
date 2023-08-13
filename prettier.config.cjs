@@ -1,6 +1,6 @@
 /** @type {import('prettier').Config} */
 module.exports = {
-  plugins: [require('prettier-plugin-tailwindcss')],
+  plugins: ['prettier-plugin-tailwindcss'],
 
   singleQuote: true,
   semi: true,
@@ -10,4 +10,4 @@ module.exports = {
   printWidth: 100,
 
   singleAttributePerLine: true,
-};
+}

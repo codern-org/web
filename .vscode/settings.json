@@ -1,8 +1,9 @@
 {
+  "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.organizeImports": true
   },
-  "editor.formatOnSave": true,
+
   "editor.defaultFormatter": "esbenp.prettier-vscode",
 
   "tailwindCSS.experimental.classRegex": [["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]],
@@ -10,7 +11,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
 
-  "prettier.prettierPath": "/workspaces/frontend/node_modules/prettier/",
+  "prettier.prettierPath": "/workspaces/ui/node_modules/prettier/",
 
   "typescript.preferences.importModuleSpecifier": "non-relative"
 }
