@@ -1,6 +1,6 @@
-import { Button } from '@/common/components/Button';
-import { SearchWorkspaceInput } from '@/features/dashboard/SearchWorkspaceInput';
-import { WorkspaceCard } from '@/features/dashboard/WorkspaceCard';
+import { Button } from '@/components/common/Button';
+import { SearchWorkspaceInput } from '@/components/features/dashboard/SearchWorkspaceInput';
+import { WorkspaceCard } from '@/components/features/dashboard/WorkspaceCard';
 import { Workspace } from '@/types/WorkspaceType';
 
 type DashboardProps = {

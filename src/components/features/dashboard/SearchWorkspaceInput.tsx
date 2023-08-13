@@ -1,4 +1,4 @@
-import { Input } from '@/common/components/Input';
+import { Input } from '@/components/common/Input';
 import { useWorkspaceAction } from '@/stores/WorkspaceStore';
 import { Label } from '@radix-ui/react-label';
 import { SearchIcon } from 'lucide-react';

@@ -1,5 +1,5 @@
-import { Button } from '@/common/components/Button';
-import { DividerWithText } from '@/common/components/DividerWithText';
+import { Button } from '@/components/common/Button';
+import { DividerWithText } from '@/components/common/DividerWithText';
 import {
   Form,
   FormControl,
@@ -7,9 +7,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/common/components/Form';
-import { Input } from '@/common/components/Input';
-import { SignInWithGoogleButton } from '@/features/signin/SignInWithGoogleButton';
+} from '@/components/common/Form';
+import { Input } from '@/components/common/Input';
+import { SignInWithGoogleButton } from '@/components/features/signin/SignInWithGoogleButton';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';

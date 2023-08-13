@@ -1,6 +1,6 @@
 import { Header } from '@/common/components/Header';
 import { UserProfileDropdown } from '@/common/components/UserProfileDropdown';
-import { Dashboard } from '@/features/dashboard/Dashboard';
+import { Dashboard } from '@/components/features/dashboard/Dashboard';
 import { useWorkspaces } from '@/stores/WorkspaceStore';
 
 export const DashboardPage = () => {

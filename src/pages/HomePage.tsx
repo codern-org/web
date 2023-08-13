@@ -1,4 +1,4 @@
-import { SignInWithGoogleButton } from '@/features/signin/SignInWithGoogleButton';
+import { SignInWithGoogleButton } from '@/components/features/signin/SignInWithGoogleButton';
 
 export const HomePage = () => {
   return (

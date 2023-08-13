@@ -1,4 +1,4 @@
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/common/components/Card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/common/Card';
 import { compactNumber } from '@/libs/Utils';
 import { Workspace } from '@/types/WorkspaceType';
 import { BookOpenIcon, Users2Icon } from 'lucide-react';

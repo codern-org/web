@@ -1,5 +1,5 @@
 import GoogleIcon from '@/assets/svg/google-icon.svg';
-import { Button, ButtonProps } from '@/common/components/Button';
+import { Button, ButtonProps } from '@/components/common/Button';
 
 export const SignInWithGoogleButton = (props: ButtonProps) => {
   return (

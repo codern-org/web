@@ -1,4 +1,4 @@
-import { CodernLogo } from '@/common/branding/CodernLogo';
+import { CodernLogo } from '@/components/branding/CodernLogo';
 import { ReactNode } from 'react';
 
 type HeaderProps = {
