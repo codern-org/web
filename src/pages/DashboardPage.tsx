@@ -1,5 +1,5 @@
-import { Header } from '@/common/components/Header';
-import { UserProfileDropdown } from '@/common/components/UserProfileDropdown';
+import { Header } from '@/components/common/Header';
+import { UserProfileDropdown } from '@/components/common/UserProfileDropdown';
 import { Dashboard } from '@/components/features/dashboard/Dashboard';
 import { useWorkspaces } from '@/stores/WorkspaceStore';
 

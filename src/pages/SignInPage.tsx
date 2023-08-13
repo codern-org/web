@@ -1,5 +1,5 @@
-import { Button } from '@/common/components/Button';
-import { Header } from '@/common/components/Header';
+import { Button } from '@/components/common/Button';
+import { Header } from '@/components/common/Header';
 import { SignInForm } from '@/components/features/signin/SignInForm';
 
 export const SignInPage = () => {

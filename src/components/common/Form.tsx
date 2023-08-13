@@ -1,4 +1,4 @@
-import { Label } from '@/common/components/Label';
+import { Label } from '@/components/common/Label';
 import { classNames } from '@/libs/Utils';
 import * as LabelPrimitive from '@radix-ui/react-label';
 import { Slot } from '@radix-ui/react-slot';

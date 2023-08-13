@@ -13,7 +13,6 @@ export interface LabelProps
 
 export const Label = forwardRef<ElementRef<typeof LabelPrimitive.Root>, LabelProps>(
   ({ className, ...props }, ref) => {
-    console.log(labelVariants());
     return (
       <LabelPrimitive.Root
         ref={ref}

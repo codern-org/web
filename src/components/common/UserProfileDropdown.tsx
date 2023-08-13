@@ -6,7 +6,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/common/components/Dropdown';
+} from '@/components/common/Dropdown';
 import { classNames } from '@/libs/Utils';
 import { ChevronDownIcon, LogOutIcon, SettingsIcon } from 'lucide-react';
 
@@ -25,7 +25,7 @@ export const UserProfileDropdown = ({ className, displayName }: UserProfileDropd
         )}
       >
         <div className="h-8 w-8 flex-none rounded-md bg-muted-foreground" />
-        <ChevronDownIcon className="w-4" />
+        <ChevronDownIcon className="h-4 w-4" />
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
