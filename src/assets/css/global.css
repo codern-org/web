@@ -13,8 +13,8 @@
     --secondary: 0 0% 80%;
     --secondary-foreground: 0 0% 40%;
 
-    --danger: 0 80% 50%;
-    --danger-foreground: 0 0% 100%;
+    --danger: 0 85% 55%;
+    --danger-foreground: 0 0% 95%;
 
     --accent: 0 0% 96%;
     --accent-foreground: 0 0% 20%;
@@ -40,8 +40,8 @@
     --secondary: 0 0% 80%;
     --secondary-foreground: 0 0% 0%;
 
-    --danger: 0 80% 50%;
-    --danger-foreground: 0 0% 100%;
+    --danger: 0 85% 55%;
+    --danger-foreground: 0 0% 95%;
 
     --accent: 0 0% 18%;
     --accent-foreground: 0 0% 95%;
