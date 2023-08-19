@@ -16,11 +16,11 @@
     --danger: 0 85% 55%;
     --danger-foreground: 0 0% 95%;
 
-    --accent: 0 0% 95%;
-    --accent-foreground: 0 0% 20%;
+    --accent: 0 0% 94%;
+    --accent-foreground: 0 0% 35%;
 
-    --muted: 0 0% 90%;
-    --muted-foreground: 0 0% 50%;
+    --muted: 0 0% 94%;
+    --muted-foreground: 0 0% 60%;
 
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 20%;
@@ -43,7 +43,7 @@
     --danger: 0 85% 55%;
     --danger-foreground: 0 0% 95%;
 
-    --accent: 0 0% 18%;
+    --accent: 0 0% 12%;
     --accent-foreground: 0 0% 95%;
 
     --muted: 0 0% 12%;
