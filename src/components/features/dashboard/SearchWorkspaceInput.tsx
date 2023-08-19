@@ -21,4 +21,3 @@ export const SearchWorkspaceInput = () => {
     </Label>
   );
 };
-SearchWorkspaceInput.displayName = 'SearchWorkspaceInput';

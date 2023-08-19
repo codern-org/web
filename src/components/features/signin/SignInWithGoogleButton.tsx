@@ -47,4 +47,3 @@ export const SignInWithGoogleButton = (props: SignInWithGoogleButtonProps) => {
     </Button>
   );
 };
-SignInWithGoogleButton.displayName = 'SignInWithGoogleButton';

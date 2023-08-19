@@ -47,4 +47,3 @@ export const WorkspaceCard = ({
     </Card>
   );
 };
-WorkspaceCard.displayName = 'WorkspaceCard';

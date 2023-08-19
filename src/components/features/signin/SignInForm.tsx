@@ -112,4 +112,3 @@ export const SignInForm = () => {
     </Form>
   );
 };
-SignInForm.displayName = 'SigninForm';
