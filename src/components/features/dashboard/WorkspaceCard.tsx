@@ -25,14 +25,14 @@ export const WorkspaceCard = ({
         </div>
       </CardHeader>
       <CardContent className="flex items-center space-x-2">
-        <div className="inline-flex items-center space-x-1 rounded-md bg-muted px-2 py-0.5">
-          <BookOpenIcon className="h-4 w-4 text-muted-foreground" />
+        <div className="inline-flex items-center space-x-1 rounded-md bg-accent px-2 py-0.5">
+          <BookOpenIcon className="h-4 w-4 text-accent-foreground" />
           <span className="text-sm">
             {completeQuestions}/{totalQuestions}
           </span>
         </div>
-        <div className="inline-flex items-center space-x-1 rounded-md bg-muted px-2 py-0.5">
-          <Users2Icon className="h-5 w-5 text-muted-foreground" />
+        <div className="inline-flex items-center space-x-1 rounded-md bg-accent px-2 py-0.5">
+          <Users2Icon className="h-5 w-5 text-accent-foreground" />
           <span className="text-sm">{compactNumber(participants)}</span>
         </div>
       </CardContent>
