@@ -1,7 +1,7 @@
 import GoogleIcon from '@/assets/svg/google-icon.svg';
 import { Button, ButtonProps } from '@/components/common/Button';
 import { ToastAction } from '@/components/common/Toast';
-import { useToast } from '@/hooks/useToast';
+import { useToast } from '@/hooks/ToastHook';
 import { authService } from '@/services/AuthService';
 
 type SignInWithGoogleButtonProps = Omit<ButtonProps, 'onClick'>;
