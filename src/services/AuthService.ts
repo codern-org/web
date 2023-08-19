@@ -1,6 +1,15 @@
 import { ApiService } from '@/services/ApiService';
+import { User } from '@/types/AuthTypes';
 
 class AuthService extends ApiService {
+  public async me(): Promise<User> {
+    return this.get('/auth/me')
+      .then((response) => {
+        return response.data.data as unknown as User;
+      })
+      .catch(this.throwError);
+  }
+
   public async getGoogleAuthUrl(): Promise<string> {
     return this.get('/auth/google')
       .then((response) => {
@@ -9,6 +18,12 @@ class AuthService extends ApiService {
         }
         this.throwError('Cannot get the Google auth url');
       })
+      .catch(this.throwError);
+  }
+
+  public async signOut(): Promise<void> {
+    return this.get('/auth/signout')
+      .then(() => {})
       .catch(this.throwError);
   }
 }
