@@ -1,7 +1,7 @@
 import { Button } from '@/components/common/Button';
 import { Header } from '@/components/common/Header';
 import { UserProfileDropdown } from '@/components/common/UserProfileDropdown';
-import { User } from '@/types/AuthTypes';
+import { User, UserAccountType } from '@/types/AuthTypes';
 import { BellIcon, PlusIcon } from 'lucide-react';
 
 type DashboardPageHeaderProps = {
@@ -12,13 +12,15 @@ export const DashboardPageHeader = ({ user }: DashboardPageHeaderProps) => {
   return (
     <Header>
       <div className="ml-auto flex flex-row items-center space-x-2">
-        <Button
-          variant="secondary"
-          size="sm"
-        >
-          <PlusIcon className="mr-1 h-4 w-4 " />
-          Create workspace
-        </Button>
+        {user?.accountType && user.accountType === UserAccountType.PRO && (
+          <Button
+            variant="secondary"
+            size="sm"
+          >
+            <PlusIcon className="mr-1 h-4 w-4 " />
+            Create workspace
+          </Button>
+        )}
 
         <Button
           variant="outline"
@@ -33,6 +35,7 @@ export const DashboardPageHeader = ({ user }: DashboardPageHeaderProps) => {
           <UserProfileDropdown
             displayName={user.displayName}
             email={user.email}
+            accountType={user.accountType}
           />
         )}
       </div>

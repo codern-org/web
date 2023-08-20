@@ -10,39 +10,33 @@ import {
 } from '@/components/common/Form';
 import { Input } from '@/components/common/Input';
 import { SignInWithGoogleButton } from '@/components/features/signin/SignInWithGoogleButton';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-
-// prettier-ignore
-export const SignInFormSchema = z.object({
-  email: z
-    .string()
-    .trim()
-    .email({ message: 'Please use a valid email address' }),
-  password: z
-    .string()
-    .trim()
-    .min(6, { message: 'Password must be at least 6 characters' })
-    .max(24, { message: 'Password cannot be more than 24 characters' })
-});
-
-export type SignInFormValues = z.infer<typeof SignInFormSchema>;
-
-export const SignInFormDefaultValues: Partial<SignInFormValues> = {
-  email: '',
-  password: '',
-};
+import { useStrictForm } from '@/hooks/FormHook';
+import { useToast } from '@/hooks/ToastHook';
+import { RoutePath } from '@/libs/Constants';
+import { authService } from '@/services/AuthService';
+import {
+  SignInFormDefaultValues,
+  SignInFormSchema,
+  SignInFormValues,
+} from '@/types/schema/SignInSchema';
+import { useNavigate } from 'react-router-dom';
 
 export const SignInForm = () => {
-  const form = useForm<SignInFormValues>({
-    resolver: zodResolver(SignInFormSchema),
-    defaultValues: SignInFormDefaultValues,
-    mode: 'onSubmit',
-  });
+  const { toast } = useToast();
+  const navigate = useNavigate();
+  const form = useStrictForm(SignInFormSchema, SignInFormDefaultValues);
 
   const onSubmit = (data: SignInFormValues) => {
-    console.log(data);
+    authService
+      .signIn(data.email, data.password)
+      .then(() => navigate(RoutePath.DASHBOARD))
+      .catch((error) => {
+        toast({
+          variant: 'danger',
+          title: 'Cannot sign in to your account',
+          description: error.message,
+        });
+      });
   };
 
   return (

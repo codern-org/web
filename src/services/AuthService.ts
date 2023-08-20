@@ -10,6 +10,14 @@ class AuthService extends ApiService {
       .catch(this.throwError);
   }
 
+  public async signIn(email: string, password: string): Promise<User> {
+    return this.post('/auth/signin', { email, password })
+      .then(() => {
+        return {} as User;
+      })
+      .catch(this.throwError);
+  }
+
   public async getGoogleAuthUrl(): Promise<string> {
     return this.get('/auth/google')
       .then((response) => {
