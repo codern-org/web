@@ -1,5 +1,6 @@
 import { Button } from '@/components/common/Button';
 import { Header } from '@/components/common/Header';
+import { RoutePath } from '@/libs/Constants';
 import { useNavigate } from 'react-router-dom';
 
 export const HomePageHeader = () => {
@@ -12,13 +13,13 @@ export const HomePageHeader = () => {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => navigate('/signin')}
+            onClick={() => navigate(RoutePath.SIGNIN)}
           >
             Sign in
           </Button>
           <Button
             size="sm"
-            onClick={() => navigate('/signup')}
+            onClick={() => navigate(RoutePath.SIGNUP)}
           >
             Sign up
           </Button>

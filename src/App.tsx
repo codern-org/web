@@ -1,6 +1,7 @@
 import '@/assets/css/global.css';
 import { PrivateRoute } from '@/components/common/PrivateRoute';
 import { Toaster } from '@/components/common/Toaster';
+import { RoutePath } from '@/libs/Constants';
 
 import { DashboardPage } from '@/pages/DashboardPage';
 import { HomePage } from '@/pages/HomePage';
@@ -18,17 +19,17 @@ export const App = () => {
         <Routes>
           {/* Public routes. Authentication is not required */}
           <Route
-            path="/"
+            path={RoutePath.HONE}
             element={<HomePage />}
           />
           <Route
-            path="/signin"
+            path={RoutePath.SIGNIN}
             element={<SignInPage />}
           />
 
           {/* Private routes. Authentication is required */}
           <Route
-            path="/dashboard"
+            path={RoutePath.DASHBOARD}
             element={<PrivateRoute element={<DashboardPage />} />}
           />
         </Routes>
