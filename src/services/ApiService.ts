@@ -1,5 +1,6 @@
 import { Axios } from '@/libs/Axios';
 import { ApiResponse } from '@/types/ApiResponseTypes';
+import axios from 'axios';
 
 export abstract class ApiService {
   protected get<T = object>(url: string) {
@@ -35,9 +36,11 @@ export abstract class ApiService {
   protected throwError(error: unknown): never {
     if (typeof error === 'string') {
       throw new Error(error);
+    } else if (axios.isAxiosError(error)) {
+      // If `response` does not exist, that means "Network Error"
+      throw error?.response?.data.error || error;
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      throw (error as any)?.response?.error || error;
+      throw error;
     }
   }
 }
