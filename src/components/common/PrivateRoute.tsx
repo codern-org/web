@@ -8,7 +8,7 @@ type PrivateRouteProps = {
   redirectTo?: string;
 };
 
-export const PrivateRoute = ({ element, redirectTo = '/' }: PrivateRouteProps) => {
+export const PrivateRoute = ({ element, redirectTo = '/signin' }: PrivateRouteProps) => {
   const { data, isLoading } = useGetUserQuery();
   const { toast } = useToast();
 

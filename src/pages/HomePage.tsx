@@ -1,9 +1,9 @@
-import { SignInWithGoogleButton } from '@/components/features/signin/SignInWithGoogleButton';
+import { HomePageHeader } from '@/components/features/home/HomePageHeader';
 
 export const HomePage = () => {
   return (
-    <div className="flex h-screen items-center justify-center">
-      <SignInWithGoogleButton />
-    </div>
+    <>
+      <HomePageHeader />
+    </>
   );
 };

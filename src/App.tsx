@@ -3,6 +3,7 @@ import { PrivateRoute } from '@/components/common/PrivateRoute';
 import { Toaster } from '@/components/common/Toaster';
 
 import { DashboardPage } from '@/pages/DashboardPage';
+import { HomePage } from '@/pages/HomePage';
 import { SignInPage } from '@/pages/SignInPage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -18,6 +19,10 @@ export const App = () => {
           {/* Public routes. Authentication is not required */}
           <Route
             path="/"
+            element={<HomePage />}
+          />
+          <Route
+            path="/signin"
             element={<SignInPage />}
           />
 
