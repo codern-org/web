@@ -8,6 +8,7 @@ import { RoutePath } from '@/libs/Constants';
 import { DashboardPage } from '@/pages/DashboardPage';
 import { HomePage } from '@/pages/HomePage';
 import { SignInPage } from '@/pages/SignInPage';
+import { NotFoundPage } from '@/pages/error/NotFoundPage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
@@ -33,6 +34,12 @@ const App = () => {
           <Route
             path={RoutePath.DASHBOARD}
             element={<PrivateRoute element={<DashboardPage />} />}
+          />
+
+          {/* Fallback routes */}
+          <Route
+            path="*"
+            element={<NotFoundPage />}
           />
         </Routes>
       </BrowserRouter>
