@@ -1,8 +1,10 @@
 import '@/assets/css/global.css';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
 import { PrivateRoute } from '@/components/common/PrivateRoute';
 import { Toaster } from '@/components/common/Toaster';
 import { RoutePath } from '@/libs/Constants';
-
 import { DashboardPage } from '@/pages/DashboardPage';
 import { HomePage } from '@/pages/HomePage';
 import { SignInPage } from '@/pages/SignInPage';
@@ -11,7 +13,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 const queryClient = new QueryClient();
 
-export const App = () => {
+const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       {/* Router */}
@@ -40,3 +42,9 @@ export const App = () => {
     </QueryClientProvider>
   );
 };
+
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+);
