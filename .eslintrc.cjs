@@ -1,5 +1,6 @@
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
+  root: true,
   env: {
     browser: true,
     es2020: true,
@@ -19,6 +20,6 @@ module.exports = {
   rules: {
     'prettier/prettier': ['error'],
 
-    'react-refresh/only-export-components': 'warn',
+    'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
   },
 };
