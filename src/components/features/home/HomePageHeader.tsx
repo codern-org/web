@@ -8,22 +8,20 @@ export const HomePageHeader = () => {
 
   return (
     <Header>
-      <div className="ml-auto flex flex-row">
-        <div className="flex flex-row items-center space-x-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => navigate(RoutePath.SIGNIN)}
-          >
-            Sign in
-          </Button>
-          <Button
-            size="sm"
-            onClick={() => navigate(RoutePath.SIGNUP)}
-          >
-            Sign up
-          </Button>
-        </div>
+      <div className="flex flex-row items-center space-x-2">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => navigate(RoutePath.SIGNIN)}
+        >
+          Sign in
+        </Button>
+        <Button
+          size="sm"
+          onClick={() => navigate(RoutePath.SIGNUP)}
+        >
+          Sign up
+        </Button>
       </div>
     </Header>
   );

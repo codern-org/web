@@ -1,11 +1,8 @@
 import { Input } from '@/components/common/Input';
-import { useWorkspaceAction } from '@/stores/WorkspaceStore';
 import { Label } from '@radix-ui/react-label';
 import { SearchIcon } from 'lucide-react';
 
 export const SearchWorkspaceInput = () => {
-  const workspaceAction = useWorkspaceAction();
-
   return (
     <Label className="relative">
       <SearchIcon
@@ -15,8 +12,8 @@ export const SearchWorkspaceInput = () => {
       <Input
         type="search"
         placeholder="Search workspace"
-        className="pl-8"
-        onChange={(event) => workspaceAction.filter(event.target.value)}
+        className="h-9 py-0 pl-8"
+        onChange={() => {}}
       />
     </Label>
   );
