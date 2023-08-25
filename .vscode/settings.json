@@ -11,7 +11,5 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
 
-  "prettier.prettierPath": "/workspaces/ui/node_modules/prettier/",
-
   "typescript.preferences.importModuleSpecifier": "non-relative"
 }

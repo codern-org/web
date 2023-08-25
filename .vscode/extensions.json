@@ -1,0 +1,20 @@
+{
+  "recommendations": [
+    // Improve highlighting of errors, warnings and other language diagnostics.
+    "usernamehw.errorlens",
+    // Improve your code commenting by annotating with alert, informational, TODOs, and more!
+    "aaron-bond.better-comments",
+
+    // Enforce Editor config
+    "EditorConfig.EditorConfig",
+    // Linter
+    "dbaeumer.vscode-eslint",
+    // Code formatter
+    "esbenp.prettier-vscode",
+
+    // TailwindCSS Intellisense
+    "bradlc.vscode-tailwindcss",
+    // Better TypeScript error information
+    "yoavbls.pretty-ts-errors"
+  ]
+}
