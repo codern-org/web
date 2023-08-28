@@ -1,5 +1,5 @@
 import { Button } from '@/components/common/Button';
-import { Header } from '@/components/common/Header';
+import { NavigationBar } from '@/components/common/NavigationBar';
 import { SignInForm } from '@/components/features/signin/SignInForm';
 import { useGetUserQuery } from '@/hooks/AuthHook';
 import { Navigate } from 'react-router-dom';
@@ -13,7 +13,7 @@ export const SignInPage = () => {
 
   return (
     <>
-      <Header>
+      <NavigationBar>
         <Button
           variant="secondary"
           size="sm"
@@ -21,7 +21,7 @@ export const SignInPage = () => {
         >
           Create account
         </Button>
-      </Header>
+      </NavigationBar>
 
       <main className="absolute inset-0 flex h-screen w-full items-center justify-center">
         <div className="mx-8 w-full max-w-lg">

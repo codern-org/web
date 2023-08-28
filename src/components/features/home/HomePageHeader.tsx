@@ -1,5 +1,5 @@
 import { Button } from '@/components/common/Button';
-import { Header } from '@/components/common/Header';
+import { NavigationBar } from '@/components/common/NavigationBar';
 import { RoutePath } from '@/libs/Constants';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,7 +7,7 @@ export const HomePageHeader = () => {
   const navigate = useNavigate();
 
   return (
-    <Header>
+    <NavigationBar>
       <div className="flex flex-row items-center space-x-2">
         <Button
           variant="ghost"
@@ -23,6 +23,6 @@ export const HomePageHeader = () => {
           Sign up
         </Button>
       </div>
-    </Header>
+    </NavigationBar>
   );
 };
