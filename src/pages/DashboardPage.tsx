@@ -1,19 +1,25 @@
+import { Footer } from '@/components/common/Footer';
 import { Dashboard } from '@/components/features/dashboard/Dashboard';
-import { DashboardPageHeader } from '@/components/features/dashboard/DashboardPageHeader';
+import { DashboardBreadcrumb } from '@/components/features/dashboard/DashboardBreadcrumb';
+import { DashboardPageNavigationBar } from '@/components/features/dashboard/DashboardPageHeader';
 import { useGetUserQuery } from '@/hooks/AuthHook';
-import { useWorkspaces } from '@/stores/WorkspaceStore';
+import { useListWorkspaceQuery } from '@/hooks/WorkspaceHook';
 
 export const DashboardPage = () => {
   const { data: user } = useGetUserQuery();
-  const workspaces = useWorkspaces();
+  const { data: workspaces } = useListWorkspaceQuery('me', ['ownerName']);
 
   return (
     <>
-      <DashboardPageHeader user={user} />
-
-      <main className="container py-6">
-        <Dashboard workspaces={workspaces} />
+      <main className="relative min-h-screen">
+        <DashboardPageNavigationBar user={user} />
+        <DashboardBreadcrumb className="container mt-6" />
+        <Dashboard
+          workspaces={workspaces}
+          recentWorkspaces={workspaces}
+        />
       </main>
+      <Footer />
     </>
   );
 };

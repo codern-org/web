@@ -1,44 +1,46 @@
 import { Button } from '@/components/common/Button';
-import { Header } from '@/components/common/Header';
+import { NavigationBar } from '@/components/common/NavigationBar';
 import { UserProfileDropdown } from '@/components/common/UserProfileDropdown';
 import { User, UserAccountType } from '@/types/AuthTypes';
 import { BellIcon, PlusIcon } from 'lucide-react';
 
-type DashboardPageHeaderProps = {
+type DashboardPageNavigationBarProps = {
   user: User | undefined;
+  className?: string;
 };
 
-export const DashboardPageHeader = ({ user }: DashboardPageHeaderProps) => {
+export const DashboardPageNavigationBar = ({
+  user,
+  className,
+}: DashboardPageNavigationBarProps) => {
   return (
-    <Header>
-      <div className="ml-auto flex flex-row items-center space-x-2">
-        {user?.accountType && user.accountType === UserAccountType.PRO && (
-          <Button
-            variant="secondary"
-            size="sm"
-          >
-            <PlusIcon className="mr-1 h-4 w-4 " />
-            Create workspace
-          </Button>
-        )}
-
+    <NavigationBar className={className}>
+      {user?.accountType && user.accountType === UserAccountType.PRO && (
         <Button
-          variant="outline"
-          size="icon-sm"
-          className="relative rounded-full"
+          variant="secondary"
+          size="sm"
         >
-          <div className="absolute right-0 top-0 h-2 w-2 rounded-full bg-danger"></div>
-          <BellIcon className="h-4 w-4" />
+          <PlusIcon className="mr-1 h-4 w-4 " />
+          Create workspace
         </Button>
+      )}
 
-        {user && (
-          <UserProfileDropdown
-            displayName={user.displayName}
-            email={user.email}
-            accountType={user.accountType}
-          />
-        )}
-      </div>
-    </Header>
+      <Button
+        variant="outline"
+        size="icon-sm"
+        className="relative rounded-full"
+      >
+        <div className="absolute right-0 top-0 h-2 w-2 rounded-full bg-danger"></div>
+        <BellIcon className="h-4 w-4" />
+      </Button>
+
+      {user && (
+        <UserProfileDropdown
+          displayName={user.displayName}
+          email={user.email}
+          accountType={user.accountType}
+        />
+      )}
+    </NavigationBar>
   );
 };
