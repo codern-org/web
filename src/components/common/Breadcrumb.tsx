@@ -3,7 +3,7 @@ import { ChevronRight } from 'lucide-react';
 import { ComponentPropsWithoutRef, ReactNode, cloneElement, forwardRef } from 'react';
 import { Link } from 'react-router-dom';
 
-interface BreadcrumbProps extends ComponentPropsWithoutRef<'nav'> {
+export interface BreadcrumbProps extends ComponentPropsWithoutRef<'nav'> {
   separator?: ReactNode;
   addSeparator?: boolean;
 }

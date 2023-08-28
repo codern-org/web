@@ -3,4 +3,5 @@ export enum RoutePath {
   SIGNIN = '/signin',
   SIGNUP = '/signup',
   DASHBOARD = '/dashboard',
+  WORKSPACE_DASHBOARD = '/dashboard/workspace/:workspaceId',
 }
