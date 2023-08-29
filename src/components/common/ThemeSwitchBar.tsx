@@ -16,6 +16,7 @@ export const ThemeSwitchBar = () => {
     <div className="flex">
       {Object.entries(ThemeIconMap).map(([theme, Icon]) => (
         <Button
+          key={theme}
           variant="ghost"
           size="icon-sm"
           className={classNames(
