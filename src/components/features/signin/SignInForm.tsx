@@ -43,7 +43,7 @@ export const SignInForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4 rounded-lg border border-secondary px-8 py-12 shadow-md"
+        className="space-y-4 rounded-lg border px-8 py-12 shadow-md"
       >
         <div>
           <h1 className="text-3xl font-semibold tracking-tight">Welcome back</h1>
@@ -59,6 +59,7 @@ export const SignInForm = () => {
               <FormControl>
                 <Input
                   placeholder=""
+                  className="h-9"
                   {...field}
                 />
               </FormControl>
@@ -76,6 +77,7 @@ export const SignInForm = () => {
                 <Input
                   type="password"
                   placeholder=""
+                  className="h-9"
                   {...field}
                 />
               </FormControl>
@@ -87,6 +89,7 @@ export const SignInForm = () => {
         <div className="space-y-5">
           <Button
             type="submit"
+            size="sm"
             className="w-full"
           >
             Sign in
@@ -99,6 +102,7 @@ export const SignInForm = () => {
 
           <SignInWithGoogleButton
             variant="secondary"
+            size="sm"
             className="w-full"
           />
         </div>

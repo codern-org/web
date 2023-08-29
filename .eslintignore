@@ -2,3 +2,4 @@ dist
 .eslintrc.cjs
 postcss.config.cjs
 prettier.config.cjs
+tailwind.config.cjs
