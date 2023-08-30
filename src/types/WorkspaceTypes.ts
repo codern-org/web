@@ -5,11 +5,11 @@ export type Workspace = {
   ownerId: string;
   createdAt: Date;
 
-  totalAssignment?: number;
-  progression?: number;
-  ownerName?: string;
+  ownerName: string;
+  participantCount: number;
+  totalAssignment: number;
+
   participants?: WorkspaceParticipant[];
-  participantCount?: number;
 };
 
 export type WorkspaceParticipant = {

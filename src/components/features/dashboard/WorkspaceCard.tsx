@@ -12,8 +12,7 @@ type WorkspaceCardProps = {
 export const WorkspaceCard = ({ workspace }: WorkspaceCardProps) => {
   const navigate = useNavigate();
 
-  const { id, name, profileUrl, ownerName, totalAssignment, progression, participantCount } =
-    workspace;
+  const { id, name, profileUrl, ownerName, totalAssignment, participantCount } = workspace;
 
   return (
     <Card
@@ -35,7 +34,13 @@ export const WorkspaceCard = ({ workspace }: WorkspaceCardProps) => {
         <div className="inline-flex items-center space-x-1 rounded-md bg-accent px-2 py-0.5 text-accent-foreground">
           <BookOpenIcon className="h-4 w-4" />
           <span className="text-sm">
-            {progression}/{totalAssignment}
+            {totalAssignment === 0 ? (
+              '0'
+            ) : (
+              <>
+                {0} / {totalAssignment}
+              </>
+            )}
           </span>
         </div>
         <div className="inline-flex items-center space-x-1 rounded-md bg-accent px-2 py-0.5 text-accent-foreground">
@@ -48,8 +53,7 @@ export const WorkspaceCard = ({ workspace }: WorkspaceCardProps) => {
           <div
             className="h-1 rounded bg-primary"
             style={{
-              width:
-                (progression && totalAssignment ? (progression / totalAssignment) * 100 : 0) + '%',
+              width: (true && totalAssignment ? (0 / totalAssignment) * 100 : 0) + '%',
             }}
           />
         </div>

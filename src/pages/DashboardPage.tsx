@@ -7,7 +7,7 @@ import { useListWorkspaceQuery } from '@/hooks/WorkspaceHook';
 
 export const DashboardPage = () => {
   const { data: user } = useGetUserQuery();
-  const { data: workspaces } = useListWorkspaceQuery('me', ['ownerName']);
+  const { data: workspaces } = useListWorkspaceQuery(['ownerName']);
 
   return (
     <>
