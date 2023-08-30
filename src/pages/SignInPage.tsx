@@ -1,4 +1,5 @@
 import { Button } from '@/components/common/Button';
+import { Footer } from '@/components/common/Footer';
 import { NavigationBar } from '@/components/common/NavigationBar';
 import { SignInForm } from '@/components/features/signin/SignInForm';
 import { useGetUserQuery } from '@/hooks/AuthHook';
@@ -13,21 +14,24 @@ export const SignInPage = () => {
 
   return (
     <>
-      <NavigationBar>
-        <Button
-          variant="secondary"
-          size="sm"
-          className="ml-auto"
-        >
-          Create account
-        </Button>
-      </NavigationBar>
+      <main className="relative min-h-screen">
+        <NavigationBar>
+          <Button
+            variant="secondary"
+            size="sm"
+            className="ml-auto"
+          >
+            Create account
+          </Button>
+        </NavigationBar>
 
-      <main className="absolute inset-0 flex h-screen w-full items-center justify-center">
-        <div className="mx-8 w-full max-w-lg">
-          <SignInForm />
+        <div className="mx-6 flex h-[calc(100vh-3.5rem)] items-center justify-center">
+          <div className="h- w-full max-w-md">
+            <SignInForm />
+          </div>
         </div>
       </main>
+      <Footer />
     </>
   );
 };

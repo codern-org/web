@@ -16,13 +16,17 @@ import {
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
+  selectable?: boolean;
 }
 
-export const DataTablePagination = <TData,>({ table }: DataTablePaginationProps<TData>) => {
+export const DataTablePagination = <TData,>({
+  table,
+  selectable = false,
+}: DataTablePaginationProps<TData>) => {
   return (
     <div className="flex items-center justify-between px-2">
       <div className="flex-1 text-sm text-muted-foreground">
-        {table.getFilteredSelectedRowModel().rows.length > 0 && (
+        {selectable && (
           <>
             {table.getFilteredSelectedRowModel().rows.length} of{' '}
             {table.getFilteredRowModel().rows.length} row(s) selected.

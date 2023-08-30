@@ -1,5 +1,5 @@
 import { Button } from '@/components/common/Button';
-import { SearchWorkspaceInput } from '@/components/features/dashboard/SearchWorkspaceInput';
+import { SearchInput } from '@/components/common/SearchInput';
 import { WorkspaceCard } from '@/components/features/dashboard/WorkspaceCard';
 import { WorkspaceCardSkeleton } from '@/components/features/dashboard/WorkspaceCardSkeleton';
 import { Workspace } from '@/types/WorkspaceTypes';
@@ -12,15 +12,20 @@ type DashboardProps = {
 export const Dashboard = ({ workspaces, recentWorkspaces }: DashboardProps) => {
   return (
     <>
-      <div className="container flex flex-col py-8 md:flex-row md:items-center md:justify-between">
-        <h1 className="text-3xl font-semibold">Dashboard</h1>
-        <div className="mt-4 flex items-center space-x-2 md:mt-0">
-          <SearchWorkspaceInput />
-          <Button size="sm">Add Workspace</Button>
+      <div className="border-b py-8">
+        <div className="container flex flex-col md:flex-row md:items-center md:justify-between">
+          <h1 className="text-3xl font-semibold">Dashboard</h1>
+          <div className="mt-4 flex items-center space-x-2 md:mt-0">
+            <SearchInput
+              placeholder="Search workspace"
+              className="h-9"
+            />
+            <Button size="sm">Add Workspace</Button>
+          </div>
         </div>
       </div>
 
-      <div className="container space-y-6">
+      <div className="container space-y-6 py-8">
         {recentWorkspaces && recentWorkspaces.length > 0 && (
           <div className="flex flex-col">
             <h2 className="mb-3 text-lg font-semibold">Recent Workspaces</h2>
