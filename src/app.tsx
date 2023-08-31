@@ -2,7 +2,7 @@ import '@/assets/css/global.css';
 
 import { Toaster } from '@/components/common/toaster';
 import { ThemeProvider } from '@/hooks/theme-hook';
-import { Router } from '@/_router';
+import { Router } from '@/router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const queryClient = new QueryClient();
