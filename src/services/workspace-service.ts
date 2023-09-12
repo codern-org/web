@@ -3,9 +3,17 @@ import { Assignment, Workspace, WorkspaceSelectorQuery } from '@/types/workspace
 
 class WorkspaceService extends ApiService {
   public async listWorkspace(selector?: WorkspaceSelectorQuery[]): Promise<Workspace[]> {
-    let url = '/workspaces/';
+    let url = '/workspaces';
     if (selector) url += '?fields=' + selector.join(',');
     return this.get(url)
+      .then((response) => {
+        return response.data.data as unknown as Workspace[];
+      })
+      .catch(this.throwError);
+  }
+
+  public async listRecentWorkspace(): Promise<Workspace[]> {
+    return this.get('/workspaces?order=recent')
       .then((response) => {
         return response.data.data as unknown as Workspace[];
       })
