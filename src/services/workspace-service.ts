@@ -21,7 +21,10 @@ class WorkspaceService extends ApiService {
   }
 
   public async listAssignment(workspaceId: number): Promise<Assignment[]> {
-    const url = '/workspaces/:id/assignments'.replace(':id', workspaceId.toString());
+    const url = '/workspaces/:workspaceId/assignments'.replace(
+      ':workspaceId',
+      workspaceId.toString(),
+    );
     return this.get(url)
       .then((response) => {
         return response.data.data as unknown as Assignment[];
@@ -30,11 +33,22 @@ class WorkspaceService extends ApiService {
   }
 
   public async getWorkspace(id: number, selector?: WorkspaceSelectorQuery[]): Promise<Workspace> {
-    let url = '/workspaces/:id'.replace(':id', id.toString());
+    let url = '/workspaces/:workspaceId'.replace(':workspaceId', id.toString());
     if (selector) url += '?fields=' + selector.join(',');
     return this.get(url)
       .then((response) => {
         return response.data.data as unknown as Workspace;
+      })
+      .catch(this.throwError);
+  }
+
+  public async getAssignment(workspaceId: number, assignmentId: number): Promise<Assignment> {
+    const url = '/workspaces/:workspaceId/assignments/:assignmentId'
+      .replace(':workspaceId', workspaceId.toString())
+      .replace(':assignmentId', assignmentId.toString());
+    return this.get(url)
+      .then((response) => {
+        return response.data.data as unknown as Assignment;
       })
       .catch(this.throwError);
   }

@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 export const WorkspaceDashboardPage = () => {
   const { workspaceId } = useParams();
   const { data: user } = useGetUserQuery();
-  const { data: workspace } = useGetWorkspaceQuery(Number(workspaceId), ['ownerName']);
+  const { data: workspace } = useGetWorkspaceQuery(Number(workspaceId));
 
   return (
     <>
@@ -21,6 +21,7 @@ export const WorkspaceDashboardPage = () => {
         />
         <WorkspaceDashboard workspace={workspace} />
       </main>
+
       <Footer />
     </>
   );

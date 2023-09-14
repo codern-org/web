@@ -17,9 +17,11 @@ export type WorkspaceParticipant = {
   joinedAt: Date;
 };
 
-export type WorkspaceSelectorQuery = 'ownerName' | 'participants';
+export type WorkspaceSelectorQuery = 'participants';
 
 export type AssignmentLevel = 'EASY' | 'NORMAL' | 'HARD';
+
+export type AssignmentStatus = 'TODO' | 'GRADING' | 'ERROR' | 'DONE';
 
 export type Assignment = {
   id: number;
@@ -31,4 +33,7 @@ export type Assignment = {
   level: AssignmentLevel;
   createdAt: Date;
   updatedAt: Date;
+
+  lastSubmittedAt: Date;
+  status: AssignmentStatus;
 };
