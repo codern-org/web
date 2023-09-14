@@ -39,7 +39,7 @@ export const UserProfileDropdown = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex flex-row items-center space-x-1 rounded-sm focus-visible:outline-none">
-        <div className="h-8 w-8 flex-none rounded-md bg-muted-foreground" />
+        <div className="h-8 w-8 flex-none rounded-md bg-secondary-foreground" />
         <ChevronDownIcon className="h-4 w-4" />
       </DropdownMenuTrigger>
 
@@ -50,7 +50,7 @@ export const UserProfileDropdown = ({
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">{displayName}</p>
-            <p className="text-xs leading-none text-muted-foreground">{email}</p>
+            <p className="text-xs leading-none text-secondary-foreground">{email}</p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />

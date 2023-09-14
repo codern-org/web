@@ -20,7 +20,7 @@ export const ThemeSwitchBar = () => {
           variant="ghost"
           size="icon-sm"
           className={classNames(
-            'rounded-full text-muted-foreground hover:bg-transparent hover:text-primary',
+            'rounded-full text-secondary-foreground hover:bg-transparent hover:text-primary',
             theme === currentTheme && 'bg-accent hover:bg-accent',
           )}
           onClick={() => setTheme(theme as Theme)}

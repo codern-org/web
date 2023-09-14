@@ -27,7 +27,7 @@ export const WorkspaceCard = ({ workspace }: WorkspaceCardProps) => {
         />
         <div className="mb-1 flex flex-col">
           <CardTitle className="text-base">{name}</CardTitle>
-          <span className="text-xs text-muted-foreground">{ownerName}</span>
+          <span className="text-xs text-secondary-foreground">{ownerName}</span>
         </div>
       </CardHeader>
       <CardContent className="flex items-center space-x-2">
@@ -35,7 +35,7 @@ export const WorkspaceCard = ({ workspace }: WorkspaceCardProps) => {
           <BookOpenIcon className="h-4 w-4" />
           <span className="text-sm">
             {totalAssignment === 0 ? (
-              '0'
+              '-'
             ) : (
               <>
                 {0} / {totalAssignment}
@@ -49,7 +49,7 @@ export const WorkspaceCard = ({ workspace }: WorkspaceCardProps) => {
         </div>
       </CardContent>
       <CardFooter>
-        <div className="h-1 w-full bg-muted">
+        <div className="h-1 w-full rounded bg-muted">
           <div
             className="h-1 rounded bg-primary"
             style={{

@@ -54,7 +54,7 @@ export const Dashboard = ({ workspaces, recentWorkspaces }: DashboardProps) => {
           </div>
 
           {workspaces && workspaces.length === 0 && (
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-secondary-foreground">
               Looks like you haven't joined any workspaces yet
             </p>
           )}

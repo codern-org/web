@@ -10,13 +10,13 @@
     --primary: 0 0% 8%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 85%;
-    --secondary-foreground: 0 0% 40%;
+    --secondary: 0 0% 90%;
+    --secondary-foreground: 0 0% 55%;
 
     --accent: 0 0% 92%;
     --accent-foreground: 0 0% 35%;
 
-    --muted: 0 0% 92%;
+    --muted: 0 0% 90%;
     --muted-foreground: 0 0% 60%;
 
     --popover: 0 0% 100%;
@@ -37,14 +37,14 @@
     --primary: 0 0% 95%;
     --primary-foreground: 0 0% 3%;
 
-    --secondary: 0 0% 80%;
-    --secondary-foreground: 0 0% 65%;
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 0 0% 50%;
 
     --accent: 0 0% 16%;
     --accent-foreground: 0 0% 90%;
 
-    --muted: 0 0% 16%;
-    --muted-foreground: 0 0% 70%;
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 35%;
 
     --popover: 0 0% 5%;
     --popover-foreground: 0 0% 90%;
@@ -68,6 +68,6 @@
   }
 
   ::selection {
-    @apply bg-black text-white dark:bg-white dark:text-black;
+    @apply bg-primary text-primary-foreground;
   }
 }
