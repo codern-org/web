@@ -37,3 +37,21 @@ export type Assignment = {
   lastSubmittedAt: Date;
   status: AssignmentStatus;
 };
+
+export type Submission = {
+  id: number;
+  language: string;
+  submittedAt: Date;
+  results: SubmissionResult[];
+};
+
+export type SubmissionResultStatus = 'GRADING' | 'ERROR' | 'DONE';
+
+export type SubmissionResult = {
+  testcaseId: number;
+  status: SubmissionResultStatus;
+  statusDetail?: string;
+  memoryUsage?: number;
+  timeUsage?: number;
+  compilationLog?: string;
+};

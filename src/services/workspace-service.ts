@@ -1,5 +1,5 @@
 import { ApiService } from '@/services/api-service';
-import { Assignment, Workspace, WorkspaceSelectorQuery } from '@/types/workspace-type';
+import { Assignment, Submission, Workspace, WorkspaceSelectorQuery } from '@/types/workspace-type';
 
 class WorkspaceService extends ApiService {
   public async createSubmission(
@@ -47,6 +47,17 @@ class WorkspaceService extends ApiService {
     return this.get(url)
       .then((response) => {
         return response.data.data as unknown as Assignment[];
+      })
+      .catch(this.throwError);
+  }
+
+  public async listSubmission(workspaceId: number, assignmentId: number): Promise<Submission[]> {
+    const url = '/workspaces/:workspaceId/assignments/:assignmentId/submissions'
+      .replace(':workspaceId', workspaceId.toString())
+      .replace(':assignmentId', assignmentId.toString());
+    return this.get(url)
+      .then((response) => {
+        return response.data.data as unknown as Submission[];
       })
       .catch(this.throwError);
   }
