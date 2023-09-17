@@ -12,9 +12,9 @@ export const WorkspaceDashboardHeader = ({ workspace }: WorkspaceDashboardHeader
         <h2 className="mb-6 text-3xl font-semibold tracking-tight">{workspace?.name}</h2>
 
         <div className="mb-2 flex items-center space-x-3">
-          <div className="h-10 w-10 flex-none rounded-full bg-secondary-foreground" />
+          <div className="h-10 w-10 flex-none rounded-full bg-muted-foreground" />
           <div>
-            <p className="text-sm leading-none text-secondary-foreground">Owner</p>
+            <p className="text-sm leading-none text-muted-foreground">Owner</p>
             <p className="text-sm font-medium">{workspace?.ownerName}</p>
           </div>
         </div>
@@ -32,7 +32,7 @@ export const WorkspaceDashboardHeader = ({ workspace }: WorkspaceDashboardHeader
           ) : (
             <Skeleton className="mb-1 h-7 w-10" />
           )}
-          <p className="text-sm text-secondary-foreground">Total assignments</p>
+          <p className="text-sm text-muted-foreground">Total assignments</p>
         </div>
         <div>
           {workspace?.totalAssignment != null ? (
@@ -41,7 +41,7 @@ export const WorkspaceDashboardHeader = ({ workspace }: WorkspaceDashboardHeader
           ) : (
             <Skeleton className="mb-1 h-7 w-10" />
           )}
-          <p className="text-sm text-secondary-foreground">Incomplete assignments</p>
+          <p className="text-sm text-muted-foreground">Incomplete assignments</p>
         </div>
         <div>
           {workspace?.participantCount ? (
@@ -49,7 +49,7 @@ export const WorkspaceDashboardHeader = ({ workspace }: WorkspaceDashboardHeader
           ) : (
             <Skeleton className="h-7 w-10 " />
           )}
-          <p className="text-sm text-secondary-foreground">People in workspace</p>
+          <p className="text-sm text-muted-foreground">People in workspace</p>
         </div>
       </div>
     </div>

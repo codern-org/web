@@ -8,7 +8,7 @@ export const Footer = () => {
       <div className="container flex items-center justify-between">
         <div className="flex items-center space-x-3">
           <VectierIcon className="h-5 w-5 text-primary" />
-          <span className="text-sm text-secondary-foreground">
+          <span className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} Vectier
           </span>
         </div>

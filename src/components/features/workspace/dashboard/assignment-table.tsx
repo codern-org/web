@@ -82,7 +82,7 @@ const columns: ColumnDef<Assignment>[] = [
       return (
         <div className="flex flex-col space-y-1">
           <span className="font-medium leading-none">{row.original.name}</span>
-          <span className="text-secondary-foreground">{row.original.description}</span>
+          <span className="text-muted-foreground">{row.original.description}</span>
         </div>
       );
     },
