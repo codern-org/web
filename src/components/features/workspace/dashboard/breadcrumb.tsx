@@ -22,9 +22,6 @@ export const WorkspaceDashboardBreadcrumb = ({
       <BreadcrumbItem>
         <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
       </BreadcrumbItem>
-      <BreadcrumbItem>
-        <BreadcrumbLink>Workspace</BreadcrumbLink>
-      </BreadcrumbItem>
       <BreadcrumbItem isCurrentPage>
         {workspaceName ? (
           <BreadcrumbLink>{workspaceName}</BreadcrumbLink>

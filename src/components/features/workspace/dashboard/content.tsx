@@ -1,12 +1,16 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/common/tab';
-import { AssignmentsTable } from '@/components/features/workspace/dashboard/assignment/table';
-import { Workspace } from '@/types/workspace-type';
+import { AssignmentsTable } from '@/components/features/workspace/dashboard/assignment-table';
+import { Assignment, Workspace } from '@/types/workspace-type';
 
 type WorkspaceDashboardContentProps = {
   workspace: Workspace | undefined;
+  assignments: Assignment[] | undefined;
 };
 
-export const WorkspaceDashboardContent = ({ workspace }: WorkspaceDashboardContentProps) => {
+export const WorkspaceDashboardContent = ({
+  workspace,
+  assignments,
+}: WorkspaceDashboardContentProps) => {
   return (
     <Tabs
       defaultValue="assignments"
@@ -19,10 +23,10 @@ export const WorkspaceDashboardContent = ({ workspace }: WorkspaceDashboardConte
         </TabsList>
       </div>
       <TabsContent value="assignments">
-        {workspace && (
+        {workspace && assignments && (
           <AssignmentsTable
             workspaceId={workspace.id}
-            data={[]}
+            assignments={assignments}
           />
         )}
       </TabsContent>
