@@ -2,6 +2,25 @@ import { ApiService } from '@/services/api-service';
 import { Assignment, Workspace, WorkspaceSelectorQuery } from '@/types/workspace-type';
 
 class WorkspaceService extends ApiService {
+  public async createSubmission(
+    workspaceId: number,
+    assignmentId: number,
+    blob: Blob,
+    language: string,
+  ): Promise<void> {
+    const url = '/workspaces/:workspaceId/assignments/:assignmentId/submissions'
+      .replace(':workspaceId', workspaceId.toString())
+      .replace(':assignmentId', assignmentId.toString());
+
+    const formData = new FormData();
+    formData.append('sourcecode', blob);
+    formData.append('language', language.toUpperCase());
+
+    return this.post(url, formData)
+      .then(() => {})
+      .catch(this.throwError);
+  }
+
   public async listWorkspace(selector?: WorkspaceSelectorQuery[]): Promise<Workspace[]> {
     let url = '/workspaces';
     if (selector) url += '?fields=' + selector.join(',');
