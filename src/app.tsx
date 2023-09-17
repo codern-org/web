@@ -11,8 +11,8 @@ export const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <Router />
         <Toaster />
+        <Router />
       </ThemeProvider>
     </QueryClientProvider>
   );
