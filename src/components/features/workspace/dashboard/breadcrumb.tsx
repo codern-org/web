@@ -5,15 +5,15 @@ import {
   BreadcrumbProps,
 } from '@/components/common/breadcrumb';
 import { Skeleton } from '@/components/common/skeleton';
+import { useGetWorkspaceQuery } from '@/hooks/workspace-hook';
+import { useParams } from 'react-router-dom';
 
-export type WorkspaceDashboardBreadcrumbProps = BreadcrumbProps & {
-  workspaceName: string | undefined;
-};
+export type WorkspaceDashboardBreadcrumbProps = BreadcrumbProps;
 
-export const WorkspaceDashboardBreadcrumb = ({
-  workspaceName,
-  ...props
-}: WorkspaceDashboardBreadcrumbProps) => {
+export const WorkspaceDashboardBreadcrumb = ({ ...props }: WorkspaceDashboardBreadcrumbProps) => {
+  const { workspaceId } = useParams();
+  const { data: workspace } = useGetWorkspaceQuery(Number(workspaceId));
+
   return (
     <Breadcrumb {...props}>
       <BreadcrumbItem>
@@ -23,8 +23,8 @@ export const WorkspaceDashboardBreadcrumb = ({
         <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
       </BreadcrumbItem>
       <BreadcrumbItem isCurrentPage>
-        {workspaceName ? (
-          <BreadcrumbLink>{workspaceName}</BreadcrumbLink>
+        {workspace ? (
+          <BreadcrumbLink>{workspace.name}</BreadcrumbLink>
         ) : (
           <Skeleton className="h-5 w-24" />
         )}

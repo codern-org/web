@@ -1,16 +1,13 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/common/tab';
 import { AssignmentsTable } from '@/components/features/workspace/dashboard/assignment-table';
-import { Assignment, Workspace } from '@/types/workspace-type';
+import { useGetWorkspaceQuery, useListAssignmentQuery } from '@/hooks/workspace-hook';
+import { useParams } from 'react-router-dom';
 
-type WorkspaceDashboardContentProps = {
-  workspace: Workspace | undefined;
-  assignments: Assignment[] | undefined;
-};
+export const WorkspaceDashboardContent = () => {
+  const { workspaceId } = useParams();
+  const { data: workspace } = useGetWorkspaceQuery(Number(workspaceId));
+  const { data: assignments } = useListAssignmentQuery(Number(workspaceId));
 
-export const WorkspaceDashboardContent = ({
-  workspace,
-  assignments,
-}: WorkspaceDashboardContentProps) => {
   return (
     <Tabs
       defaultValue="assignments"

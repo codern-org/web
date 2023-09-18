@@ -1,11 +1,11 @@
 import { Skeleton } from '@/components/common/skeleton';
-import { Workspace } from '@/types/workspace-type';
+import { useGetWorkspaceQuery } from '@/hooks/workspace-hook';
+import { useParams } from 'react-router-dom';
 
-type WorkspaceDashboardHeaderProps = {
-  workspace: Workspace | undefined;
-};
+export const WorkspaceDashboardHeader = () => {
+  const { workspaceId } = useParams();
+  const { data: workspace } = useGetWorkspaceQuery(Number(workspaceId));
 
-export const WorkspaceDashboardHeader = ({ workspace }: WorkspaceDashboardHeaderProps) => {
   return (
     <div className="flex flex-row items-center justify-between">
       <div className="flex flex-col">

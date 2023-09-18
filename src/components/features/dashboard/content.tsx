@@ -1,13 +1,11 @@
 import { WorkspaceCard } from '@/components/features/dashboard/card';
 import { WorkspaceCardSkeleton } from '@/components/features/dashboard/card-skeleton';
-import { Workspace } from '@/types/workspace-type';
+import { useListRecentWorkspaceQuery, useListWorkspaceQuery } from '@/hooks/workspace-hook';
 
-type DashboardContentProps = {
-  workspaces: Workspace[] | undefined;
-  recentWorkspaces: Workspace[] | undefined;
-};
+export const DashboardContent = () => {
+  const { data: workspaces } = useListWorkspaceQuery();
+  const { data: recentWorkspaces } = useListRecentWorkspaceQuery();
 
-export const DashboardContent = ({ workspaces, recentWorkspaces }: DashboardContentProps) => {
   return (
     <>
       {recentWorkspaces && recentWorkspaces.length > 0 && (
