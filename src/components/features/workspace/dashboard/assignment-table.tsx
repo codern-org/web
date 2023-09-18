@@ -1,8 +1,7 @@
 import { Button } from '@/components/common/button';
 import { DataTableFacetedFilter } from '@/components/common/data-table-faceted-filer';
 import { DataTablePagination } from '@/components/common/data-table-pagination';
-import { Input } from '@/components/common/input';
-import { Label } from '@/components/common/label';
+import { SearchInput } from '@/components/common/search-input';
 import {
   Table,
   TableBody,
@@ -27,7 +26,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import dayjs from 'dayjs';
-import { CircleIcon, SearchIcon, XIcon } from 'lucide-react';
+import { CircleIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -185,19 +184,13 @@ export const AssignmentsTable = ({ workspaceId, assignments }: AssignmentsTableP
             align="end"
           />
 
-          <Label className="relative">
-            <SearchIcon
-              size={14}
-              className="absolute left-3 top-1/2 -translate-y-1/2 transform"
-            />
-            <Input
-              type="search"
-              placeholder="Search assignment"
-              className="h-9 py-0 pl-8"
-              value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
-              onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
-            />
-          </Label>
+          <SearchInput
+            type="search"
+            className="h-9 py-0"
+            placeholder="Search assignment"
+            value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+            onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
+          />
         </div>
       </div>
 
