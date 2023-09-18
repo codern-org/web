@@ -1,5 +1,6 @@
 import { PrivateRoute } from '@/components/common/private-route';
 import { RoutePath } from '@/libs/constants';
+import { AssignmentPage } from '@/pages/assignment-page';
 import { DashboardPage } from '@/pages/dashboard-page';
 import { NotFoundPage } from '@/pages/error/not-found-page';
 import { HomePage } from '@/pages/home-page';
@@ -29,6 +30,10 @@ export const Router = () => {
         <Route
           path={RoutePath.WORKSPACE_DASHBOARD}
           element={<PrivateRoute element={<WorkspaceDashboardPage />} />}
+        />
+        <Route
+          path={RoutePath.ASSIGNMENT}
+          element={<PrivateRoute element={<AssignmentPage />} />}
         />
 
         {/* Fallback routes */}

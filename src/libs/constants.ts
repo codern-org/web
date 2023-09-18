@@ -4,5 +4,5 @@ export enum RoutePath {
   SIGNUP = '/signup',
   DASHBOARD = '/dashboard',
   WORKSPACE_DASHBOARD = '/dashboard/workspace/:workspaceId',
-  ASSIGNMENT = '/dashobard/workspace/:workspaceId/assignment/:assignmentId',
+  ASSIGNMENT = '/dashboard/workspace/:workspaceId/assignment/:assignmentId',
 }

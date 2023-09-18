@@ -2,17 +2,35 @@ import { useEditor } from '@/hooks/editor-hook';
 import { toast } from '@/hooks/toast-hook';
 import { workspaceService } from '@/services/workspace-service';
 import { Assignment, WorkspaceSelectorQuery } from '@/types/workspace-type';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 export const useCreateSubmissionQuery = (workspaceId: number, assignmentId: number) => {
+  const queryClient = useQueryClient();
   const { getCode, getLanguage } = useEditor();
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const submit = (onDone?: () => void) => {
+  const { mutate: createSubmission, isLoading: isSubmitting } = useMutation({
+    mutationFn: ({ blob, language }: { blob: Blob; language: string }) =>
+      workspaceService.createSubmission(workspaceId, assignmentId, blob, language),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['submission'] });
+      toast({
+        title: 'Submit your code successfully',
+        description: 'Our system is grading your code',
+      });
+    },
+    onError: (error) => {
+      toast({
+        variant: 'danger',
+        title: 'Cannot submit your code',
+        description: error as string,
+      });
+    },
+  });
+
+  const submit = () => {
     const code = getCode();
-
     if (!code) {
       toast({
         variant: 'danger',
@@ -21,25 +39,7 @@ export const useCreateSubmissionQuery = (workspaceId: number, assignmentId: numb
       });
       return;
     }
-
-    setIsSubmitting(true);
-    workspaceService
-      .createSubmission(workspaceId, assignmentId, new Blob([code]), getLanguage())
-      .then(() => {
-        toast({
-          title: 'Submit your code successfully',
-          description: 'Our system is grading your code',
-        });
-        onDone && onDone();
-      })
-      .catch((error) =>
-        toast({
-          variant: 'danger',
-          title: 'Cannot submit your code',
-          description: error,
-        }),
-      )
-      .finally(() => setIsSubmitting(false));
+    createSubmission({ blob: new Blob([code]), language: getLanguage() });
   };
 
   return { submit, isSubmitting };

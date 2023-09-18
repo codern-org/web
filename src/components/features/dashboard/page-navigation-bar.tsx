@@ -1,18 +1,17 @@
 import { Button } from '@/components/common/button';
 import { NavigationBar } from '@/components/common/navigation-bar';
 import { UserProfileDropdown } from '@/components/common/user-profile-dropdown';
-import { User, UserAccountType } from '@/types/auth-type';
+import { useGetUserQuery } from '@/hooks/auth-hook';
+import { UserAccountType } from '@/types/auth-type';
 import { BellIcon, PlusIcon } from 'lucide-react';
 
 type DashboardPageNavigationBarProps = {
-  user: User | undefined;
   className?: string;
 };
 
-export const DashboardPageNavigationBar = ({
-  user,
-  className,
-}: DashboardPageNavigationBarProps) => {
+export const DashboardPageNavigationBar = ({ className }: DashboardPageNavigationBarProps) => {
+  const { data: user } = useGetUserQuery();
+
   return (
     <NavigationBar className={className}>
       {user?.accountType && user.accountType === UserAccountType.PRO && (
