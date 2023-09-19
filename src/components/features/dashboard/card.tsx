@@ -1,4 +1,5 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/common/card';
+import { Image } from '@/components/common/image';
 import { RoutePath } from '@/libs/constants';
 import { compactNumber } from '@/libs/utils';
 import { Workspace } from '@/types/workspace-type';
@@ -20,7 +21,7 @@ export const WorkspaceCard = ({ workspace }: WorkspaceCardProps) => {
       onClick={() => navigate(RoutePath.WORKSPACE_DASHBOARD.replace(':workspaceId', id.toString()))}
     >
       <CardHeader className="flex-row items-center space-x-3">
-        <img
+        <Image
           src={profileUrl}
           className="h-10 w-10 flex-none rounded-md"
           alt=""

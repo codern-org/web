@@ -1,5 +1,6 @@
 import GoogleIcon from '@/assets/svg/google-icon.svg';
 import { Button, ButtonProps } from '@/components/common/button';
+import { Image } from '@/components/common/image';
 import { ToastAction } from '@/components/common/toast';
 import { useToast } from '@/hooks/toast-hook';
 import { authService } from '@/services/auth-service';
@@ -38,7 +39,7 @@ export const SignInWithGoogleButton = (props: SignInWithGoogleButtonProps) => {
       onClick={handleClick}
       {...props}
     >
-      <img
+      <Image
         src={GoogleIcon}
         alt=""
         className="mr-2 h-4 w-4"

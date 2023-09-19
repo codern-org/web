@@ -6,6 +6,7 @@ export type Workspace = {
   createdAt: Date;
 
   ownerName: string;
+  ownerProfileUrl: string;
   participantCount: number;
   totalAssignment: number;
 

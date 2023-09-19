@@ -1,3 +1,4 @@
+import { Image } from '@/components/common/image';
 import { Skeleton } from '@/components/common/skeleton';
 import { useGetWorkspaceQuery } from '@/hooks/workspace-hook';
 import { useParams } from 'react-router-dom';
@@ -12,7 +13,11 @@ export const WorkspaceDashboardHeader = () => {
         <h2 className="mb-6 text-3xl font-semibold tracking-tight">{workspace?.name}</h2>
 
         <div className="mb-2 flex items-center space-x-3">
-          <div className="h-10 w-10 flex-none rounded-full bg-muted-foreground" />
+          <Image
+            src={workspace?.ownerProfileUrl}
+            alt=""
+            className="h-10 w-10 rounded-full"
+          />
           <div>
             <p className="text-sm leading-none text-muted-foreground">Owner</p>
             <p className="text-sm font-medium">{workspace?.ownerName}</p>

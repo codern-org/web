@@ -8,6 +8,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/common/dropdown';
+import { Image } from '@/components/common/image';
+import { useGetUserQuery } from '@/hooks/auth-hook';
 import { RoutePath } from '@/libs/constants';
 import { authService } from '@/services/auth-service';
 import { UserAccountType } from '@/types/auth-type';
@@ -26,6 +28,7 @@ export const UserProfileDropdown = ({
   email,
   accountType,
 }: UserProfileDropdownProps) => {
+  const { data: user } = useGetUserQuery();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -39,7 +42,11 @@ export const UserProfileDropdown = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex flex-row items-center space-x-1 rounded-sm focus-visible:outline-none">
-        <div className="h-8 w-8 flex-none rounded-md bg-secondary-foreground" />
+        <Image
+          src={user?.profileUrl}
+          alt=""
+          className="h-8 w-8 select-none rounded-md"
+        />
         <ChevronDownIcon className="h-4 w-4" />
       </DropdownMenuTrigger>
 
