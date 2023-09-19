@@ -1,10 +1,10 @@
 import { Submission as SubmissionComponent } from '@/components/features/workspace/assignment/submission';
-import { useListSubmissionQuery } from '@/hooks/workspace-hook';
+import { useListSubmission } from '@/hooks/workspace-hook';
 import { useParams } from 'react-router-dom';
 
 export const SubmissionList = () => {
   const { workspaceId, assignmentId } = useParams();
-  const { data: submissions } = useListSubmissionQuery(Number(workspaceId), Number(assignmentId));
+  const { submissions } = useListSubmission(Number(workspaceId), Number(assignmentId));
 
   if (!submissions || submissions.length === 0) {
     return <>No submissions</>;
@@ -18,6 +18,7 @@ export const SubmissionList = () => {
           <SubmissionComponent
             key={submission.id}
             index={submissions.length - index - 1}
+            defaultOpen={index === 0}
             id={submission.id}
             language={submission.language}
             results={submission.results}

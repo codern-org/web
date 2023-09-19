@@ -1,9 +1,10 @@
 import { useEditor } from '@/hooks/editor-hook';
-import { toast } from '@/hooks/toast-hook';
+import { toast, useToast } from '@/hooks/toast-hook';
+import { useWebSocket } from '@/hooks/websocket-hook';
+import { Axios } from '@/libs/axios';
 import { workspaceService } from '@/services/workspace-service';
-import { Assignment, WorkspaceSelectorQuery } from '@/types/workspace-type';
+import { Assignment, Submission, WorkspaceSelectorQuery } from '@/types/workspace-type';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 export const useCreateSubmissionQuery = (workspaceId: number, assignmentId: number) => {
@@ -45,6 +46,36 @@ export const useCreateSubmissionQuery = (workspaceId: number, assignmentId: numb
   return { submit, isSubmitting };
 };
 
+export const useListSubmission = (workspaceId: number, assignmentId: number) => {
+  const { data } = useListSubmissionQuery(workspaceId, assignmentId);
+  const [submissions, setSubmissions] = useState<Submission[] | undefined>([]);
+  const { onSocket } = useWebSocket();
+  const { toast } = useToast();
+
+  // Update a new submission from websocket by mutation technique
+  // Could `queryClient.invalidateQueries` be a better way?
+  useEffect(() => {
+    onSocket('onSubmissionUpdate', (newSubmission: Submission) => {
+      if (!submissions) return;
+      const index = submissions.findIndex((submission) => submission.id === newSubmission.id);
+      if (index === -1) return;
+
+      submissions[index] = newSubmission;
+      setSubmissions(submissions.slice());
+
+      toast({
+        title: `Submission grading is done!`,
+        description: 'Please check the result',
+      });
+    });
+  }, [submissions, onSocket, toast]);
+
+  // Sync react-query state with react state for mutation
+  useEffect(() => setSubmissions(data), [data]);
+
+  return { submissions };
+};
+
 export const useListWorkspaceQuery = (selector?: WorkspaceSelectorQuery[]) =>
   useQuery(['workspace', selector], () => workspaceService.listWorkspace(selector));
 
@@ -70,8 +101,12 @@ export const useGetProblemDetailQuery = (assignment: Assignment | undefined) => 
 
   useEffect(() => {
     if (!assignment?.detailUrl) return;
-    axios
-      .get(assignment.detailUrl)
+
+    if (assignment.detailUrl.startsWith('/')) {
+      assignment.detailUrl = import.meta.env.VITE_BACKEND_URL + '/file' + assignment.detailUrl;
+    }
+
+    Axios.get(assignment.detailUrl)
       .then((response) => setProblemDetail(response.data))
       .catch(console.error);
   }, [assignment]);
