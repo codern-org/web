@@ -1,11 +1,10 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/common/tab';
 import { AssignmentsTable } from '@/components/features/workspace/dashboard/assignment-table';
-import { useGetWorkspaceQuery, useListAssignmentQuery } from '@/hooks/workspace-hook';
+import { useListAssignmentQuery } from '@/hooks/workspace-hook';
 import { useParams } from 'react-router-dom';
 
-export const WorkspaceDashboardContent = () => {
+export const WorkspaceContent = () => {
   const { workspaceId } = useParams();
-  const { data: workspace } = useGetWorkspaceQuery(Number(workspaceId));
   const { data: assignments } = useListAssignmentQuery(Number(workspaceId));
 
   return (
@@ -13,16 +12,14 @@ export const WorkspaceDashboardContent = () => {
       defaultValue="assignments"
       className="space-y-6"
     >
-      <div className="flex items-center justify-between">
-        <TabsList>
-          <TabsTrigger value="assignments">Assignments</TabsTrigger>
-          <TabsTrigger value="scoreboard">Scoreboard</TabsTrigger>
-        </TabsList>
-      </div>
+      <TabsList>
+        <TabsTrigger value="assignments">Assignments</TabsTrigger>
+        <TabsTrigger value="scoreboard">Scoreboard</TabsTrigger>
+      </TabsList>
       <TabsContent value="assignments">
-        {workspace && assignments && (
+        {assignments && (
           <AssignmentsTable
-            workspaceId={workspace.id}
+            workspaceId={Number(workspaceId)}
             assignments={assignments}
           />
         )}

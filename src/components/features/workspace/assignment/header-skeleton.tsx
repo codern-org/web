@@ -1,9 +1,17 @@
 import { Separator } from '@/components/common/separator';
 import { Skeleton } from '@/components/common/skeleton';
+import { classNames } from '@/libs/utils';
+import { HTMLAttributes } from 'react';
 
-export const AssignmentHeaderSkeleton = () => {
+export const AssignmentHeaderSkeleton = ({
+  className,
+  ...props
+}: HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div className="container flex flex-row items-center justify-between py-6">
+    <div
+      className={classNames('flex flex-row items-center justify-between py-6', className)}
+      {...props}
+    >
       <div className="flex flex-col space-y-0.5">
         <div className="flex flex-row items-center space-x-2">
           <Skeleton className="h-7 w-32" />

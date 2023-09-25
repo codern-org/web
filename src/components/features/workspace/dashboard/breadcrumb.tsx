@@ -8,9 +8,7 @@ import { Skeleton } from '@/components/common/skeleton';
 import { useGetWorkspaceQuery } from '@/hooks/workspace-hook';
 import { useParams } from 'react-router-dom';
 
-export type WorkspaceDashboardBreadcrumbProps = BreadcrumbProps;
-
-export const WorkspaceDashboardBreadcrumb = ({ ...props }: WorkspaceDashboardBreadcrumbProps) => {
+export const WorkspaceBreadcrumb = (props: BreadcrumbProps) => {
   const { workspaceId } = useParams();
   const { data: workspace } = useGetWorkspaceQuery(Number(workspaceId));
 

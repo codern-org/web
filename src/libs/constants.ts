@@ -3,6 +3,6 @@ export enum RoutePath {
   SIGNIN = '/signin',
   SIGNUP = '/signup',
   DASHBOARD = '/dashboard',
-  WORKSPACE_DASHBOARD = '/dashboard/workspace/:workspaceId',
+  WORKSPACE = '/dashboard/workspace/:workspaceId',
   ASSIGNMENT = '/dashboard/workspace/:workspaceId/assignment/:assignmentId',
 }

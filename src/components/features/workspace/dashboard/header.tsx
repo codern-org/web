@@ -1,14 +1,19 @@
 import { Image } from '@/components/common/image';
 import { Skeleton } from '@/components/common/skeleton';
 import { useGetWorkspaceQuery } from '@/hooks/workspace-hook';
+import { classNames } from '@/libs/utils';
+import { HTMLAttributes } from 'react';
 import { useParams } from 'react-router-dom';
 
-export const WorkspaceDashboardHeader = () => {
+export const WorkspaceHeader = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => {
   const { workspaceId } = useParams();
   const { data: workspace } = useGetWorkspaceQuery(Number(workspaceId));
 
   return (
-    <div className="flex flex-row items-center justify-between">
+    <div
+      className={classNames('flex flex-row items-center justify-between', className)}
+      {...props}
+    >
       <div className="flex flex-col">
         <h2 className="mb-6 text-3xl font-semibold tracking-tight">{workspace?.name}</h2>
 

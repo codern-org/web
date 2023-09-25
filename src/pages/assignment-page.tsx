@@ -1,5 +1,5 @@
 import { PageLayout } from '@/components/common/page-layout';
-import { DashboardPageNavigationBar } from '@/components/features/dashboard/page-navigation-bar';
+import { PageNavigationBar } from '@/components/features/dashboard/page-navigation-bar';
 import { AssignmentBreadcrumb } from '@/components/features/workspace/assignment/breadcrumb';
 import { AssignmentHeader } from '@/components/features/workspace/assignment/header';
 import { ProblemPane } from '@/components/features/workspace/assignment/problem-pane';
@@ -12,9 +12,9 @@ const EditorPane = lazy(() => import('@/components/features/workspace/assignment
 export const AssignmentPage = () => {
   return (
     <PageLayout>
-      <DashboardPageNavigationBar />
+      <PageNavigationBar />
       <AssignmentBreadcrumb className="container mt-6" />
-      <AssignmentHeader />
+      <AssignmentHeader className="container" />
 
       <ProblemPaneProvider>
         <div className="container mb-6 flex h-full flex-row justify-between space-x-4 overflow-hidden">

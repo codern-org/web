@@ -5,7 +5,7 @@ import { DashboardPage } from '@/pages/dashboard-page';
 import { NotFoundPage } from '@/pages/error/not-found-page';
 import { HomePage } from '@/pages/home-page';
 import { SignInPage } from '@/pages/sign-in-page';
-import { WorkspaceDashboardPage } from '@/pages/workspace-dashboard-page';
+import { WorkspacePage } from '@/pages/workspace-page';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 export const Router = () => {
@@ -28,8 +28,8 @@ export const Router = () => {
           element={<PrivateRoute element={<DashboardPage />} />}
         />
         <Route
-          path={RoutePath.WORKSPACE_DASHBOARD}
-          element={<PrivateRoute element={<WorkspaceDashboardPage />} />}
+          path={RoutePath.WORKSPACE}
+          element={<PrivateRoute element={<WorkspacePage />} />}
         />
         <Route
           path={RoutePath.ASSIGNMENT}

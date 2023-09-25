@@ -7,7 +7,7 @@ export const DashboardContent = () => {
   const { data: recentWorkspaces } = useListRecentWorkspaceQuery();
 
   return (
-    <>
+    <div className="space-y-6">
       {recentWorkspaces && recentWorkspaces.length > 0 && (
         <div className="flex flex-col">
           <h2 className="mb-3 text-lg font-semibold">Recent Workspaces</h2>
@@ -41,6 +41,6 @@ export const DashboardContent = () => {
           </p>
         )}
       </div>
-    </>
+    </div>
   );
 };

@@ -8,9 +8,7 @@ import { Skeleton } from '@/components/common/skeleton';
 import { useGetAssignmentQuery, useGetWorkspaceQuery } from '@/hooks/workspace-hook';
 import { useParams } from 'react-router-dom';
 
-export type AssignmentBreadcrumbProps = BreadcrumbProps;
-
-export const AssignmentBreadcrumb = ({ ...props }: AssignmentBreadcrumbProps) => {
+export const AssignmentBreadcrumb = (props: BreadcrumbProps) => {
   const { workspaceId, assignmentId } = useParams();
   const { data: workspace } = useGetWorkspaceQuery(Number(workspaceId));
   const { data: assignment } = useGetAssignmentQuery(Number(workspaceId), Number(assignmentId));

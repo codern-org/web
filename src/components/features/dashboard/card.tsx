@@ -18,7 +18,7 @@ export const WorkspaceCard = ({ workspace }: WorkspaceCardProps) => {
   return (
     <Card
       className="transition-colors hover:border-primary"
-      onClick={() => navigate(RoutePath.WORKSPACE_DASHBOARD.replace(':workspaceId', id.toString()))}
+      onClick={() => navigate(RoutePath.WORKSPACE.replace(':workspaceId', id.toString()))}
     >
       <CardHeader className="flex-row items-center space-x-3">
         <Image
