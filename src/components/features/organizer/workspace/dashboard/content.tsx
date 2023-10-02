@@ -28,10 +28,7 @@ export const OrganizerWorkspaceContent = () => {
             <TabsTrigger
               key={tabContent}
               value={tabContent}
-              onClick={() => {
-                navigate(href);
-                console.log('href', href);
-              }}
+              onClick={() => navigate(href)}
               className="capitalize"
             >
               {tabContent}
