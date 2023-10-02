@@ -2,7 +2,6 @@ export type Workspace = {
   id: number;
   name: string;
   profileUrl: string;
-  ownerId: string;
   createdAt: Date;
 
   ownerName: string;
@@ -13,8 +12,11 @@ export type Workspace = {
   participants?: WorkspaceParticipant[];
 };
 
+export type WorkspaceRole = 'MEMBER' | 'ADMIN' | 'OWNER';
+
 export type WorkspaceParticipant = {
   userId: string;
+  role: WorkspaceRole;
   joinedAt: Date;
 };
 

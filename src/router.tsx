@@ -1,12 +1,14 @@
 import { PrivateRoute } from '@/components/common/private-route';
-import { RoutePath } from '@/libs/constants';
+import { OrganizerWorkspaceTab, RoutePath } from '@/libs/constants';
 import { AssignmentPage } from '@/pages/assignment-page';
 import { DashboardPage } from '@/pages/dashboard-page';
 import { NotFoundPage } from '@/pages/error/not-found-page';
 import { HomePage } from '@/pages/home-page';
+import { OrganizerDashboardPage } from '@/pages/organizer/dashboard-page';
+import { OrganizerWorkspacePage } from '@/pages/organizer/workspace-page';
 import { SignInPage } from '@/pages/sign-in-page';
 import { WorkspacePage } from '@/pages/workspace-page';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 export const Router = () => {
   return (
@@ -35,6 +37,31 @@ export const Router = () => {
           path={RoutePath.ASSIGNMENT}
           element={<PrivateRoute element={<AssignmentPage />} />}
         />
+
+        <Route
+          path={RoutePath.ORGANIZER_DASHBOARD}
+          element={<PrivateRoute element={<OrganizerDashboardPage />} />}
+        />
+
+        {/* Organzier routes */}
+        <Route
+          path={RoutePath.ORGANIZER_WORKSPACE}
+          element={<PrivateRoute element={<Navigate to={OrganizerWorkspaceTab.ASSIGNMENT} />} />}
+        />
+
+        <Route
+          path={RoutePath.ORGANIZER_WORKSPACE}
+          element={<PrivateRoute element={<OrganizerWorkspacePage />} />}
+        >
+          <Route
+            path=":content"
+            element={<PrivateRoute element={<OrganizerWorkspacePage />} />}
+          />
+          <Route
+            path="settings/:settings"
+            element={<PrivateRoute element={<OrganizerWorkspacePage />} />}
+          />
+        </Route>
 
         {/* Fallback routes */}
         <Route

@@ -7,11 +7,11 @@ import { UserAccountType } from '@/types/auth-type';
 import { ArrowLeftRightIcon, BellIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-type PageNavigationBarProps = {
+type OrganizerPageNavigationBarProps = {
   className?: string;
 };
 
-export const PageNavigationBar = ({ className }: PageNavigationBarProps) => {
+export const OrganizerPageNavigationBar = ({ className }: OrganizerPageNavigationBarProps) => {
   const { data: user } = useGetUserQuery();
   const navigate = useNavigate();
 
@@ -21,10 +21,10 @@ export const PageNavigationBar = ({ className }: PageNavigationBarProps) => {
         <Button
           variant="secondary"
           size="sm"
-          onClick={() => navigate(RoutePath.ORGANIZER_DASHBOARD)}
+          onClick={() => navigate(RoutePath.DASHBOARD)}
         >
           <ArrowLeftRightIcon className="mr-1 h-4 w-4 " />
-          Switch to Organizer mode
+          Switch to Normal mode
         </Button>
       )}
 
