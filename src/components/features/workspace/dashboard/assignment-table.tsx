@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/common/table';
+import { useListAssignmentQuery } from '@/hooks/workspace-hook';
 import { RoutePath } from '@/libs/constants';
 import { Assignment } from '@/types/workspace-type';
 import {
@@ -28,7 +29,7 @@ import {
 import dayjs from 'dayjs';
 import { CircleIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const statuses = [
   {
@@ -124,13 +125,10 @@ const columns: ColumnDef<Assignment>[] = [
   },
 ];
 
-type AssignmentsTableProps = {
-  workspaceId: number;
-  assignments: Assignment[] | undefined;
-};
-
-export const AssignmentsTable = ({ workspaceId, assignments }: AssignmentsTableProps) => {
+export const AssignmentsTable = () => {
   const navigate = useNavigate();
+  const { workspaceId } = useParams();
+  const { data: assignments } = useListAssignmentQuery(Number(workspaceId));
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -222,7 +220,7 @@ export const AssignmentsTable = ({ workspaceId, assignments }: AssignmentsTableP
                       navigate(
                         RoutePath.ASSIGNMENT.replace(
                           ':workspaceId',
-                          workspaceId.toString(),
+                          Number(workspaceId).toString(),
                         ).replace(':assignmentId', row.original.id.toString()),
                       )
                     }
