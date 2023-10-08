@@ -20,4 +20,5 @@ export enum OrganizerWorkspaceTab {
 export enum OrganizerWorkspaceSettingsTab {
   GENERAL = 'general',
   ADMIN = 'admin',
+  INVITATION = 'invitation',
 }

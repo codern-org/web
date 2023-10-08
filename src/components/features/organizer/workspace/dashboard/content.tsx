@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/common/tab';
 import { OrganizerAssignmentsTable } from '@/components/features/organizer/workspace/dashboard/assignment-table';
-import { OrganizerWorkspaceSettings } from '@/components/features/organizer/workspace/dashboard/settings-layout';
+import { OrganizerWorkspaceSettings } from '@/components/features/organizer/workspace/dashboard/settings/settings';
 import { OrganizerWorkspaceTab } from '@/libs/constants';
 import { useNavigate, useParams } from 'react-router-dom';
 
