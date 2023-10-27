@@ -11,24 +11,17 @@ export const Image = ({ src, className, ...props }: ImageProps) => {
     src = window.APP_CONFIG.BACKEND_URL + '/file' + src;
   }
 
-  if (error) {
-    return (
-      <div className="relative">
-        <ImageOffIcon className="absolute left-1/2 top-1/2 w-1/2 -translate-x-1/2 -translate-y-1/2 transform" />
-        <div
-          className={classNames(className, 'bg-muted')}
-          {...props}
-        />
-      </div>
-    );
-  }
-
   return (
-    <img
-      src={src}
-      onError={() => setError(true)}
-      className={className}
-      {...props}
-    />
+    <div className="relative">
+      {error && (
+        <ImageOffIcon className="absolute left-1/2 top-1/2 z-10 w-1/2 -translate-x-1/2 -translate-y-1/2 transform" />
+      )}
+      <img
+        src={src}
+        onError={() => setError(true)}
+        className={classNames(className, error && 'invisible')}
+        {...props}
+      />
+    </div>
   );
 };
