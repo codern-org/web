@@ -1,6 +1,7 @@
 import { PrivateRoute } from '@/components/common/private-route';
 import { OrganizerWorkspaceTab, RoutePath } from '@/libs/constants';
 import { AssignmentPage } from '@/pages/assignment-page';
+import { GoogleAuthCallback } from '@/pages/callback/google-auth';
 import { DashboardPage } from '@/pages/dashboard-page';
 import { NotFoundPage } from '@/pages/error/not-found-page';
 import { HomePage } from '@/pages/home-page';
@@ -14,6 +15,12 @@ export const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Callbacks */}
+        <Route
+          path={RoutePath.GOOGLE_AUTH_CALLBACK}
+          element={<GoogleAuthCallback />}
+        />
+
         {/* Public routes. Authentication is not required */}
         <Route
           path={RoutePath.HONE}

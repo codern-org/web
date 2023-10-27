@@ -10,11 +10,9 @@ class AuthService extends ApiService {
       .catch(this.throwError);
   }
 
-  public async signIn(email: string, password: string): Promise<User> {
+  public async signIn(email: string, password: string): Promise<void> {
     return this.post('/auth/signin', { email, password })
-      .then(() => {
-        return {} as User;
-      })
+      .then(() => {})
       .catch(this.throwError);
   }
 
@@ -26,6 +24,12 @@ class AuthService extends ApiService {
         }
         this.throwError('Cannot get the Google auth url');
       })
+      .catch(this.throwError);
+  }
+
+  public async signInWithGoogle(code: string): Promise<void> {
+    return this.get(`/auth/google/callback?code=${code}`)
+      .then(() => {})
       .catch(this.throwError);
   }
 

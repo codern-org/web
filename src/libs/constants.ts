@@ -1,4 +1,6 @@
 export enum RoutePath {
+  GOOGLE_AUTH_CALLBACK = '/auth/google/callback',
+
   HONE = '/',
   SIGNIN = '/signin',
   SIGNUP = '/signup',
