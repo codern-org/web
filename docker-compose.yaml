@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - 8081:80
+    volumes:
+      - ./public/config.js:/usr/share/nginx/html/config.js

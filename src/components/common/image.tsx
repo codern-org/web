@@ -8,7 +8,7 @@ export const Image = ({ src, className, ...props }: ImageProps) => {
   const [error, setError] = useState<boolean>(false);
 
   if (!src?.startsWith('/src/assets/') && src?.startsWith('/')) {
-    src = import.meta.env.VITE_BACKEND_URL + '/file' + src;
+    src = window.APP_CONFIG.BACKEND_URL + '/file' + src;
   }
 
   if (error) {

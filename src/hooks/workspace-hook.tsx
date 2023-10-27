@@ -119,7 +119,7 @@ export const useGetProblemDetailQuery = (assignment: Assignment | undefined) => 
     if (!assignment?.detailUrl) return;
 
     if (assignment.detailUrl.startsWith('/')) {
-      assignment.detailUrl = import.meta.env.VITE_BACKEND_URL + '/file' + assignment.detailUrl;
+      assignment.detailUrl = window.APP_CONFIG.BACKEND_URL + '/file' + assignment.detailUrl;
     }
 
     Axios.get(assignment.detailUrl)
