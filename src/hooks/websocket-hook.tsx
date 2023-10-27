@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { WsErrorReason } from '@/types/api-response-type';
 import { ReactNode, createContext, useCallback, useContext, useEffect, useRef } from 'react';
 
 type WebSocketPayload = {
@@ -34,7 +35,14 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
       );
     });
 
-    ws.current.addEventListener('close', () => {
+    ws.current.addEventListener('close', (event) => {
+      try {
+        const reason: WsErrorReason = JSON.parse(event.reason);
+        if (reason.error.code) return;
+      } catch {
+        /* empty */
+      }
+
       console.log(
         '%c🤖 Dimension portal is terminated...',
         'background-color: red; color: white; font-size: 0.75rem; padding: 0.25rem; border-radius: 0.25rem',

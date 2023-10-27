@@ -9,3 +9,10 @@ export type ApiError = {
   message: string;
   data: unknown;
 };
+
+export type WsErrorReason = {
+  error: {
+    code: number;
+    message: string;
+  };
+};
