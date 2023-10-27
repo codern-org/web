@@ -25,11 +25,7 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
   const channelHandlers = useRef<Map<string, WebSocketChannelHandler[]>>(new Map());
 
   const connect = useCallback(() => {
-    const url = new URL(window.APP_CONFIG.BACKEND_URL);
-    url.protocol = 'ws:';
-    url.pathname = 'ws';
-
-    ws.current = new WebSocket(url);
+    ws.current = new WebSocket(window.APP_CONFIG.WS_URL);
 
     ws.current.addEventListener('open', () => {
       console.log(
