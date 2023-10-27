@@ -7,7 +7,10 @@ export type ImageProps = Omit<ImgHTMLAttributes<HTMLImageElement>, 'onError'>;
 export const Image = ({ src, className, ...props }: ImageProps) => {
   const [error, setError] = useState<boolean>(false);
 
-  if (!src?.startsWith('/src/assets/') && src?.startsWith('/')) {
+  if (
+    !src?.startsWith('/src/assets/') && // Local development
+    !src?.startsWith('/assets/') // Production build
+  ) {
     src = window.APP_CONFIG.BACKEND_URL + '/file' + src;
   }
 
