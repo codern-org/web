@@ -11,7 +11,7 @@ export const useCreateSubmissionQuery = (workspaceId: number, assignmentId: numb
   const queryClient = useQueryClient();
   const { getCode, getLanguage } = useEditor();
 
-  const { mutate: createSubmission, isLoading: isSubmitting } = useMutation({
+  const { mutate: createSubmission, isPending: isSubmitting } = useMutation({
     mutationFn: ({ blob, language }: { blob: Blob; language: string }) =>
       workspaceService.createSubmission(workspaceId, assignmentId, blob, language),
     onSuccess: () => {
@@ -25,7 +25,7 @@ export const useCreateSubmissionQuery = (workspaceId: number, assignmentId: numb
       toast({
         variant: 'danger',
         title: 'Cannot submit your code',
-        description: error as string,
+        description: error.message,
       });
     },
   });
@@ -77,24 +77,40 @@ export const useListSubmission = (workspaceId: number, assignmentId: number) => 
 };
 
 export const useListWorkspaceQuery = (selector?: WorkspaceSelectorQuery[]) =>
-  useQuery(['workspace', selector], () => workspaceService.listWorkspace(selector));
+  useQuery({
+    queryKey: ['workspace', selector],
+    queryFn: () => workspaceService.listWorkspace(selector),
+  });
 
 export const useListRecentWorkspaceQuery = () =>
-  useQuery(['workspace', 'recent'], () => workspaceService.listRecentWorkspace());
+  useQuery({
+    queryKey: ['workspace', 'recent'],
+    queryFn: () => workspaceService.listRecentWorkspace(),
+  });
 
 export const useListAssignmentQuery = (workspaceId: number) =>
-  useQuery(['assignment'], () => workspaceService.listAssignment(workspaceId));
+  useQuery({
+    queryKey: ['assignment'],
+    queryFn: () => workspaceService.listAssignment(workspaceId),
+  });
 
 export const useListSubmissionQuery = (workspaceId: number, assignmentId: number) =>
-  useQuery(['submission'], () => workspaceService.listSubmission(workspaceId, assignmentId));
+  useQuery({
+    queryKey: ['submission'],
+    queryFn: () => workspaceService.listSubmission(workspaceId, assignmentId),
+  });
 
 export const useGetWorkspaceQuery = (id: number, selector?: WorkspaceSelectorQuery[]) =>
-  useQuery(['workspace', id, selector], () => workspaceService.getWorkspace(id, selector));
+  useQuery({
+    queryKey: ['workspace', id, selector],
+    queryFn: () => workspaceService.getWorkspace(id, selector),
+  });
 
 export const useGetAssignmentQuery = (workspaceId: number, assignmentId: number) =>
-  useQuery(['assignment', assignmentId], () =>
-    workspaceService.getAssignment(workspaceId, assignmentId),
-  );
+  useQuery({
+    queryKey: ['assignment', assignmentId],
+    queryFn: () => workspaceService.getAssignment(workspaceId, assignmentId),
+  });
 
 export const useGetProblemDetailQuery = (assignment: Assignment | undefined) => {
   const [problemDetail, setProblemDetail] = useState<string>();
