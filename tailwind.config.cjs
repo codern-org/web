@@ -47,6 +47,9 @@ module.exports = {
         ring: 'hsl(var(--ring))',
         input: 'hsl(var(--input))',
       },
+      animation: {
+        'spin-slow': 'spin 3s linear infinite',
+      },
     },
   },
   plugins: [typographyPlugin],
