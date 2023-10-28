@@ -15,9 +15,6 @@ export const OrganizerWorkspaceBreadcrumb = (props: BreadcrumbProps) => {
   return (
     <Breadcrumb {...props}>
       <BreadcrumbItem>
-        <BreadcrumbLink href="/">Home</BreadcrumbLink>
-      </BreadcrumbItem>
-      <BreadcrumbItem>
         <BreadcrumbLink href="/organizer">Dashboard</BreadcrumbLink>
       </BreadcrumbItem>
       <BreadcrumbItem isCurrentPage>

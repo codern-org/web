@@ -193,7 +193,7 @@ export const AssignmentsTable = () => {
       </div>
 
       <div className="space-y-4">
-        <div className="rounded-md border">
+        <div className="rounded-md border bg-background">
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (

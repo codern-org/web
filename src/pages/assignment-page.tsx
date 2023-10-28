@@ -11,9 +11,9 @@ const EditorPane = lazy(() => import('@/components/features/workspace/assignment
 
 export const AssignmentPage = () => {
   return (
-    <PageLayout>
+    <PageLayout className="flex h-screen flex-col">
       <PageNavigationBar />
-      <AssignmentBreadcrumb className="container mt-6" />
+      <AssignmentBreadcrumb className="container pt-6" />
       <AssignmentHeader className="container" />
 
       <ProblemPaneProvider>

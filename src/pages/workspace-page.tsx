@@ -8,13 +8,15 @@ export const WorkspacePage = () => {
   return (
     <PageLayout>
       <PageNavigationBar />
-      <WorkspaceBreadcrumb className="container mt-6" />
 
-      <div className="border-b py-8">
-        <WorkspaceHeader className="container" />
-      </div>
-      <div className="container py-8">
-        <WorkspaceContent />
+      <div className="min-h-screen bg-accent/20">
+        <div className="bg-background">
+          <WorkspaceBreadcrumb className="container pt-6" />
+          <WorkspaceHeader className="container border-b py-8" />
+        </div>
+        <div className="container py-8">
+          <WorkspaceContent />
+        </div>
       </div>
     </PageLayout>
   );

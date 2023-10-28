@@ -8,7 +8,7 @@ export const OrganizerWorkspacePage = () => {
   return (
     <PageLayout>
       <OrganizerPageNavigationBar />
-      <OrganizerWorkspaceBreadcrumb className="container mt-6" />
+      <OrganizerWorkspaceBreadcrumb className="container pt-6" />
 
       <div className="border-b py-8">
         <OrganizerWorkspaceHeader className="container" />
