@@ -12,7 +12,11 @@ export type Workspace = {
   participants?: WorkspaceParticipant[];
 };
 
-export type WorkspaceRole = 'MEMBER' | 'ADMIN' | 'OWNER';
+export enum WorkspaceRole {
+  MEMBER = 'MEMBER',
+  ADMIN = 'ADMIN',
+  OWNER = 'OWNER',
+}
 
 export type WorkspaceParticipant = {
   userId: string;
@@ -20,11 +24,22 @@ export type WorkspaceParticipant = {
   joinedAt: Date;
 };
 
-export type WorkspaceSelectorQuery = 'participants';
+export enum WorkspaceFilter {
+  PARTICIPANT = 'participants',
+}
 
-export type AssignmentLevel = 'EASY' | 'NORMAL' | 'HARD';
+export enum AssignmentLevel {
+  EASY = 'EASY',
+  NORMAL = 'NORMAL',
+  HARD = 'HARD',
+}
 
-export type AssignmentStatus = 'TODO' | 'GRADING' | 'ERROR' | 'DONE';
+export enum AssignmentStatus {
+  TODO = 'TODO',
+  GRADING = 'GRADING',
+  ERROR = 'ERROR',
+  DONE = 'DONE',
+}
 
 export type Assignment = {
   id: number;
@@ -45,10 +60,15 @@ export type Submission = {
   id: number;
   language: string;
   submittedAt: Date;
+  compilationLog: string;
   results: SubmissionResult[];
 };
 
-export type SubmissionResultStatus = 'GRADING' | 'ERROR' | 'DONE';
+export enum SubmissionResultStatus {
+  GRADING = 'GRADING',
+  ERROR = 'ERROR',
+  DONE = 'DONE',
+}
 
 export type SubmissionResult = {
   testcaseId: number;
@@ -58,3 +78,21 @@ export type SubmissionResult = {
   timeUsage?: number;
   compilationLog?: string;
 };
+
+export enum SubmissionStatusDetail {
+  COMPLETED = 'COMPLETED',
+
+  FAIL_COMPILATION = 'FAIL_COMPILATION',
+  FAIL_TIMEOUT = 'FAIL_TIMEOUT',
+  FAIL_TIMEOUT_HARD = 'FAIL_TIMEOUT_HARD',
+  FAIL_MEMORY = 'FAIL_MEMORY',
+
+  SYSTEM_FAIL = 'SYSTEM_FAIL',
+  SYSTEM_FAIL_MISSING_IMAGE = 'SYSTEM_FAIL_MISSING_IMAGE',
+  SYSTEM_FAIL_FETCH_FILE = 'SYSTEM_FAIL_FETCH_FILE',
+  SYSTEM_FAIL_CONTAINER = 'SYSTEM_FAIL_CONTAINER',
+  SYSTEM_FAIL_CONTAINER_PING = 'SYSTEM_FAIL_CONTAINER_PING',
+  SYSTEM_FAIL_RETRY_EXCEED = 'SYSTEM_FAIL_RETRY_EXCEED',
+
+  UNKNOWN = 'UNKNOWN',
+}

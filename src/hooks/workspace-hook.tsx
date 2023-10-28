@@ -3,7 +3,7 @@ import { toast, useToast } from '@/hooks/toast-hook';
 import { useWebSocket } from '@/hooks/websocket-hook';
 import { Axios } from '@/libs/axios';
 import { workspaceService } from '@/services/workspace-service';
-import { Assignment, Submission, WorkspaceSelectorQuery } from '@/types/workspace-type';
+import { Assignment, Submission, WorkspaceFilter } from '@/types/workspace-type';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
@@ -76,7 +76,7 @@ export const useListSubmission = (workspaceId: number, assignmentId: number) => 
   return { submissions };
 };
 
-export const useListWorkspaceQuery = (selector?: WorkspaceSelectorQuery[]) =>
+export const useListWorkspaceQuery = (selector?: WorkspaceFilter[]) =>
   useQuery({
     queryKey: ['workspace', selector],
     queryFn: () => workspaceService.listWorkspace(selector),
@@ -100,7 +100,7 @@ export const useListSubmissionQuery = (workspaceId: number, assignmentId: number
     queryFn: () => workspaceService.listSubmission(workspaceId, assignmentId),
   });
 
-export const useGetWorkspaceQuery = (id: number, selector?: WorkspaceSelectorQuery[]) =>
+export const useGetWorkspaceQuery = (id: number, selector?: WorkspaceFilter[]) =>
   useQuery({
     queryKey: ['workspace', id, selector],
     queryFn: () => workspaceService.getWorkspace(id, selector),

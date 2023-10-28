@@ -1,14 +1,11 @@
 import { Footer } from '@/components/common/footer';
-import { ReactNode } from 'react';
+import { classNames } from '@/libs/utils';
+import { HTMLAttributes } from 'react';
 
-export type PageLayoutProps = {
-  children: ReactNode;
-};
-
-export const PageLayout = ({ children }: PageLayoutProps) => {
+export const PageLayout = ({ className, children }: HTMLAttributes<HTMLElement>) => {
   return (
     <>
-      <main className="relative flex h-screen min-h-screen flex-col">{children}</main>
+      <main className={classNames('relative min-h-screen', className)}>{children}</main>
       <Footer />
     </>
   );

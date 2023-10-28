@@ -19,10 +19,7 @@ export const SubmissionList = () => {
             key={submission.id}
             index={submissions.length - index - 1}
             defaultOpen={index === 0}
-            id={submission.id}
-            language={submission.language}
-            results={submission.results}
-            submittedAt={submission.submittedAt}
+            submission={submission}
           />
         ))}
     </div>

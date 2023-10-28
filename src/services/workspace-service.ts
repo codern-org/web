@@ -1,5 +1,5 @@
 import { ApiService } from '@/services/api-service';
-import { Assignment, Submission, Workspace, WorkspaceSelectorQuery } from '@/types/workspace-type';
+import { Assignment, Submission, Workspace, WorkspaceFilter } from '@/types/workspace-type';
 
 class WorkspaceService extends ApiService {
   public async createSubmission(
@@ -21,7 +21,7 @@ class WorkspaceService extends ApiService {
       .catch(this.throwError);
   }
 
-  public async listWorkspace(selector?: WorkspaceSelectorQuery[]): Promise<Workspace[]> {
+  public async listWorkspace(selector?: WorkspaceFilter[]): Promise<Workspace[]> {
     let url = '/workspaces';
     if (selector) url += '?fields=' + selector.join(',');
     return this.get(url)
@@ -62,7 +62,7 @@ class WorkspaceService extends ApiService {
       .catch(this.throwError);
   }
 
-  public async getWorkspace(id: number, selector?: WorkspaceSelectorQuery[]): Promise<Workspace> {
+  public async getWorkspace(id: number, selector?: WorkspaceFilter[]): Promise<Workspace> {
     let url = '/workspaces/:workspaceId'.replace(':workspaceId', id.toString());
     if (selector) url += '?fields=' + selector.join(',');
     return this.get(url)

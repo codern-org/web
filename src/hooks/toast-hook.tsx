@@ -1,7 +1,7 @@
 import { ToastActionElement, ToastProps } from '@/components/common/toast';
 import { ReactNode, useEffect, useState } from 'react';
 
-const TOAST_LIMIT = 1;
+const TOAST_LIMIT = 4;
 const TOAST_REMOVE_DELAY = 1000000;
 
 type ToasterToast = ToastProps & {
