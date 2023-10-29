@@ -2,6 +2,7 @@ import { PrivateRoute } from '@/components/common/private-route';
 import { OrganizerWorkspaceTab, RoutePath } from '@/libs/constants';
 import { AssignmentPage } from '@/pages/assignment-page';
 import { GoogleAuthCallback } from '@/pages/callback/google-auth';
+import { ChangePasswordPage } from '@/pages/change-password-page';
 import { DashboardPage } from '@/pages/dashboard-page';
 import { NotFoundPage } from '@/pages/error/not-found-page';
 import { HomePage } from '@/pages/home-page';
@@ -32,6 +33,11 @@ export const Router = () => {
         />
 
         {/* Private routes. Authentication is required */}
+        <Route
+          path={RoutePath.CHANGE_PASSWORD}
+          element={<PrivateRoute element={<ChangePasswordPage />} />}
+        />
+
         <Route
           path={RoutePath.DASHBOARD}
           element={<PrivateRoute element={<DashboardPage />} />}

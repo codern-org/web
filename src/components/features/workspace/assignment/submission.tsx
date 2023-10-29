@@ -34,8 +34,6 @@ export const Submission = ({ defaultOpen, index, submission }: SubmissionProps) 
     isMissingResult;
   const isCompleteWithoutError = !isGrading && !isError;
 
-  console.log(isGrading, isMissingResult, isError, isCompleteWithoutError);
-
   return (
     <Collapsible
       defaultOpen={defaultOpen}

@@ -16,6 +16,12 @@ class AuthService extends ApiService {
       .catch(this.throwError);
   }
 
+  public async changePassword(oldPassword: string, newPassword: string): Promise<void> {
+    return this.patch('/users/password', { oldPassword, newPassword })
+      .then(() => {})
+      .catch(this.throwError);
+  }
+
   public async getGoogleAuthUrl(): Promise<string> {
     return this.get('/auth/google')
       .then((response) => {

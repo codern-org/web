@@ -64,9 +64,9 @@ export const UserProfileDropdown = ({
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => navigate(RoutePath.CHANGE_PASSWORD)}>
             <SettingsIcon className="mr-2 h-4 w-4" />
-            <span>Settings</span>
+            <span>Change password</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
