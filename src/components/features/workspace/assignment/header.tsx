@@ -22,7 +22,12 @@ export const AssignmentHeader = ({ className, ...props }: HTMLAttributes<HTMLDiv
         <div className="flex flex-row items-center space-x-2">
           <h2 className="text-lg font-semibold">{assignment.name}</h2>
           <div className="flex flex-row space-x-2">
-            <Badge variant="outline">{assignment.level}</Badge>
+            <Badge
+              variant="outline"
+              className="bg-background"
+            >
+              {assignment.level}
+            </Badge>
             <Separator
               orientation="vertical"
               className="h-5"

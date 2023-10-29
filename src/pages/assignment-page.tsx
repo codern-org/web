@@ -13,23 +13,27 @@ export const AssignmentPage = () => {
   return (
     <PageLayout className="flex h-screen flex-col">
       <PageNavigationBar />
-      <AssignmentBreadcrumb className="container pt-6" />
-      <AssignmentHeader className="container" />
 
-      <ProblemPaneProvider>
-        <div className="container mb-6 flex h-full flex-row justify-between space-x-4 overflow-hidden">
-          <div className="w-2/5">
-            <ProblemPane />
-          </div>
-          <div className="w-3/5">
-            <Suspense>
-              <EditorProvider>
-                <EditorPane />
-              </EditorProvider>
-            </Suspense>
-          </div>
+      <div className="h-full overflow-hidden bg-accent/20 py-6">
+        <div className="container flex h-full flex-col overflow-hidden">
+          <AssignmentBreadcrumb />
+          <AssignmentHeader />
+          <ProblemPaneProvider>
+            <div className="flex h-full flex-row justify-between space-x-4 overflow-hidden">
+              <div className="w-2/5">
+                <ProblemPane />
+              </div>
+              <div className="w-3/5">
+                <Suspense>
+                  <EditorProvider>
+                    <EditorPane />
+                  </EditorProvider>
+                </Suspense>
+              </div>
+            </div>
+          </ProblemPaneProvider>
         </div>
-      </ProblemPaneProvider>
+      </div>
     </PageLayout>
   );
 };

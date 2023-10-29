@@ -15,7 +15,7 @@ export const ProblemPane = () => {
     <Tabs
       value={tab}
       onValueChange={(tab) => setTab(tab as ProblemPaneTabs)}
-      className="flex h-full flex-col items-start space-y-6 overflow-hidden rounded-md border p-6"
+      className="flex h-full flex-col items-start space-y-6 overflow-hidden rounded-md border bg-background p-6"
     >
       <TabsList className="h-8">
         <TabsTrigger
