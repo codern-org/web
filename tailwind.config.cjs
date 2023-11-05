@@ -49,6 +49,7 @@ module.exports = {
       },
       animation: {
         'spin-slow': 'spin 3s linear infinite',
+        'gelatine': 'gelatine 2s',
       },
     },
   },
