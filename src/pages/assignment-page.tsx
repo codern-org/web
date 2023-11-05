@@ -14,7 +14,7 @@ export const AssignmentPage = () => {
     <PageLayout className="flex h-screen flex-col">
       <PageNavigationBar />
 
-      <div className="h-full overflow-hidden bg-accent/20 py-6">
+      <div className="h-full overflow-hidden bg-accent/30 py-6">
         <div className="container flex h-full flex-col overflow-hidden">
           <AssignmentBreadcrumb />
           <AssignmentHeader />

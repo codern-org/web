@@ -32,7 +32,7 @@ export const WorkspaceCard = ({ workspace }: WorkspaceCardProps) => {
         </div>
       </CardHeader>
       <CardContent className="flex items-center space-x-2">
-        <div className="inline-flex items-center space-x-1 rounded-md bg-accent px-2 py-0.5 text-accent-foreground">
+        <div className="inline-flex items-center space-x-1 rounded-md bg-muted px-2 py-0.5 text-muted-foreground">
           <BookOpenIcon className="h-4 w-4" />
           <span className="text-sm">
             {totalAssignment === 0 ? (
@@ -44,7 +44,7 @@ export const WorkspaceCard = ({ workspace }: WorkspaceCardProps) => {
             )}
           </span>
         </div>
-        <div className="inline-flex items-center space-x-1 rounded-md bg-accent px-2 py-0.5 text-accent-foreground">
+        <div className="inline-flex items-center space-x-1 rounded-md bg-muted px-2 py-0.5 text-muted-foreground">
           <Users2Icon className="h-5 w-5" />
           <span className="text-sm">{compactNumber(participantCount || 0)}</span>
         </div>

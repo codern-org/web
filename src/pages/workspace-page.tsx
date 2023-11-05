@@ -9,7 +9,7 @@ export const WorkspacePage = () => {
     <PageLayout>
       <PageNavigationBar />
 
-      <div className="min-h-screen bg-accent/20">
+      <div className="min-h-screen bg-accent/30">
         <div className="border-b bg-background">
           <WorkspaceBreadcrumb className="container pt-6" />
           <WorkspaceHeader className="container py-8" />
