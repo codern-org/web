@@ -8,13 +8,9 @@ export const DashboardPage = () => {
     <PageLayout>
       <PageNavigationBar />
 
-      <div className="min-h-screen bg-accent/20">
-        <div className="border-b bg-background py-8">
-          <DashboardHeader className="container" />
-        </div>
-        <div className="container py-8">
-          <DashboardContent />
-        </div>
+      <div className="min-h-screen bg-accent/30">
+        <DashboardHeader />
+        <DashboardContent />
       </div>
     </PageLayout>
   );

@@ -8,7 +8,7 @@ export const CodernLogo = () => {
   return (
     <a
       href="/"
-      className="flex items-center space-x-0.5"
+      className="flex items-center"
     >
       {displayTheme === 'dark' ? (
         <CodernDarkIcon className="h-10 w-10" />

@@ -5,7 +5,7 @@ export const WorkspaceContent = () => {
   return (
     <Tabs
       defaultValue="assignments"
-      className="space-y-6"
+      className="container space-y-6 py-8"
     >
       <TabsList>
         <TabsTrigger value="assignments">Assignments</TabsTrigger>
