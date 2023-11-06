@@ -21,7 +21,7 @@ export const WorkspaceHeader = () => {
       <div className="container">
         <WorkspaceBreadcrumb className="pt-6" />
 
-        <div className="flex flex-row items-center justify-between py-8">
+        <div className="flex flex-row items-center justify-between space-x-8 py-8">
           <div className="flex flex-col">
             <h2 className="mb-6 text-3xl font-semibold tracking-tight">{workspace?.name}</h2>
 
@@ -46,9 +46,9 @@ export const WorkspaceHeader = () => {
             )}
           </div>
 
-          <div className="relative overflow-hidden rounded-md border shadow-lg">
+          <div className="relative hidden overflow-hidden rounded-md border bg-gradient-to-br from-background/50 from-30% to-accent/50 shadow-lg lg:block">
             <MojiBun className="absolute -bottom-4 right-8 z-10 h-24 w-24" />
-            <div className="relative z-20 grid grid-cols-2 gap-6 bg-accent/20 p-6 backdrop-blur-[2px]">
+            <div className="relative z-20 grid grid-cols-2 gap-6 bg-accent/20 p-6 backdrop-blur-[1px]">
               <div>
                 {workspace ? (
                   <p className="mb-1 text-xl font-medium">{workspace?.totalAssignment}</p>

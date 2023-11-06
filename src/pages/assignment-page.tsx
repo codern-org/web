@@ -19,11 +19,11 @@ export const AssignmentPage = () => {
           <AssignmentBreadcrumb />
           <AssignmentHeader />
           <ProblemPaneProvider>
-            <div className="flex h-full flex-row justify-between space-x-4 overflow-hidden">
-              <div className="w-2/5">
+            <div className="flex h-full flex-col justify-between space-y-4 overflow-hidden lg:flex-row lg:space-x-4 lg:space-y-0">
+              <div className="w-full lg:w-2/5">
                 <ProblemPane />
               </div>
-              <div className="w-3/5">
+              <div className="h-full w-full lg:h-auto lg:w-3/5">
                 <Suspense>
                   <EditorProvider>
                     <EditorPane />

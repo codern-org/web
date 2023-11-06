@@ -15,8 +15,8 @@ export const DashboardContent = () => {
 
   return (
     <div className="container py-8 backdrop-blur-xl">
-      <div className="mb-6 flex flex-row items-center justify-between">
-        <h2 className="flex items-center space-x-2 text-2xl font-semibold">
+      <div className="mb-6 flex flex-col justify-between sm:flex-row sm:items-center">
+        <h2 className="mb-3 flex items-center space-x-2 text-2xl font-semibold sm:mb-0">
           <span>Workspaces</span>
           {workspaces && (
             <Badge
@@ -28,11 +28,13 @@ export const DashboardContent = () => {
           )}
         </h2>
         <div className="flex flex-row items-center space-x-2">
-          <SearchInput
-            placeholder="Search workspace"
-            className="h-9"
-            onChange={(event) => setWorkspaceFilter(event.target.value)}
-          />
+          <div className="w-full">
+            <SearchInput
+              placeholder="Search workspace"
+              className="h-9"
+              onChange={(event) => setWorkspaceFilter(event.target.value)}
+            />
+          </div>
           <Button
             size="sm"
             className="space-x-0.5"
