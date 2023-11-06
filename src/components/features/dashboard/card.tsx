@@ -13,7 +13,15 @@ type WorkspaceCardProps = {
 export const WorkspaceCard = ({ workspace }: WorkspaceCardProps) => {
   const navigate = useNavigate();
 
-  const { id, name, profileUrl, ownerName, totalAssignment, participantCount } = workspace;
+  const {
+    id,
+    name,
+    profileUrl,
+    ownerName,
+    totalAssignment,
+    completedAssignment,
+    participantCount,
+  } = workspace;
 
   return (
     <Card
@@ -39,7 +47,7 @@ export const WorkspaceCard = ({ workspace }: WorkspaceCardProps) => {
               '-'
             ) : (
               <>
-                {0} / {totalAssignment}
+                {completedAssignment} / {totalAssignment}
               </>
             )}
           </span>
@@ -54,7 +62,7 @@ export const WorkspaceCard = ({ workspace }: WorkspaceCardProps) => {
           <div
             className="h-1 rounded bg-primary"
             style={{
-              width: (true && totalAssignment ? (0 / totalAssignment) * 100 : 0) + '%',
+              width: (totalAssignment ? (completedAssignment / totalAssignment) * 100 : 0) + '%',
             }}
           />
         </div>

@@ -8,6 +8,7 @@ export type Workspace = {
   ownerProfileUrl: string;
   participantCount: number;
   totalAssignment: number;
+  completedAssignment: number;
   role: WorkspaceRole;
   favortie: boolean;
   joinedAt: Date;
