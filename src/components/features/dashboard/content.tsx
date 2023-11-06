@@ -8,8 +8,10 @@ import { PlusIcon } from 'lucide-react';
 import { useState } from 'react';
 
 export const DashboardContent = () => {
-  const { data: workspaces } = useListWorkspaceQuery();
+  const { data: allWorkspaces } = useListWorkspaceQuery();
   const [workspaceFilter, setWorkspaceFilter] = useState<string>('');
+
+  const workspaces = allWorkspaces?.filter((workspace) => workspace.name.includes(workspaceFilter));
 
   return (
     <div className="container py-8 backdrop-blur-xl">

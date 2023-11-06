@@ -1,12 +1,20 @@
 import { Image } from '@/components/common/image';
+import { MojiBun } from '@/components/common/moji-bun';
 import { Skeleton } from '@/components/common/skeleton';
 import { WorkspaceBreadcrumb } from '@/components/features/workspace/dashboard/breadcrumb';
-import { useGetWorkspaceQuery } from '@/hooks/workspace-hook';
+import { useGetWorkspaceQuery, useListAssignmentQuery } from '@/hooks/workspace-hook';
+import { AssignmentStatus } from '@/types/workspace-type';
+import dayjs from 'dayjs';
 import { useParams } from 'react-router-dom';
 
 export const WorkspaceHeader = () => {
   const { workspaceId } = useParams();
   const { data: workspace } = useGetWorkspaceQuery(Number(workspaceId));
+  const { data: assignments } = useListAssignmentQuery(Number(workspaceId));
+
+  const completedAssignments = assignments?.filter(
+    (assignment) => assignment.status === AssignmentStatus.COMPLETED,
+  );
 
   return (
     <div className="border-b bg-background">
@@ -17,7 +25,7 @@ export const WorkspaceHeader = () => {
           <div className="flex flex-col">
             <h2 className="mb-6 text-3xl font-semibold tracking-tight">{workspace?.name}</h2>
 
-            <div className="mb-2 flex items-center space-x-3">
+            <div className="mb-6 flex items-center space-x-3">
               <Image
                 src={workspace?.ownerProfileUrl}
                 alt=""
@@ -29,37 +37,44 @@ export const WorkspaceHeader = () => {
               </div>
             </div>
 
-            {/* TODO */}
-            {/* <p className="text-sm text-secondary-foreground">
-          Joined at {dayjs(new Date()).format('dddd DD MMMM YYYY')}
-        </p> */}
+            {workspace ? (
+              <p className="text-xs text-secondary-foreground">
+                Joined at {dayjs(new Date()).format('dddd DD MMMM YYYY')}
+              </p>
+            ) : (
+              <Skeleton className="mb-1 h-3 w-48" />
+            )}
           </div>
 
-          <div className="grid grid-cols-2 gap-x-10 gap-y-6">
-            <div>
-              {workspace?.totalAssignment != null ? (
-                <p className="mb-1 text-xl font-medium">{workspace?.totalAssignment}</p>
-              ) : (
-                <Skeleton className="mb-1 h-7 w-10" />
-              )}
-              <p className="text-sm text-muted-foreground">Total assignments</p>
-            </div>
-            <div>
-              {workspace?.totalAssignment != null ? (
-                // TODO: calculate progression
-                <p className="mb-1 text-xl font-medium">{workspace.totalAssignment - 0}</p>
-              ) : (
-                <Skeleton className="mb-1 h-7 w-10" />
-              )}
-              <p className="text-sm text-muted-foreground">Incomplete assignments</p>
-            </div>
-            <div>
-              {workspace?.participantCount ? (
-                <p className="mb-1 text-xl font-medium">{workspace.participantCount}</p>
-              ) : (
-                <Skeleton className="h-7 w-10 " />
-              )}
-              <p className="text-sm text-muted-foreground">People in workspace</p>
+          <div className="relative overflow-hidden rounded-md border shadow-lg">
+            <MojiBun className="absolute -bottom-4 right-8 z-10 h-24 w-24" />
+            <div className="relative z-20 grid grid-cols-2 gap-6 bg-accent/20 p-6 backdrop-blur-[2px]">
+              <div>
+                {workspace ? (
+                  <p className="mb-1 text-xl font-medium">{workspace?.totalAssignment}</p>
+                ) : (
+                  <Skeleton className="mb-1 h-7 w-10" />
+                )}
+                <p className="text-sm text-muted-foreground">Total assignments</p>
+              </div>
+              <div>
+                {workspace && completedAssignments ? (
+                  <p className="mb-1 text-xl font-medium">
+                    {workspace.totalAssignment - completedAssignments.length}
+                  </p>
+                ) : (
+                  <Skeleton className="mb-1 h-7 w-10" />
+                )}
+                <p className="text-sm text-muted-foreground">Incompleted assignments</p>
+              </div>
+              <div>
+                {workspace ? (
+                  <p className="mb-1 text-xl font-medium">{workspace.participantCount}</p>
+                ) : (
+                  <Skeleton className="h-7 w-10 " />
+                )}
+                <p className="text-sm text-muted-foreground">People in workspace</p>
+              </div>
             </div>
           </div>
         </div>

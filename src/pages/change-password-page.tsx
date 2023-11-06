@@ -56,8 +56,8 @@ export const ChangePasswordPage = () => {
         </Button>
       </NavigationBar>
 
-      <div className="mx-6 flex h-[calc(100vh-3.5rem)] items-center justify-center">
-        <div className="h- w-full max-w-md">
+      <div className="flex h-[calc(100vh-3.5rem)] items-center justify-center bg-accent/30">
+        <div className="w-full max-w-md bg-background">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}

@@ -43,12 +43,12 @@ const statuses = [
     icon: <CircleIcon className="h-2 w-2 fill-muted-foreground stroke-none" />,
   },
   {
-    value: 'ERROR',
+    value: 'INCOMPLETED',
     label: 'Error',
     icon: <CircleIcon className="h-2 w-2 fill-danger stroke-none" />,
   },
   {
-    value: 'DONE',
+    value: 'COMPLETED',
     label: 'Done',
     icon: <CircleIcon className="h-2 w-2 fill-green-400 stroke-none" />,
   },

@@ -8,6 +8,10 @@ export type Workspace = {
   ownerProfileUrl: string;
   participantCount: number;
   totalAssignment: number;
+  role: WorkspaceRole;
+  favortie: boolean;
+  joinedAt: Date;
+  recentlyVisitedAt: Date;
 
   participants?: WorkspaceParticipant[];
 };
@@ -37,8 +41,8 @@ export enum AssignmentLevel {
 export enum AssignmentStatus {
   TODO = 'TODO',
   GRADING = 'GRADING',
-  ERROR = 'ERROR',
-  DONE = 'DONE',
+  INCOMPLETED = 'INCOMPLETED',
+  COMPLETED = 'COMPLETED',
 }
 
 export type Assignment = {
@@ -59,24 +63,20 @@ export type Assignment = {
 export type Submission = {
   id: number;
   language: string;
+  status: AssignmentStatus;
+  score: number;
   submittedAt: Date;
   compilationLog: string;
   results: SubmissionResult[];
 };
 
-export enum SubmissionResultStatus {
-  GRADING = 'GRADING',
-  ERROR = 'ERROR',
-  DONE = 'DONE',
-}
-
 export type SubmissionResult = {
   testcaseId: number;
-  status: SubmissionResultStatus;
-  statusDetail?: string;
-  memoryUsage?: number;
-  timeUsage?: number;
-  compilationLog?: string;
+  isPassed: boolean;
+  status: string;
+  memoryUsage: number;
+  timeUsage: number;
+  compilationLog: string;
 };
 
 export enum SubmissionStatusDetail {

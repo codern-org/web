@@ -54,7 +54,7 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
           'background-color: red; color: white; font-size: 0.75rem; padding: 0.25rem; border-radius: 0.25rem',
         );
         connect();
-      }, 1000);
+      }, 3000);
     });
 
     ws.current.addEventListener('message', (event) => {

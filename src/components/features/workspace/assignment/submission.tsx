@@ -5,7 +5,7 @@ import {
 } from '@/components/common/collapsible';
 import { classNames, compactNumber } from '@/libs/utils';
 import {
-  SubmissionResultStatus,
+  AssignmentStatus,
   SubmissionResult as SubmissionResultType,
   SubmissionStatusDetail,
   Submission as SubmissionType,
@@ -15,7 +15,28 @@ import DOMPurify from 'dompurify';
 import { ChevronDownIcon, Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 
-// TODO: NEED REFACTOR, GARBAGE CODE HERE !!!
+const ERROR_MESSAGE_MAP = {
+  [SubmissionStatusDetail.FAIL_COMPILATION]: 'Compilation Error',
+  [SubmissionStatusDetail.FAIL_TIMEOUT]: 'Execution Timeout',
+  [SubmissionStatusDetail.FAIL_TIMEOUT_HARD]: 'Execution Timeout',
+  [SubmissionStatusDetail.FAIL_MEMORY]: 'Memory Exceed',
+
+  [SubmissionStatusDetail.SYSTEM_FAIL]: 'System Error',
+  [SubmissionStatusDetail.SYSTEM_FAIL_MISSING_IMAGE]: 'System Error',
+  [SubmissionStatusDetail.SYSTEM_FAIL_FETCH_FILE]: 'System Error',
+  [SubmissionStatusDetail.SYSTEM_FAIL_CONTAINER]: 'System Error',
+  [SubmissionStatusDetail.SYSTEM_FAIL_CONTAINER_PING]: 'System Error',
+  [SubmissionStatusDetail.SYSTEM_FAIL_RETRY_EXCEED]: 'System Error',
+
+  [SubmissionStatusDetail.UNKNOWN]: 'System Error',
+};
+const translateResult = (result: SubmissionResultType, needInfo: boolean = false) => {
+  return result.isPassed
+    ? 'Passed'
+    : result.status !== SubmissionStatusDetail.COMPLETED
+    ? `Error ${needInfo && ERROR_MESSAGE_MAP[result.status as keyof typeof ERROR_MESSAGE_MAP]}`
+    : 'Failed';
+};
 
 export type SubmissionProps = {
   defaultOpen?: boolean;
@@ -26,13 +47,9 @@ export type SubmissionProps = {
 export const Submission = ({ defaultOpen, index, submission }: SubmissionProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const { results } = submission;
-  const isGrading = results.some((result) => result.status === SubmissionResultStatus.GRADING);
-  const isMissingResult = results.length === 0;
-  const isError =
-    (!isGrading && results.some((result) => result.status !== SubmissionResultStatus.DONE)) ||
-    isMissingResult;
-  const isCompleteWithoutError = !isGrading && !isError;
+  const isGrading = submission.status === AssignmentStatus.GRADING;
+  const isError = submission.status === AssignmentStatus.INCOMPLETED;
+  const isComplete = submission.status === AssignmentStatus.COMPLETED;
 
   return (
     <Collapsible
@@ -56,11 +73,11 @@ export const Submission = ({ defaultOpen, index, submission }: SubmissionProps) 
                 'h-2 w-2 rounded-full',
                 isGrading && 'bg-yellow-500',
                 isError && 'bg-red-500',
-                isCompleteWithoutError && 'bg-green-500',
+                isComplete && 'bg-green-500',
               )}
             />
             <span className="text-sm text-secondary-foreground">
-              {isCompleteWithoutError ? 'Done' : isGrading ? 'Grading' : 'Error'}
+              {isComplete ? 'Passed' : isGrading ? 'Grading' : 'Failed'}
             </span>
           </div>
           <ChevronDownIcon
@@ -72,52 +89,26 @@ export const Submission = ({ defaultOpen, index, submission }: SubmissionProps) 
         </div>
       </CollapsibleTrigger>
       <CollapsibleContent className="px-4 py-3">
-        <SubmissionResult submission={submission} />
+        <SubmissionResults submission={submission} />
         <p className="mt-2 text-xs text-muted-foreground">Submission id: {submission.id}</p>
       </CollapsibleContent>
     </Collapsible>
   );
 };
 
-const RESULT_TEXT_MAP = {
-  [SubmissionStatusDetail.COMPLETED]: 'Passed',
-
-  [SubmissionStatusDetail.FAIL_COMPILATION]: 'Compilation Error',
-  [SubmissionStatusDetail.FAIL_TIMEOUT]: 'Execution Timeout',
-  [SubmissionStatusDetail.FAIL_TIMEOUT_HARD]: 'Error',
-  [SubmissionStatusDetail.FAIL_MEMORY]: 'Memory Exceed',
-
-  [SubmissionStatusDetail.SYSTEM_FAIL]: 'Error',
-  [SubmissionStatusDetail.SYSTEM_FAIL_MISSING_IMAGE]: 'Error',
-  [SubmissionStatusDetail.SYSTEM_FAIL_FETCH_FILE]: 'Error',
-  [SubmissionStatusDetail.SYSTEM_FAIL_CONTAINER]: 'Error',
-  [SubmissionStatusDetail.SYSTEM_FAIL_CONTAINER_PING]: 'Error',
-  [SubmissionStatusDetail.SYSTEM_FAIL_RETRY_EXCEED]: 'Error',
-
-  [SubmissionStatusDetail.UNKNOWN]: 'Error',
-};
-const translateResult = (result: SubmissionResultType) => {
-  return result.status == SubmissionResultStatus.DONE
-    ? 'Passed'
-    : RESULT_TEXT_MAP[result.statusDetail as keyof typeof RESULT_TEXT_MAP] || 'Failed';
-};
-
-type SubmissionResultProps = {
+type SubmissionResultsProps = {
   submission: SubmissionType;
 };
 
-const SubmissionResult = ({ submission }: SubmissionResultProps) => {
+const SubmissionResults = ({ submission }: SubmissionResultsProps) => {
   const { results } = submission;
-  const isGrading = results.some((result) => result.status === 'GRADING');
+  const isGrading = submission.status === AssignmentStatus.GRADING;
 
   if (isGrading) {
-    const completedCount = results.filter((result) => result.status !== 'GRADING').length;
     return (
-      <div className="flex flex-row items-center space-x-2 py-2 text-sm text-secondary-foreground">
+      <div className="flex flex-row items-center space-x-2 py-1 text-sm text-secondary-foreground">
         <Loader2Icon className="h-4 w-4 animate-spin " />
-        <p className="animate-pulse">
-          Grading... {completedCount}/{results.length}
-        </p>
+        <p className="animate-pulse">Grading</p>
       </div>
     );
   }
@@ -135,7 +126,7 @@ const SubmissionResult = ({ submission }: SubmissionResultProps) => {
     return (
       <>
         <div className="mb-2 font-mono text-xs text-red-500">
-          {RESULT_TEXT_MAP[SubmissionStatusDetail.FAIL_COMPILATION]}
+          {ERROR_MESSAGE_MAP[SubmissionStatusDetail.FAIL_COMPILATION]}
         </div>
         <pre
           dangerouslySetInnerHTML={{
@@ -154,13 +145,9 @@ const SubmissionResult = ({ submission }: SubmissionResultProps) => {
     >
       <span className="text-secondary-foreground">Case {index + 1}</span>
       <span
-        className={classNames(
-          'capitalize',
-          result.status === 'DONE' && 'text-green-500',
-          result.status === 'ERROR' && 'text-danger',
-        )}
+        className={classNames('capitalize', result.isPassed ? 'text-green-500' : 'text-red-500')}
       >
-        {translateResult(result)}
+        {translateResult(result, true)}
       </span>
 
       <span className="text-muted-foreground">

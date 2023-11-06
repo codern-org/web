@@ -3,7 +3,6 @@ import { Separator } from '@/components/common/separator';
 import { AssignmentHeaderSkeleton } from '@/components/features/workspace/assignment/header-skeleton';
 import { useGetAssignmentQuery } from '@/hooks/workspace-hook';
 import { classNames } from '@/libs/utils';
-import dayjs from 'dayjs';
 import { HTMLAttributes } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -38,9 +37,10 @@ export const AssignmentHeader = ({ className, ...props }: HTMLAttributes<HTMLDiv
         </div>
         <p className="text-sm text-muted-foreground">{assignment.description}</p>
       </div>
-      <p className="text-sm">
+      {/* TODO: due date */}
+      {/* <p className="text-sm">
         Due date {dayjs(assignment.createdAt).format('ddd, DD MMM YYYY hh:mm:ss A')}
-      </p>
+      </p> */}
     </div>
   );
 };

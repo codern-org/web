@@ -14,7 +14,7 @@ export const WorkspaceContent = () => {
       <TabsContent value="assignments">
         <AssignmentsTable />
       </TabsContent>
-      <TabsContent value="scoreboard"></TabsContent>
+      <TabsContent value="scoreboard">Not impleted yet</TabsContent>
     </Tabs>
   );
 };

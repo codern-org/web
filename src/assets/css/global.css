@@ -10,8 +10,8 @@
     --primary: 0 0% 9%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 9%;
+    --secondary: 0 0% 94%;
+    --secondary-foreground: 0 0% 45%;
 
     --accent: 0 0% 94%;
     --accent-foreground: 0 0% 9%;
@@ -38,7 +38,7 @@
     --primary-foreground: 0 0% 9%;
 
     --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary-foreground: 0 0% 60%;
 
     --accent: 0 0% 14.9%;
     --accent-foreground: 0 0% 98%;
