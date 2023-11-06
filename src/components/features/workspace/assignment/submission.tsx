@@ -6,7 +6,6 @@ import {
 import { classNames, compactNumber } from '@/libs/utils';
 import {
   AssignmentStatus,
-  SubmissionResult as SubmissionResultType,
   SubmissionStatusDetail,
   Submission as SubmissionType,
 } from '@/types/workspace-type';
@@ -30,13 +29,6 @@ const ERROR_MESSAGE_MAP = {
 
   [SubmissionStatusDetail.UNKNOWN]: 'System Error',
 };
-const translateResult = (result: SubmissionResultType, needInfo: boolean = false) => {
-  return result.isPassed
-    ? 'Passed'
-    : result.status !== SubmissionStatusDetail.COMPLETED
-    ? `Error ${needInfo && ERROR_MESSAGE_MAP[result.status as keyof typeof ERROR_MESSAGE_MAP]}`
-    : 'Failed';
-};
 
 export type SubmissionProps = {
   defaultOpen?: boolean;
@@ -48,8 +40,8 @@ export const Submission = ({ defaultOpen, index, submission }: SubmissionProps) 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const isGrading = submission.status === AssignmentStatus.GRADING;
-  const isError = submission.status === AssignmentStatus.INCOMPLETED;
-  const isComplete = submission.status === AssignmentStatus.COMPLETED;
+  const isIncompleted = submission.status === AssignmentStatus.INCOMPLETED;
+  const isCompleted = submission.status === AssignmentStatus.COMPLETED;
 
   return (
     <Collapsible
@@ -72,12 +64,14 @@ export const Submission = ({ defaultOpen, index, submission }: SubmissionProps) 
               className={classNames(
                 'h-2 w-2 rounded-full',
                 isGrading && 'bg-yellow-500',
-                isError && 'bg-red-500',
-                isComplete && 'bg-green-500',
+                isIncompleted && 'bg-red-500',
+                isCompleted && 'bg-green-500',
               )}
             />
             <span className="text-sm text-secondary-foreground">
-              {isComplete ? 'Passed' : isGrading ? 'Grading' : 'Failed'}
+              {isGrading && 'Grading'}
+              {isCompleted && 'Passed'}
+              {isIncompleted && 'Failed'}
             </span>
           </div>
           <ChevronDownIcon
@@ -138,21 +132,37 @@ const SubmissionResults = ({ submission }: SubmissionResultsProps) => {
     );
   }
 
-  return results.map((result, index) => (
-    <div
-      key={index}
-      className="flex flex-row space-x-2 font-mono text-xs"
-    >
-      <span className="text-secondary-foreground">Case {index + 1}</span>
-      <span
-        className={classNames('capitalize', result.isPassed ? 'text-green-500' : 'text-red-500')}
-      >
-        {translateResult(result, true)}
-      </span>
+  return (
+    results &&
+    results.map((result, index) => {
+      const timeUsage = compactNumber(result.timeUsage || 0);
+      const status = result.isPassed
+        ? 'Correct'
+        : result.status !== SubmissionStatusDetail.COMPLETED
+        ? ERROR_MESSAGE_MAP[result.status]
+        : 'Wrong';
 
-      <span className="text-muted-foreground">
-        ({compactNumber(result.memoryUsage || 0)} MB, {compactNumber(result.timeUsage || 0)} ms)
-      </span>
-    </div>
-  ));
+      return (
+        <div
+          key={index}
+          className="flex flex-row space-x-2 font-mono text-xs"
+        >
+          <span className="text-secondary-foreground">Case {index + 1}</span>
+          <span
+            className={classNames(
+              'capitalize',
+              result.isPassed ? 'text-green-500' : 'text-red-500',
+            )}
+          >
+            {status}
+          </span>
+
+          <span className="text-muted-foreground">
+            ({compactNumber(result.memoryUsage || 0)} MB,&nbsp;
+            {timeUsage.includes('K') ? `${timeUsage.slice(0, -1)} s` : `${timeUsage} ms`})
+          </span>
+        </div>
+      );
+    })
+  );
 };

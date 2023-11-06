@@ -44,12 +44,12 @@ const statuses = [
   },
   {
     value: 'INCOMPLETED',
-    label: 'Error',
+    label: 'Failed',
     icon: <CircleIcon className="h-2 w-2 fill-danger stroke-none" />,
   },
   {
     value: 'COMPLETED',
-    label: 'Done',
+    label: 'Passed',
     icon: <CircleIcon className="h-2 w-2 fill-green-400 stroke-none" />,
   },
 ];
@@ -89,13 +89,19 @@ const columns: ColumnDef<Assignment>[] = [
   },
   {
     header: 'Created at',
-    cell: ({ row }) => dayjs(row.original.createdAt).format('ddd, DD MMM YYYY'),
+    cell: ({ row }) => (
+      <span className="text-xs">{dayjs(row.original.createdAt).format('ddd, DD MMM YYYY')}</span>
+    ),
   },
   {
     header: 'Last sumitted at',
     cell: ({ row }) => {
       if (!row.original.lastSubmittedAt) return <>-</>;
-      return <>{dayjs(row.original.lastSubmittedAt).format('ddd, DD MMM YYYY H:m A')}</>;
+      return (
+        <span className="text-xs">
+          {dayjs(row.original.lastSubmittedAt).format('ddd, DD MMM YYYY H:m A')}
+        </span>
+      );
     },
   },
   {
@@ -153,11 +159,11 @@ export const AssignmentsTable = () => {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-medium">
+      <div className="flex flex-col justify-between md:flex-row md:items-center">
+        <h3 className="mb-4 text-lg font-medium md:mb-0">
           Your Assignments {assignments && <>({assignments.length})</>}
         </h3>
-        <div className="flex space-x-2">
+        <div className="flex flex-row-reverse space-x-2 space-x-reverse md:flex-row md:space-x-2">
           {isFiltered && (
             <Button
               variant="ghost"
@@ -182,13 +188,15 @@ export const AssignmentsTable = () => {
             align="end"
           />
 
-          <SearchInput
-            type="search"
-            className="h-9 py-0"
-            placeholder="Search assignment"
-            value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
-            onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
-          />
+          <div className="w-full">
+            <SearchInput
+              type="search"
+              className="h-9 py-0"
+              placeholder="Search assignment"
+              value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+              onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
+            />
+          </div>
         </div>
       </div>
 

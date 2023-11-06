@@ -66,14 +66,14 @@ export type Submission = {
   status: AssignmentStatus;
   score: number;
   submittedAt: Date;
-  compilationLog: string;
-  results: SubmissionResult[];
+  compilationLog?: string;
+  results?: SubmissionResult[];
 };
 
 export type SubmissionResult = {
   testcaseId: number;
   isPassed: boolean;
-  status: string;
+  status: SubmissionStatusDetail;
   memoryUsage: number;
   timeUsage: number;
   compilationLog: string;
