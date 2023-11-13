@@ -1,4 +1,5 @@
 const typographyPlugin = require('@tailwindcss/typography');
+const animationPlugin = require('tailwindcss-animate');
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
@@ -53,5 +54,8 @@ module.exports = {
       },
     },
   },
-  plugins: [typographyPlugin],
+  plugins: [
+    typographyPlugin,
+    animationPlugin,
+  ],
 };
