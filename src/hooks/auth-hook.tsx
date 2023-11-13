@@ -1,7 +1,7 @@
 import { authService } from '@/services/auth-service';
 import { useQuery } from '@tanstack/react-query';
 
-export const useGetUserQuery = () =>
+export const useUser = () =>
   useQuery({
     queryKey: ['user'],
     queryFn: () => authService.me(),

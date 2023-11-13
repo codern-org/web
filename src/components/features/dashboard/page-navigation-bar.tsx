@@ -1,7 +1,7 @@
 import { Button } from '@/components/common/button';
 import { NavigationBar } from '@/components/common/navigation-bar';
 import { UserProfileDropdown } from '@/components/common/user-profile-dropdown';
-import { useGetUserQuery } from '@/hooks/auth-hook';
+import { useUser } from '@/hooks/auth-hook';
 import { RoutePath } from '@/libs/constants';
 import { UserAccountType } from '@/types/auth-type';
 import { ArrowLeftRightIcon, BellIcon } from 'lucide-react';
@@ -12,7 +12,7 @@ type PageNavigationBarProps = {
 };
 
 export const PageNavigationBar = ({ className }: PageNavigationBarProps) => {
-  const { data: user } = useGetUserQuery();
+  const { data: user } = useUser();
   const navigate = useNavigate();
 
   return (

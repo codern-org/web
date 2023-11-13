@@ -1,18 +1,14 @@
 import { Button } from '@/components/common/button';
-import { NavigationBar } from '@/components/common/navigation-bar';
+import { NavigationBar, NavigationBarProps } from '@/components/common/navigation-bar';
 import { UserProfileDropdown } from '@/components/common/user-profile-dropdown';
-import { useGetUserQuery } from '@/hooks/auth-hook';
+import { useUser } from '@/hooks/auth-hook';
 import { RoutePath } from '@/libs/constants';
 import { UserAccountType } from '@/types/auth-type';
 import { ArrowLeftRightIcon, BellIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-type OrganizerPageNavigationBarProps = {
-  className?: string;
-};
-
-export const OrganizerPageNavigationBar = ({ className }: OrganizerPageNavigationBarProps) => {
-  const { data: user } = useGetUserQuery();
+export const OrganizerPageNavigationBar = ({ className }: NavigationBarProps) => {
+  const { data: user } = useUser();
   const navigate = useNavigate();
 
   return (

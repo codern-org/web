@@ -1,4 +1,4 @@
-import { useGetUserQuery } from '@/hooks/auth-hook';
+import { useUser } from '@/hooks/auth-hook';
 import { useToast } from '@/hooks/toast-hook';
 import { ReactNode } from 'react';
 import { Navigate, NavigateProps, To } from 'react-router-dom';
@@ -9,7 +9,7 @@ export type PrivateRouteProps = Omit<NavigateProps, 'to'> & {
 };
 
 export const PrivateRoute = ({ element, to = '/signin' }: PrivateRouteProps) => {
-  const { data, isLoading } = useGetUserQuery();
+  const { data, isLoading } = useUser();
   const { toast } = useToast();
 
   if (isLoading) {

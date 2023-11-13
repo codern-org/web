@@ -1,10 +1,10 @@
 import { WorkspaceCardSkeleton } from '@/components/features/dashboard/card-skeleton';
 import { OrganizerWorkspaceCard } from '@/components/features/organizer/dashboard/card';
-import { useGetUserQuery } from '@/hooks/auth-hook';
+import { useUser } from '@/hooks/auth-hook';
 import { useListWorkspaceQuery } from '@/hooks/workspace-hook';
 
 export const OrganizerDashboardContent = () => {
-  const { data: user } = useGetUserQuery();
+  const { data: user } = useUser();
   const { data: workspaces } = useListWorkspaceQuery();
 
   return (

@@ -2,11 +2,11 @@ import { Button } from '@/components/common/button';
 import { NavigationBar } from '@/components/common/navigation-bar';
 import { PageLayout } from '@/components/common/page-layout';
 import { SignInForm } from '@/components/features/signin/form';
-import { useGetUserQuery } from '@/hooks/auth-hook';
+import { useUser } from '@/hooks/auth-hook';
 import { Navigate } from 'react-router-dom';
 
 export const SignInPage = () => {
-  const { data: user } = useGetUserQuery();
+  const { data: user } = useUser();
 
   if (user) {
     return <Navigate to="/dashboard" />;

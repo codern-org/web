@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/common/dropdown';
 import { Image } from '@/components/common/image';
-import { useGetUserQuery } from '@/hooks/auth-hook';
+import { useUser } from '@/hooks/auth-hook';
 import { RoutePath } from '@/libs/constants';
 import { authService } from '@/services/auth-service';
 import { UserAccountType } from '@/types/auth-type';
@@ -28,9 +28,9 @@ export const UserProfileDropdown = ({
   email,
   accountType,
 }: UserProfileDropdownProps) => {
-  const { data: user } = useGetUserQuery();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { data: user } = useUser();
 
   const signOut = () => {
     authService.signOut().finally(() => {
