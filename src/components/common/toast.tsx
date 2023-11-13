@@ -13,7 +13,7 @@ export const ToastViewport = forwardRef<
   <ToastPrimitives.Viewport
     ref={ref}
     className={classNames(
-      'fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px]',
+      'fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse gap-1 p-4 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px]',
       className,
     )}
     {...props}
@@ -26,7 +26,7 @@ export const toastVariants = cva(
   {
     variants: {
       variant: {
-        default: 'border bg-background',
+        default: 'border bg-background text-foreground',
         danger: 'danger group border-danger bg-danger text-danger-foreground',
       },
     },

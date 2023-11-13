@@ -7,12 +7,12 @@ export const HomePage = () => {
     <PageLayout>
       <HomePageNavigationBar />
 
-      <div className="flex flex-col items-center justify-center py-32">
+      <div className="container flex flex-col items-center justify-center py-32">
         <h1 className="text-center text-6xl font-bold">
           New Generation <br />
           Coding Platform
         </h1>
-        <p className="my-10 text-center text-xl text-muted-foreground">
+        <p className="my-10 text-center text-lg text-muted-foreground">
           Designed for both coding event organizers and enthusiastic end-users, <br />
           Codern offers a world where programming skills flourish through interactive coding
           adventures.

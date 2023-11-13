@@ -27,17 +27,17 @@ export const Image = ({ src, className, ...props }: ImageProps) => {
   }
 
   return (
-    <div className="relative">
+    <div className={classNames('relative overflow-hidden', error && 'bg-muted', className)}>
       {loading && (
-        <LoaderIcon className="animate-spin-slow absolute inset-0 m-auto text-muted-foreground" />
+        <LoaderIcon className="absolute inset-0 m-auto animate-spin-slow text-muted-foreground" />
       )}
-      {error && <ImageOffIcon className="absolute inset-0 m-auto text-muted-foreground" />}
+      {error && <ImageOffIcon className="absolute inset-0 m-auto h-5 w-5 text-muted-foreground" />}
 
       <img
         src={src && outputUrl}
         onLoad={onLoad}
         onError={onError}
-        className={classNames(className, (loading || error) && 'invisible')}
+        className={classNames('h-full w-full', (loading || error) && 'invisible')}
         {...props}
       />
     </div>
