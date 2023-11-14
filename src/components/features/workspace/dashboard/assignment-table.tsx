@@ -12,6 +12,7 @@ import {
 } from '@/components/common/table';
 import { useListAssignmentQuery } from '@/hooks/workspace-hook';
 import { RoutePath } from '@/libs/constants';
+import { formatDate } from '@/libs/utils';
 import { Assignment } from '@/types/workspace-type';
 import {
   ColumnDef,
@@ -26,7 +27,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import dayjs from 'dayjs';
 import { CircleIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -90,7 +90,9 @@ const columns: ColumnDef<Assignment>[] = [
   {
     header: 'Created at',
     cell: ({ row }) => (
-      <span className="text-xs">{dayjs(row.original.createdAt).format('ddd, DD MMM YYYY')}</span>
+      <span className="text-xs">
+        {formatDate(new Date(row.original.createdAt), 'EEE, d MMM yyyy')}
+      </span>
     ),
   },
   {
@@ -99,7 +101,7 @@ const columns: ColumnDef<Assignment>[] = [
       if (!row.original.lastSubmittedAt) return <>-</>;
       return (
         <span className="text-xs">
-          {dayjs(row.original.lastSubmittedAt).format('ddd, DD MMM YYYY H:m A')}
+          {formatDate(new Date(row.original.lastSubmittedAt), 'EEE, d MMM yyyy p')}
         </span>
       );
     },

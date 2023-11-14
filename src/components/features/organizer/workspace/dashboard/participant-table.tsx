@@ -11,6 +11,7 @@ import {
   TableRow,
 } from '@/components/common/table';
 import { RoutePath } from '@/libs/constants';
+import { formatDate } from '@/libs/utils';
 import { Assignment } from '@/types/workspace-type';
 import {
   ColumnDef,
@@ -25,7 +26,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import dayjs from 'dayjs';
 import { PlusIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -65,7 +65,7 @@ const columns: ColumnDef<Assignment>[] = [
   },
   {
     header: 'Created at',
-    cell: ({ row }) => dayjs(row.original.createdAt).format('ddd, DD MMM YYYY'),
+    cell: ({ row }) => formatDate(row.original.createdAt, 'EEE, d MMM yyyy'),
   },
   {
     accessorKey: 'level',

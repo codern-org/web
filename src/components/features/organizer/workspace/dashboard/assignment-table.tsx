@@ -12,6 +12,7 @@ import {
 } from '@/components/common/table';
 import { useListAssignmentQuery } from '@/hooks/workspace-hook';
 import { RoutePath } from '@/libs/constants';
+import { formatDate } from '@/libs/utils';
 import { Assignment } from '@/types/workspace-type';
 import {
   ColumnDef,
@@ -26,7 +27,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import dayjs from 'dayjs';
 import { PlusIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -66,7 +66,7 @@ const columns: ColumnDef<Assignment>[] = [
   },
   {
     header: 'Created at',
-    cell: ({ row }) => dayjs(row.original.createdAt).format('ddd, DD MMM YYYY'),
+    cell: ({ row }) => formatDate(row.original.createdAt, 'EEE, d MMM yyyy'),
   },
   {
     accessorKey: 'level',
@@ -136,7 +136,14 @@ export const OrganizerAssignmentsTable = () => {
             </Button>
           )}
         </div>
-        <Button className="h-9">
+        <Button
+          className="h-9"
+          onClick={() =>
+            navigate(
+              RoutePath.CREATE_ASSIGNMENT.replace(':workspaceId', Number(workspaceId).toString()),
+            )
+          }
+        >
           <PlusIcon className="mr-1 h-4 w-4" />
           Create assignment
         </Button>

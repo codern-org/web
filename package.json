@@ -34,7 +34,6 @@
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
-    "dayjs": "^1.11.10",
     "dompurify": "^3.0.6",
     "katex": "^0.16.9",
     "lucide-react": "^0.288.0",
@@ -46,8 +45,7 @@
     "react-hook-form": "^7.47.0",
     "react-router-dom": "^6.17.0",
     "tailwind-merge": "^1.14.0",
-    "zod": "^3.22.4",
-    "zustand": "^4.4.4"
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@babel/core": "^7.23.2",

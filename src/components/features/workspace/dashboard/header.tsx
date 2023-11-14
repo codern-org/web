@@ -3,8 +3,8 @@ import { MojiBun } from '@/components/common/moji-bun';
 import { Skeleton } from '@/components/common/skeleton';
 import { WorkspaceBreadcrumb } from '@/components/features/workspace/dashboard/breadcrumb';
 import { useGetWorkspaceQuery, useListAssignmentQuery } from '@/hooks/workspace-hook';
+import { formatDate } from '@/libs/utils';
 import { AssignmentStatus } from '@/types/workspace-type';
-import dayjs from 'dayjs';
 import { useParams } from 'react-router-dom';
 
 export const WorkspaceHeader = () => {
@@ -39,16 +39,16 @@ export const WorkspaceHeader = () => {
 
             {workspace ? (
               <p className="text-xs text-secondary-foreground">
-                Joined at {dayjs(new Date()).format('dddd DD MMMM YYYY')}
+                Joined at {formatDate(new Date(), 'EEEE, d MMMM yyyy')}
               </p>
             ) : (
               <Skeleton className="mb-1 h-3 w-48" />
             )}
           </div>
 
-          <div className="relative hidden overflow-hidden rounded-md border bg-gradient-to-br from-background/50 from-30% to-accent/50 shadow-lg lg:block">
+          <div className="relative hidden overflow-hidden rounded-md border bg-gradient-to-br from-background/50 from-60% to-accent/50 shadow-lg lg:block">
             <MojiBun className="absolute -bottom-4 right-8 z-10 h-24 w-24" />
-            <div className="relative z-20 grid grid-cols-2 gap-6 bg-accent/20 p-6 backdrop-blur-[1px]">
+            <div className="relative z-20 grid grid-cols-2 gap-6 bg-accent/20 p-6">
               <div>
                 {workspace ? (
                   <p className="mb-1 text-xl font-medium">{workspace?.totalAssignment}</p>

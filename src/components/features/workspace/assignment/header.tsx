@@ -39,7 +39,7 @@ export const AssignmentHeader = ({ className, ...props }: HTMLAttributes<HTMLDiv
       </div>
       {/* TODO: due date */}
       {/* <p className="text-sm">
-        Due date {dayjs(assignment.createdAt).format('ddd, DD MMM YYYY hh:mm:ss A')}
+        Due date {DateFns.format(assignment.createdAt, 'ddd, DD MMM YYYY hh:mm:ss A')}
       </p> */}
     </div>
   );
