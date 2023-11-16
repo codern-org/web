@@ -7,7 +7,7 @@ export type ApiResponse<T> = {
 export type ApiError = {
   code: number;
   message: string;
-  data: unknown;
+  data?: unknown;
 };
 
 export type WsErrorReason = {

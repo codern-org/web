@@ -71,6 +71,13 @@ export type Submission = {
   results?: SubmissionResult[];
 };
 
+export type CreateSubmissionParams = {
+  workspaceId: Workspace['id'];
+  assignmentId: Assignment['id'];
+  code: string;
+  language: Submission['language'];
+};
+
 export type SubmissionResult = {
   testcaseId: number;
   isPassed: boolean;

@@ -5,7 +5,7 @@ class WorkspaceService extends ApiService {
   public async createSubmission(
     workspaceId: number,
     assignmentId: number,
-    blob: Blob,
+    code: string,
     language: string,
   ): Promise<void> {
     const url = '/workspaces/:workspaceId/assignments/:assignmentId/submissions'
@@ -13,7 +13,7 @@ class WorkspaceService extends ApiService {
       .replace(':assignmentId', assignmentId.toString());
 
     const formData = new FormData();
-    formData.append('sourcecode', blob);
+    formData.append('sourcecode', new Blob([code]));
     formData.append('language', language.toUpperCase());
 
     return this.post(url, formData)
@@ -80,6 +80,13 @@ class WorkspaceService extends ApiService {
       .then((response) => {
         return response.data.data as unknown as Assignment;
       })
+      .catch(this.throwError);
+  }
+
+  public async getAssignmentDetail(url: string): Promise<string> {
+    if (url.startsWith('/')) url = window.APP_CONFIG.BACKEND_URL + '/file' + url;
+    return this.get(url)
+      .then((response) => response.data as unknown as string)
       .catch(this.throwError);
   }
 }

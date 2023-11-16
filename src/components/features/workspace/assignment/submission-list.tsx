@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 export const SubmissionList = () => {
   const { workspaceId, assignmentId } = useParams();
-  const { submissions } = useListSubmission(Number(workspaceId), Number(assignmentId));
+  const { data: submissions } = useListSubmission(Number(workspaceId), Number(assignmentId));
 
   if (!submissions || submissions.length === 0) {
     return <>No submissions</>;

@@ -1,19 +1,21 @@
-import { useEditor } from '@/hooks/editor-hook';
 import { toast, useToast } from '@/hooks/toast-hook';
 import { useWebSocket } from '@/hooks/websocket-hook';
-import { Axios } from '@/libs/axios';
+import { ApiService } from '@/services/api-service';
 import { workspaceService } from '@/services/workspace-service';
-import { Assignment, Submission, WorkspaceFilter } from '@/types/workspace-type';
+import {
+  Assignment,
+  CreateSubmissionParams,
+  Submission,
+  WorkspaceFilter,
+} from '@/types/workspace-type';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-export const useCreateSubmissionQuery = (workspaceId: number, assignmentId: number) => {
+export const useCreateSubmission = () => {
   const queryClient = useQueryClient();
-  const { getCode, getLanguage } = useEditor();
-
-  const { mutate: createSubmission, isPending: isSubmitting } = useMutation({
-    mutationFn: ({ blob, language }: { blob: Blob; language: string }) =>
-      workspaceService.createSubmission(workspaceId, assignmentId, blob, language),
+  return useMutation({
+    mutationFn: ({ workspaceId, assignmentId, code, language }: CreateSubmissionParams) =>
+      workspaceService.createSubmission(workspaceId, assignmentId, code, language),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['submission'] });
       toast({
@@ -29,51 +31,38 @@ export const useCreateSubmissionQuery = (workspaceId: number, assignmentId: numb
       });
     },
   });
-
-  const submit = () => {
-    const code = getCode();
-    if (!code) {
-      toast({
-        variant: 'danger',
-        title: 'Try to write some codes',
-        description: 'It looks like your editor is empty',
-      });
-      return;
-    }
-    createSubmission({ blob: new Blob([code]), language: getLanguage() });
-  };
-
-  return { submit, isSubmitting };
 };
 
-export const useListSubmission = (workspaceId: number, assignmentId: number) => {
-  const { data } = useListSubmissionQuery(workspaceId, assignmentId);
-  const [submissions, setSubmissions] = useState<Submission[] | undefined>([]);
-  const { onSocket } = useWebSocket();
+export const useListSubmission = (workspaceId: number, assignmentId: number) =>
+  useQuery({
+    queryKey: ['submission'],
+    queryFn: () => workspaceService.listSubmission(workspaceId, assignmentId),
+  });
+
+export const useListSubmissionSubscription = () => {
+  const queryClient = useQueryClient();
+  const { subscribe, unsubscribe } = useWebSocket();
   const { toast } = useToast();
 
-  // Update a new submission from websocket by mutation technique
-  // Could `queryClient.invalidateQueries` be a better way?
   useEffect(() => {
-    onSocket('onSubmissionUpdate', (newSubmission: Submission) => {
-      if (!submissions) return;
-      const index = submissions.findIndex((submission) => submission.id === newSubmission.id);
-      if (index === -1) return;
-
-      submissions[index] = newSubmission;
-      setSubmissions(submissions.slice());
-
+    const updateSubmissions = (newSubmission: Submission) => {
+      queryClient.setQueryData(['submission'], (submission: Submission[]) => {
+        return submission.map((submission) => {
+          if (submission.id === newSubmission.id) return newSubmission;
+          return submission;
+        });
+      });
       toast({
         title: `Submission grading is done!`,
         description: 'Please check the result',
       });
-    });
-  }, [submissions, onSocket, toast]);
+    };
 
-  // Sync react-query state with react state for mutation
-  useEffect(() => setSubmissions(data), [data]);
-
-  return { submissions };
+    subscribe('onSubmissionUpdate', updateSubmissions);
+    return () => {
+      unsubscribe('onSubmissionUpdate', updateSubmissions);
+    };
+  }, [queryClient, subscribe, unsubscribe, toast]);
 };
 
 export const useListWorkspaceQuery = (selector?: WorkspaceFilter[]) =>
@@ -94,12 +83,6 @@ export const useListAssignmentQuery = (workspaceId: number) =>
     queryFn: () => workspaceService.listAssignment(workspaceId),
   });
 
-export const useListSubmissionQuery = (workspaceId: number, assignmentId: number) =>
-  useQuery({
-    queryKey: ['submission'],
-    queryFn: () => workspaceService.listSubmission(workspaceId, assignmentId),
-  });
-
 export const useGetWorkspaceQuery = (id: number, selector?: WorkspaceFilter[]) =>
   useQuery({
     queryKey: ['workspace', id, selector],
@@ -112,20 +95,13 @@ export const useGetAssignmentQuery = (workspaceId: number, assignmentId: number)
     queryFn: () => workspaceService.getAssignment(workspaceId, assignmentId),
   });
 
-export const useGetProblemDetailQuery = (assignment: Assignment | undefined) => {
-  const [problemDetail, setProblemDetail] = useState<string>();
-
-  useEffect(() => {
-    if (!assignment?.detailUrl) return;
-
-    if (assignment.detailUrl.startsWith('/')) {
-      assignment.detailUrl = window.APP_CONFIG.BACKEND_URL + '/file' + assignment.detailUrl;
-    }
-
-    Axios.get(assignment.detailUrl)
-      .then((response) => setProblemDetail(response.data))
-      .catch(console.error);
-  }, [assignment]);
-
-  return { problemDetail };
-};
+export const useAssignmentDetail = (assignment: Assignment | undefined) =>
+  useQuery({
+    enabled: !!assignment,
+    queryKey: ['assignment', assignment?.id, 'detail'],
+    queryFn: () => workspaceService.getAssignmentDetail(assignment?.detailUrl as string),
+    retry: (failureCount, error) => {
+      if (ApiService.isDomainError(error) && error.code === 3001) return false;
+      return failureCount !== 3;
+    },
+  });

@@ -1,5 +1,5 @@
 import { Axios } from '@/libs/axios';
-import { ApiResponse } from '@/types/api-response-type';
+import { ApiError, ApiResponse } from '@/types/api-response-type';
 import axios from 'axios';
 
 export abstract class ApiService {
@@ -42,5 +42,14 @@ export abstract class ApiService {
     } else {
       throw error;
     }
+  }
+
+  public static isDomainError(error: unknown): error is ApiError {
+    return (
+      typeof error === 'object' &&
+      error !== null &&
+      (error as ApiError).code !== undefined &&
+      (error as ApiError).message !== undefined
+    );
   }
 }

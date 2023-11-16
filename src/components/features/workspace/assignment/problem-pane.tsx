@@ -3,18 +3,26 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/common/ta
 import { SubmissionList } from '@/components/features/workspace/assignment/submission-list';
 import { ProblemPaneTabs, useProblemPane } from '@/hooks/problem-pane-hook';
 import {
+  useAssignmentDetail,
   useGetAssignmentQuery,
-  useGetProblemDetailQuery,
   useListSubmission,
+  useListSubmissionSubscription,
 } from '@/hooks/workspace-hook';
+import { Loader2Icon, XCircleIcon } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 
 export const ProblemPane = () => {
   const { workspaceId, assignmentId } = useParams();
   const { tab, setTab } = useProblemPane();
-  const { submissions } = useListSubmission(Number(workspaceId), Number(assignmentId));
+  const { data: submissions } = useListSubmission(Number(workspaceId), Number(assignmentId));
   const { data: assignment } = useGetAssignmentQuery(Number(workspaceId), Number(assignmentId));
-  const { problemDetail } = useGetProblemDetailQuery(assignment);
+  const {
+    data: detail,
+    isError: isDetailError,
+    isLoading: isDetailLoading,
+  } = useAssignmentDetail(assignment);
+
+  useListSubmissionSubscription();
 
   return (
     <Tabs
@@ -41,7 +49,19 @@ export const ProblemPane = () => {
         value="problem"
         className="w-full overflow-y-auto"
       >
-        {problemDetail && <Markdown markdown={problemDetail} />}
+        {detail && <Markdown markdown={detail} />}
+        {isDetailError && (
+          <div className="flex items-center justify-center py-8 text-muted-foreground">
+            <XCircleIcon className="mr-1 h-5 w-5" />
+            Cannot load detail
+          </div>
+        )}
+        {isDetailLoading && (
+          <div className="flex items-center justify-center py-8">
+            <Loader2Icon className="mr-1 h-5 w-5 animate-spin text-muted-foreground" />
+            Loading
+          </div>
+        )}
       </TabsContent>
       <TabsContent
         value="submission"

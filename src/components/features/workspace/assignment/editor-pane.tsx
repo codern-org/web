@@ -9,21 +9,35 @@ import {
   SelectValue,
 } from '@/components/common/select';
 import { Editor } from '@/components/features/editor/editor';
+import { useEditor } from '@/hooks/editor-hook';
 import { useProblemPane } from '@/hooks/problem-pane-hook';
-import { useCreateSubmissionQuery } from '@/hooks/workspace-hook';
+import { useToast } from '@/hooks/toast-hook';
+import { useCreateSubmission } from '@/hooks/workspace-hook';
 import { Loader2Icon, SettingsIcon } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 
 export const EditorPane = () => {
   const { workspaceId, assignmentId } = useParams();
+  const { getCode, getLanguage } = useEditor();
+  const { toast } = useToast();
   const { setTab } = useProblemPane();
-  const { submit, isSubmitting } = useCreateSubmissionQuery(
-    Number(workspaceId),
-    Number(assignmentId),
-  );
+  const { mutate: submit, isPending: isSubmitting } = useCreateSubmission();
 
   const handleSubmit = () => {
-    submit();
+    const code = getCode();
+    if (!code) {
+      return toast({
+        variant: 'danger',
+        title: 'Try to write some codes',
+        description: 'It looks like your editor is empty',
+      });
+    }
+    submit({
+      workspaceId: Number(workspaceId),
+      assignmentId: Number(assignmentId),
+      code,
+      language: getLanguage(),
+    });
     setTab('submission');
   };
 
