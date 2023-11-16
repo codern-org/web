@@ -14,7 +14,8 @@ type WebSocketProviderProps = {
 };
 
 type WebSocketProviderState = {
-  onSocket: (channel: string, cb: WebSocketChannelHandler) => void;
+  subscribe: (channel: string, cb: WebSocketChannelHandler) => void;
+  unsubscribe: (channel: string, cb: WebSocketChannelHandler) => void;
 };
 
 const WebSocketProviderContext = createContext<WebSocketProviderState>(
@@ -31,7 +32,7 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
     ws.current.addEventListener('open', () => {
       console.log(
         '%c🤖 Dimension portal is opening...',
-        'background-color: black; color: white; font-size: 0.75rem; padding: 0.25rem; border-radius: 0.25rem',
+        'background-color: black; color: white; font-size: 0.7rem; padding: 0.125rem; border-radius: 0.25rem',
       );
     });
 
@@ -45,15 +46,15 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
 
       console.log(
         '%c🤖 Dimension portal is terminated...',
-        'background-color: red; color: white; font-size: 0.75rem; padding: 0.25rem; border-radius: 0.25rem',
+        'background-color: red; color: white; font-size: 0.7rem; padding: 0.125rem; border-radius: 0.25rem',
       );
 
       setTimeout(() => {
         console.log(
           '%c🤖 Dimension portal is reopening...',
-          'background-color: red; color: white; font-size: 0.75rem; padding: 0.25rem; border-radius: 0.25rem',
+          'background-color: red; color: white; font-size: 0.7rem; padding: 0.125rem; border-radius: 0.25rem',
         );
-        connect();
+        if (ws.current?.readyState === WebSocket.CLOSED) connect();
       }, 3000);
     });
 
@@ -74,7 +75,7 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
     };
   }, [connect]);
 
-  const onSocket = (channel: string, cb: WebSocketChannelHandler) => {
+  const subscribe = (channel: string, cb: WebSocketChannelHandler) => {
     const handlers = channelHandlers.current.get(channel);
     if (handlers) {
       channelHandlers.current.set(channel, [...handlers, cb]);
@@ -83,8 +84,17 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
     }
   };
 
+  const unsubscribe = (channel: string, cb: WebSocketChannelHandler) => {
+    const handlers = channelHandlers.current.get(channel);
+    if (!handlers) return;
+    const index = handlers.findIndex((handler) => handler === cb);
+    if (index === -1) return;
+    handlers.splice(index, 1);
+  };
+
   const value = {
-    onSocket: onSocket,
+    subscribe: subscribe,
+    unsubscribe: unsubscribe,
   };
 
   return (
