@@ -1,17 +1,18 @@
+import { Button } from '@/components/common/button';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/common/collapsible';
-import { classNames, compactNumber } from '@/libs/utils';
+import { Separator } from '@/components/common/separator';
+import { classNames, compactNumber, formatDate } from '@/libs/utils';
 import {
   AssignmentStatus,
   SubmissionStatusDetail,
   Submission as SubmissionType,
 } from '@/types/workspace-type';
-import dayjs from 'dayjs';
 import DOMPurify from 'dompurify';
-import { ChevronDownIcon, Loader2Icon } from 'lucide-react';
+import { ChevronDownIcon, CopyIcon, Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 
 const ERROR_MESSAGE_MAP = {
@@ -54,7 +55,7 @@ export const Submission = ({ defaultOpen, index, submission }: SubmissionProps) 
           <div className="flex flex-col items-start">
             <p className="text-sm">Language: {submission.language}</p>
             <p className="text-xs text-muted-foreground">
-              {dayjs(submission.submittedAt).format('DD/MM/YY hh:mm:ss A')}
+              {formatDate(new Date(submission.submittedAt), 'd MMM yy pp')}
             </p>
           </div>
         </div>
@@ -82,9 +83,20 @@ export const Submission = ({ defaultOpen, index, submission }: SubmissionProps) 
           />
         </div>
       </CollapsibleTrigger>
-      <CollapsibleContent className="px-4 py-3">
+      <CollapsibleContent className="mt-2 rounded-md border px-4 py-3">
         <SubmissionResults submission={submission} />
-        <p className="mt-2 text-xs text-muted-foreground">Submission id: {submission.id}</p>
+        <Separator className="my-3" />
+        <div className="flex flex-col justify-between space-y-2 text-xs xl:flex-row xl:items-center xl:space-y-0">
+          <p className="text-muted-foreground xl:mb-0">Submission id: {submission.id}</p>
+          <Button
+            size="sm"
+            variant="secondary"
+            className="h-6 space-x-1 px-2 py-0"
+          >
+            <CopyIcon className="h-3 w-3" />
+            <span>Copy code</span>
+          </Button>
+        </div>
       </CollapsibleContent>
     </Collapsible>
   );
@@ -126,7 +138,7 @@ const SubmissionResults = ({ submission }: SubmissionResultsProps) => {
           dangerouslySetInnerHTML={{
             __html: lines.join('\n'),
           }}
-          className="mb-1 whitespace-pre-wrap rounded-md border p-2 text-xs text-muted-foreground"
+          className="whitespace-pre-wrap rounded-md border p-2 text-xs text-muted-foreground"
         />
       </>
     );
