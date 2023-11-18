@@ -9,6 +9,7 @@ import {
   WorkspaceFilter,
 } from '@/types/workspace-type';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import axios from 'axios';
 import { useEffect } from 'react';
 
 export const useCreateSubmission = () => {
@@ -101,6 +102,7 @@ export const useAssignmentDetail = (assignment: Assignment | undefined) =>
     queryKey: ['assignment', assignment?.id, 'detail'],
     queryFn: () => workspaceService.getAssignmentDetail(assignment?.detailUrl as string),
     retry: (failureCount, error) => {
+      if (axios.isAxiosError(error) && error.response?.status === 404) return false;
       if (ApiService.isDomainError(error) && error.code === 3001) return false;
       return failureCount !== 3;
     },
