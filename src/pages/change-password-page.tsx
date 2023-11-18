@@ -10,16 +10,14 @@ import {
 import { Input } from '@/components/common/input';
 import { NavigationBar } from '@/components/common/navigation-bar';
 import { PageLayout } from '@/components/common/page-layout';
+import { useStrictForm } from '@/hooks/form-hook';
 import { useToast } from '@/hooks/toast-hook';
 import { RoutePath } from '@/libs/constants';
 import { authService } from '@/services/auth-service';
 import { ChangePassFormSchema, ChangePassFormValues } from '@/types/schema/sign-in-schema';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import * as z from 'zod';
 
 export const ChangePasswordPage = () => {
   const queryClient = useQueryClient();
@@ -27,10 +25,7 @@ export const ChangePasswordPage = () => {
   const { toast } = useToast();
 
   const [error, setError] = useState<string>('');
-  const form = useForm<z.infer<typeof ChangePassFormSchema>>({
-    resolver: zodResolver(ChangePassFormSchema),
-    mode: 'onSubmit',
-  });
+  const form = useStrictForm(ChangePassFormSchema);
 
   const onSubmit = (data: ChangePassFormValues) => {
     authService

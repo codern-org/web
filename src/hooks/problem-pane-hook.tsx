@@ -4,7 +4,7 @@ type ProblemPaneProviderProps = {
   children: ReactNode;
 };
 
-export type ProblemPaneTabs = 'problem' | 'submission' | 'problem';
+export type ProblemPaneTabs = 'problem' | 'submission';
 
 type ProblemPaneProviderState = {
   tab: ProblemPaneTabs;
