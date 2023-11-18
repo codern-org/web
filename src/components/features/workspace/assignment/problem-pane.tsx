@@ -20,7 +20,7 @@ export const ProblemPane = () => {
     data: detail,
     isError: isDetailError,
     isLoading: isDetailLoading,
-  } = useAssignmentDetail(assignment);
+  } = useAssignmentDetail(Number(workspaceId), assignment);
 
   useListSubmissionSubscription();
 

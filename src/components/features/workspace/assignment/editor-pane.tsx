@@ -21,7 +21,10 @@ export const EditorPane = () => {
   const { getCode, getLanguage } = useEditor();
   const { toast } = useToast();
   const { setTab } = useProblemPane();
-  const { mutate: submit, isPending: isSubmitting } = useCreateSubmission();
+  const { mutate: submit, isPending: isSubmitting } = useCreateSubmission(
+    Number(workspaceId),
+    Number(assignmentId),
+  );
 
   const handleSubmit = () => {
     const code = getCode();
@@ -32,12 +35,7 @@ export const EditorPane = () => {
         description: 'It looks like your editor is empty',
       });
     }
-    submit({
-      workspaceId: Number(workspaceId),
-      assignmentId: Number(assignmentId),
-      code,
-      language: getLanguage(),
-    });
+    submit({ code, language: getLanguage() });
     setTab('submission');
   };
 

@@ -12,13 +12,15 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { useEffect } from 'react';
 
-export const useCreateSubmission = () => {
+export const useCreateSubmission = (workspaceId: number, assignmentId: number) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ workspaceId, assignmentId, code, language }: CreateSubmissionParams) =>
+    mutationFn: ({ code, language }: CreateSubmissionParams) =>
       workspaceService.createSubmission(workspaceId, assignmentId, code, language),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['submission'] });
+      queryClient.invalidateQueries({
+        queryKey: ['workspaces', workspaceId, 'assignments', assignmentId, 'submissions'],
+      });
       toast({
         title: 'Submit your code successfully',
         description: 'Our system is grading your code',
@@ -36,7 +38,7 @@ export const useCreateSubmission = () => {
 
 export const useListSubmission = (workspaceId: number, assignmentId: number) =>
   useQuery({
-    queryKey: ['submission'],
+    queryKey: ['workspaces', workspaceId, 'assignments', assignmentId, 'submissions'],
     queryFn: () => workspaceService.listSubmission(workspaceId, assignmentId),
   });
 
@@ -68,38 +70,32 @@ export const useListSubmissionSubscription = () => {
 
 export const useListWorkspaceQuery = (selector?: WorkspaceFilter[]) =>
   useQuery({
-    queryKey: ['workspace', selector],
+    queryKey: ['workspaces', selector],
     queryFn: () => workspaceService.listWorkspace(selector),
-  });
-
-export const useListRecentWorkspaceQuery = () =>
-  useQuery({
-    queryKey: ['workspace', 'recent'],
-    queryFn: () => workspaceService.listRecentWorkspace(),
   });
 
 export const useListAssignmentQuery = (workspaceId: number) =>
   useQuery({
-    queryKey: ['assignment'],
+    queryKey: ['workspaces', workspaceId, 'assignments'],
     queryFn: () => workspaceService.listAssignment(workspaceId),
   });
 
 export const useGetWorkspaceQuery = (id: number, selector?: WorkspaceFilter[]) =>
   useQuery({
-    queryKey: ['workspace', id, selector],
+    queryKey: ['workspaces', id, selector],
     queryFn: () => workspaceService.getWorkspace(id, selector),
   });
 
 export const useGetAssignmentQuery = (workspaceId: number, assignmentId: number) =>
   useQuery({
-    queryKey: ['assignment', assignmentId],
+    queryKey: ['workspaces', workspaceId, 'assignments', assignmentId],
     queryFn: () => workspaceService.getAssignment(workspaceId, assignmentId),
   });
 
-export const useAssignmentDetail = (assignment: Assignment | undefined) =>
+export const useAssignmentDetail = (workspaceId: number, assignment: Assignment | undefined) =>
   useQuery({
     enabled: !!assignment,
-    queryKey: ['assignment', assignment?.id, 'detail'],
+    queryKey: ['workspaces', workspaceId, 'assignments', assignment?.id, 'detail'],
     queryFn: () => workspaceService.getAssignmentDetail(assignment?.detailUrl as string),
     retry: (failureCount, error) => {
       if (axios.isAxiosError(error) && error.response?.status === 404) return false;

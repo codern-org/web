@@ -72,8 +72,6 @@ export type Submission = {
 };
 
 export type CreateSubmissionParams = {
-  workspaceId: Workspace['id'];
-  assignmentId: Assignment['id'];
   code: string;
   language: Submission['language'];
 };

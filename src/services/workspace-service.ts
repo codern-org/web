@@ -31,14 +31,6 @@ class WorkspaceService extends ApiService {
       .catch(this.throwError);
   }
 
-  public async listRecentWorkspace(): Promise<Workspace[]> {
-    return this.get('/workspaces?order=recent')
-      .then((response) => {
-        return response.data.data as unknown as Workspace[];
-      })
-      .catch(this.throwError);
-  }
-
   public async listAssignment(workspaceId: number): Promise<Assignment[]> {
     const url = '/workspaces/:workspaceId/assignments'.replace(
       ':workspaceId',
