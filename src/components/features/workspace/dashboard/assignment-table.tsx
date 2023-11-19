@@ -90,9 +90,7 @@ const columns: ColumnDef<Assignment>[] = [
   {
     header: 'Created at',
     cell: ({ row }) => (
-      <span className="text-xs">
-        {formatDate(new Date(row.original.createdAt), 'EEE, d MMM yyyy')}
-      </span>
+      <span className="text-xs">{formatDate(row.original.createdAt, 'EEE, d MMM yyyy')}</span>
     ),
   },
   {
@@ -101,7 +99,7 @@ const columns: ColumnDef<Assignment>[] = [
       if (!row.original.lastSubmittedAt) return <>-</>;
       return (
         <span className="text-xs">
-          {formatDate(new Date(row.original.lastSubmittedAt), 'EEE, d MMM yyyy p')}
+          {formatDate(row.original.lastSubmittedAt, 'EEE, d MMM yyyy p')}
         </span>
       );
     },

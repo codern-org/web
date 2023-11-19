@@ -13,7 +13,7 @@ export const SubmissionList = () => {
   return (
     <div className="space-y-4">
       {submissions
-        .sort((a, b) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime())
+        .sort((a, b) => b.submittedAt.getTime() - a.submittedAt.getTime())
         .map((submission, index) => (
           <SubmissionComponent
             key={submission.id}

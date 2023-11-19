@@ -23,7 +23,11 @@ export const WorkspaceHeader = () => {
 
         <div className="flex flex-row items-center justify-between space-x-8 py-8">
           <div className="flex flex-col">
-            <h2 className="mb-6 text-3xl font-semibold tracking-tight">{workspace?.name}</h2>
+            {workspace ? (
+              <h2 className="mb-6 text-3xl font-semibold tracking-tight">{workspace.name}</h2>
+            ) : (
+              <Skeleton className="mb-6 h-9 w-48" />
+            )}
 
             <div className="mb-6 flex items-center space-x-3">
               <Image
@@ -39,7 +43,7 @@ export const WorkspaceHeader = () => {
 
             {workspace ? (
               <p className="text-xs text-secondary-foreground">
-                Joined at {formatDate(new Date(), 'EEEE, d MMMM yyyy')}
+                Joined at {formatDate(workspace.joinedAt, 'EEEE, d MMMM yyyy')}
               </p>
             ) : (
               <Skeleton className="mb-1 h-3 w-48" />
@@ -51,7 +55,7 @@ export const WorkspaceHeader = () => {
             <div className="relative z-20 grid grid-cols-2 gap-6 bg-accent/20 p-6">
               <div>
                 {workspace ? (
-                  <p className="mb-1 text-xl font-medium">{workspace?.totalAssignment}</p>
+                  <p className="mb-1 text-xl font-medium">{workspace.totalAssignment}</p>
                 ) : (
                   <Skeleton className="mb-1 h-7 w-10" />
                 )}

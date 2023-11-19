@@ -112,7 +112,7 @@ export const WorkspaceCard = ({ workspace }: WorkspaceCardProps) => {
       </CardContent>
       <CardFooter className="flex justify-between">
         <div className="text-xs text-muted-foreground">
-          Joined at: {formatDate(new Date(joinedAt), 'dd MMM yyyyy')}
+          Joined at: {formatDate(joinedAt, 'dd MMM yyyyy')}
         </div>
         {role !== WorkspaceRole.MEMBER && (
           <Badge className="capitalize">{role.toLowerCase()}</Badge>

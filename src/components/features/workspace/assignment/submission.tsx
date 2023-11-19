@@ -55,7 +55,7 @@ export const Submission = ({ defaultOpen, index, submission }: SubmissionProps) 
           <div className="flex flex-col items-start">
             <p className="text-sm">Language: {submission.language}</p>
             <p className="text-xs text-muted-foreground">
-              {formatDate(new Date(submission.submittedAt), 'd MMM yy pp')}
+              {formatDate(submission.submittedAt, 'd MMM yy pp')}
             </p>
           </div>
         </div>
