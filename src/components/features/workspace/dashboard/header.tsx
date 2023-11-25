@@ -75,7 +75,7 @@ export const WorkspaceHeader = () => {
                 {workspace ? (
                   <p className="mb-1 text-xl font-medium">{workspace.participantCount}</p>
                 ) : (
-                  <Skeleton className="h-7 w-10 " />
+                  <Skeleton className="mb-1 h-7 w-10" />
                 )}
                 <p className="text-sm text-muted-foreground">People in workspace</p>
               </div>
