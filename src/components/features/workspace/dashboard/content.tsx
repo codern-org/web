@@ -66,9 +66,11 @@ export const WorkspaceContent = () => {
     >
       <TabsList>
         {tabs.map((tab) => (
-          <Link to={tab.path}>
+          <Link
+            key={tab.value}
+            to={tab.path}
+          >
             <TabsTrigger
-              key={tab.value}
               value={tab.value}
               children={tab.label}
             />
