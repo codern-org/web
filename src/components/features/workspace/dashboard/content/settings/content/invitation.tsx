@@ -1,6 +1,6 @@
 import { Separator } from '@/components/common/separator';
 
-export const OrganizerWorkspaceInvitationSettings = () => {
+export const WorkspaceInvitationSettings = () => {
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-medium">Invitation</h3>

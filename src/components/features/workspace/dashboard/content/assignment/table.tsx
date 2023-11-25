@@ -17,10 +17,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/common/tooltip';
-import { useListAssignmentQuery } from '@/hooks/workspace-hook';
+import { useGetWorkspaceQuery, useListAssignmentQuery } from '@/hooks/workspace-hook';
 import { RoutePath } from '@/libs/constants';
 import { formartDateDist, formatDate } from '@/libs/utils';
-import { Assignment } from '@/types/workspace-type';
+import { Assignment, WorkspaceRole } from '@/types/workspace-type';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -34,7 +34,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { CircleIcon, Loader2Icon, XIcon } from 'lucide-react';
+import { CircleIcon, Loader2Icon, PlusIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -160,6 +160,7 @@ export const AssignmentsTable = () => {
   const navigate = useNavigate();
   const { workspaceId } = useParams();
   const { data: assignments, isLoading } = useListAssignmentQuery(Number(workspaceId));
+  const { data: workspace } = useGetWorkspaceQuery(Number(workspaceId));
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -217,11 +218,22 @@ export const AssignmentsTable = () => {
             <SearchInput
               type="search"
               className="h-9 py-0"
-              placeholder="Search assignment"
+              placeholder="Search by name"
               value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
               onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
             />
           </div>
+
+          {workspace && [WorkspaceRole.ADMIN, WorkspaceRole.OWNER].includes(workspace.role) && (
+            <Button
+              size="sm"
+              className="h-9 flex-none"
+              onClick={() => navigate(RoutePath.CREATE_ASSIGNMENT(Number(workspaceId)))}
+            >
+              <PlusIcon className="mr-1 h-4 w-4" />
+              Create
+            </Button>
+          )}
         </div>
       </div>
 

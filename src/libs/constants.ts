@@ -9,7 +9,12 @@ export const RoutePath = {
 
   WORKSPACE: (workspaceId: number, content: WorkspaceContent) =>
     `/dashboard/workspace/${workspaceId}/${content}`,
-  WORKSPACE_SETTINGS: (workspaceId: number) => `/dashboard/workspace/${workspaceId}/settings`,
+  FALLBACK_WORKSPACE: (workspaceId: number) => `/dashboard/workspace/${workspaceId}/assignment`,
+
+  WORKSPACE_SETTINGS: (workspaceId: number, settings: WorkspaceSettingsContent) =>
+    `/dashboard/workspace/${workspaceId}/settings/${settings}`,
+  FALLBACK_WORKSPACE_SETTINGS: (workspaceId: number) =>
+    `/dashboard/workspace/${workspaceId}/settings/general`,
 
   ASSIGNMENT: (workspaceId: number, assignmentId: number) =>
     `/dashboard/workspace/${workspaceId}/assignment/${assignmentId}`,
@@ -24,8 +29,14 @@ export enum WorkspaceContent {
   SETTINGS = 'settings',
 }
 
+export const isValidWorkspaceContent = (content: string = '') =>
+  Object.values(WorkspaceContent).includes(content as WorkspaceContent);
+
 export enum WorkspaceSettingsContent {
   GENERAL = 'general',
   ADMIN = 'admin',
   INVITATION = 'invitation',
 }
+
+export const isValidWorkspaceSettingsContent = (content: string = '') =>
+  Object.values(WorkspaceSettingsContent).includes(content as WorkspaceSettingsContent);
