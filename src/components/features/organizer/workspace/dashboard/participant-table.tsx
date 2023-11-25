@@ -172,12 +172,7 @@ export const OrganizerParticipantTable = ({
                     key={row.id}
                     data-state={row.getIsSelected() && 'selected'}
                     onClick={() =>
-                      navigate(
-                        RoutePath.ASSIGNMENT.replace(
-                          ':workspaceId',
-                          workspaceId.toString(),
-                        ).replace(':assignmentId', row.original.id.toString()),
-                      )
+                      navigate(RoutePath.ASSIGNMENT(Number(workspaceId), row.original.id))
                     }
                   >
                     {row.getVisibleCells().map((cell) => (

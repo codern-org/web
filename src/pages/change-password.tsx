@@ -19,7 +19,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export const ChangePasswordPage = () => {
+export default function ChangePasswordPage() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -129,4 +129,4 @@ export const ChangePasswordPage = () => {
       </div>
     </PageLayout>
   );
-};
+}

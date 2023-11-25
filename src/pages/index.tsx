@@ -1,12 +1,31 @@
 import { Button } from '@/components/common/button';
+import { NavigationBar } from '@/components/common/navigation-bar';
 import { PageLayout } from '@/components/common/page-layout';
-import { HomePageNavigationBar } from '@/components/features/home/page-navigation-bar';
+import { RoutePath } from '@/libs/constants';
+import { useNavigate } from 'react-router-dom';
 
-export const HomePage = () => {
+export default function IndexPage() {
+  const navigate = useNavigate();
+
   return (
     <PageLayout>
-      <HomePageNavigationBar />
-
+      <NavigationBar>
+        <div className="flex flex-row items-center space-x-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate(RoutePath.SIGNIN)}
+          >
+            Sign in
+          </Button>
+          <Button
+            size="sm"
+            onClick={() => navigate(RoutePath.SIGNUP)}
+          >
+            Sign up
+          </Button>
+        </div>
+      </NavigationBar>
       <div className="container flex flex-col items-center justify-center py-32">
         <h1 className="text-center text-6xl font-bold">
           New Generation <br />
@@ -35,4 +54,4 @@ export const HomePage = () => {
       </div>
     </PageLayout>
   );
-};
+}

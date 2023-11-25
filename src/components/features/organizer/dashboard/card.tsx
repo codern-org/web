@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/common/card';
 import { Image } from '@/components/common/image';
-import { RoutePath } from '@/libs/constants';
+import { RoutePath, WorkspaceContent } from '@/libs/constants';
 import { compactNumber } from '@/libs/utils';
 import { Workspace } from '@/types/workspace-type';
 import { BookOpenIcon, Users2Icon } from 'lucide-react';
@@ -18,7 +18,7 @@ export const OrganizerWorkspaceCard = ({ workspace }: OrganizerWorkspaceCardProp
   return (
     <Card
       className="transition-colors hover:border-primary"
-      onClick={() => navigate(RoutePath.ORGANIZER_WORKSPACE.replace(':workspaceId', id.toString()))}
+      onClick={() => navigate(RoutePath.WORKSPACE(Number(id), WorkspaceContent.ASSIGNMENT))}
     >
       <CardHeader className="flex-row items-center space-x-3">
         <Image

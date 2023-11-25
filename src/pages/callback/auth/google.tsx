@@ -4,7 +4,7 @@ import { authService } from '@/services/auth-service';
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-export const GoogleAuthCallback = () => {
+export default function GoogleAuthCallbackPage() {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -28,8 +28,8 @@ export const GoogleAuthCallback = () => {
           description: error.message,
         });
       });
-  }, [code]);
+  }, [code, toast, navigate]);
 
   // TODO: better blank page
   return <></>;
-};
+}

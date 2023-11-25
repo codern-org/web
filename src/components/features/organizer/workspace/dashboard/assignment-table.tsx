@@ -138,11 +138,7 @@ export const OrganizerAssignmentsTable = () => {
         </div>
         <Button
           className="h-9"
-          onClick={() =>
-            navigate(
-              RoutePath.CREATE_ASSIGNMENT.replace(':workspaceId', Number(workspaceId).toString()),
-            )
-          }
+          onClick={() => navigate(RoutePath.CREATE_ASSIGNMENT(Number(workspaceId)))}
         >
           <PlusIcon className="mr-1 h-4 w-4" />
           Create assignment
@@ -174,12 +170,7 @@ export const OrganizerAssignmentsTable = () => {
                     key={row.id}
                     data-state={row.getIsSelected() && 'selected'}
                     onClick={() =>
-                      navigate(
-                        RoutePath.ASSIGNMENT.replace(
-                          ':workspaceId',
-                          Number(workspaceId).toString(),
-                        ).replace(':assignmentId', row.original.id.toString()),
-                      )
+                      navigate(RoutePath.ASSIGNMENT(Number(workspaceId), row.original.id))
                     }
                   >
                     {row.getVisibleCells().map((cell) => (
