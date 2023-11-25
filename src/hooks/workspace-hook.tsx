@@ -78,12 +78,16 @@ export const useListAssignmentQuery = (workspaceId: number) =>
   useQuery({
     queryKey: ['workspaces', workspaceId, 'assignments'],
     queryFn: () => workspaceService.listAssignment(workspaceId),
+    staleTime: Infinity,
+    gcTime: 0,
   });
 
 export const useGetWorkspaceQuery = (id: number, selector?: WorkspaceFilter[]) =>
   useQuery({
     queryKey: ['workspaces', id, selector],
     queryFn: () => workspaceService.getWorkspace(id, selector),
+    staleTime: Infinity,
+    gcTime: 0,
   });
 
 export const useGetAssignmentQuery = (workspaceId: number, assignmentId: number) =>
