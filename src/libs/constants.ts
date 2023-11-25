@@ -1,3 +1,5 @@
+import { matchPath } from 'react-router-dom';
+
 export const RoutePath = {
   HONE: '/',
   SIGNIN: '/signin',
@@ -6,6 +8,9 @@ export const RoutePath = {
   CHANGE_PASSWORD: '/changepassword',
 
   DASHBOARD: '/dashboard',
+
+  /** For CodernLogo component only */
+  FALLBACK_DASHBOARD: '/dashboard/*',
 
   WORKSPACE: (workspaceId: number, content: WorkspaceContent) =>
     `/dashboard/workspace/${workspaceId}/${content}`,
@@ -21,6 +26,11 @@ export const RoutePath = {
   CREATE_ASSIGNMENT: (workspaceId: number) =>
     `/dashboard/workspace/${workspaceId}/assignment/create`,
 };
+
+export const getBaseRoutePath = (pathname: string) =>
+  matchPath(RoutePath.FALLBACK_DASHBOARD, pathname)?.pathnameBase === RoutePath.DASHBOARD
+    ? RoutePath.DASHBOARD
+    : RoutePath.HONE;
 
 export enum WorkspaceContent {
   ASSIGNMENT = 'assignment',
