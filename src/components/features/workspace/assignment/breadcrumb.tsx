@@ -6,6 +6,7 @@ import {
 } from '@/components/common/breadcrumb';
 import { Skeleton } from '@/components/common/skeleton';
 import { useGetAssignmentQuery, useGetWorkspaceQuery } from '@/hooks/workspace-hook';
+import { RoutePath } from '@/libs/constants';
 import { useParams } from 'react-router-dom';
 
 export const AssignmentBreadcrumb = (props: BreadcrumbProps) => {
@@ -16,11 +17,11 @@ export const AssignmentBreadcrumb = (props: BreadcrumbProps) => {
   return (
     <Breadcrumb {...props}>
       <BreadcrumbItem>
-        <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+        <BreadcrumbLink href={RoutePath.DASHBOARD}>Dashboard</BreadcrumbLink>
       </BreadcrumbItem>
       <BreadcrumbItem>
         {workspace ? (
-          <BreadcrumbLink href={`/dashboard/workspace/${workspace.id}`}>
+          <BreadcrumbLink href={RoutePath.FALLBACK_WORKSPACE(Number(workspaceId))}>
             {workspace.name}
           </BreadcrumbLink>
         ) : (

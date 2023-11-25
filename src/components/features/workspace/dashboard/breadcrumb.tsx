@@ -6,6 +6,7 @@ import {
 } from '@/components/common/breadcrumb';
 import { Skeleton } from '@/components/common/skeleton';
 import { useGetWorkspaceQuery } from '@/hooks/workspace-hook';
+import { RoutePath } from '@/libs/constants';
 import { useParams } from 'react-router-dom';
 
 export const WorkspaceBreadcrumb = (props: BreadcrumbProps) => {
@@ -15,7 +16,7 @@ export const WorkspaceBreadcrumb = (props: BreadcrumbProps) => {
   return (
     <Breadcrumb {...props}>
       <BreadcrumbItem>
-        <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+        <BreadcrumbLink href={RoutePath.DASHBOARD}>Dashboard</BreadcrumbLink>
       </BreadcrumbItem>
       <BreadcrumbItem isCurrentPage>
         {workspace ? (
