@@ -82,6 +82,7 @@ const columns: ColumnDef<Assignment>[] = [
     cell: ({ row }) => <>{row.index + 1}</>,
   },
   {
+    accessorKey: 'name',
     header: 'Name',
     cell: ({ row }) => {
       return (
@@ -93,6 +94,7 @@ const columns: ColumnDef<Assignment>[] = [
     },
   },
   {
+    accessorKey: 'level',
     header: 'Level',
     cell: ({ row }) => {
       const level = levels.find((level) => level.value === row.original.level);
@@ -138,6 +140,7 @@ const columns: ColumnDef<Assignment>[] = [
     },
   },
   {
+    accessorKey: 'status',
     header: 'Status',
     cell: ({ row }) => {
       const status = statuses.find((status) => status.value === row.original.status);
