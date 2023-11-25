@@ -1,17 +1,19 @@
 import { Badge } from '@/components/common/badge';
 import { Button } from '@/components/common/button';
 import { SearchInput } from '@/components/common/search-input';
-import { WorkspaceCard } from '@/components/features/dashboard/card';
-import { WorkspaceCardSkeleton } from '@/components/features/dashboard/card-skeleton';
+import { WorkspaceCard } from '@/components/features/dashboard/workspace-card';
+import { WorkspaceCardSkeleton } from '@/components/features/dashboard/workspace-card-skeleton';
 import { useListWorkspaceQuery } from '@/hooks/workspace-hook';
 import { PlusIcon } from 'lucide-react';
 import { useState } from 'react';
 
 export const DashboardContent = () => {
-  const { data: allWorkspaces } = useListWorkspaceQuery();
+  const { data: workspaces, isLoading } = useListWorkspaceQuery();
   const [workspaceFilter, setWorkspaceFilter] = useState<string>('');
 
-  const workspaces = allWorkspaces?.filter((workspace) => workspace.name.includes(workspaceFilter));
+  const filteredWorkspace = workspaces?.filter((workspace) =>
+    workspace.name.includes(workspaceFilter),
+  );
 
   return (
     <div className="container py-8 backdrop-blur-xl">
@@ -27,7 +29,7 @@ export const DashboardContent = () => {
             </Badge>
           )}
         </h2>
-        <div className="flex flex-row items-center space-x-2">
+        <div className="flex items-center space-x-2">
           <div className="w-full">
             <SearchInput
               placeholder="Search workspace"
@@ -35,19 +37,15 @@ export const DashboardContent = () => {
               onChange={(event) => setWorkspaceFilter(event.target.value)}
             />
           </div>
-          <Button
-            size="sm"
-            className="space-x-0.5"
-          >
-            <PlusIcon className="h-4 w-4" />
-            <span>Workspace</span>
+          <Button size="sm">
+            <PlusIcon className="mr-0.5 h-4 w-4" />
+            Workspace
           </Button>
         </div>
       </div>
-
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-        {workspaces &&
-          workspaces
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+        {filteredWorkspace &&
+          filteredWorkspace
             .filter((workspace) => workspace.name.includes(workspaceFilter))
             .map((workspace) => (
               <WorkspaceCard
@@ -55,12 +53,12 @@ export const DashboardContent = () => {
                 workspace={workspace}
               />
             ))}
-        {!workspaces && <WorkspaceCardSkeleton />}
+        {isLoading && <WorkspaceCardSkeleton />}
       </div>
-      {workspaces && workspaces.length === 0 && (
-        <p className="text-sm text-muted-foreground">
+      {filteredWorkspace?.length === 0 && (
+        <div className="text-sm text-muted-foreground">
           Looks like you haven't joined any workspaces yet
-        </p>
+        </div>
       )}
     </div>
   );

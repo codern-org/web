@@ -1,4 +1,4 @@
-import { WorkspaceCardSkeleton } from '@/components/features/dashboard/card-skeleton';
+import { WorkspaceCardSkeleton } from '@/components/features/dashboard/workspace-card-skeleton';
 import { OrganizerWorkspaceCard } from '@/components/features/organizer/dashboard/card';
 import { useUser } from '@/hooks/auth-hook';
 import { useListWorkspaceQuery } from '@/hooks/workspace-hook';

@@ -1,3 +1,4 @@
+import { Badge } from '@/components/common/badge';
 import { Button } from '@/components/common/button';
 import { DataTableFacetedFilter } from '@/components/common/data-table-faceted-filer';
 import { DataTablePagination } from '@/components/common/data-table-pagination';
@@ -10,9 +11,15 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/common/table';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/common/tooltip';
 import { useListAssignmentQuery } from '@/hooks/workspace-hook';
 import { RoutePath } from '@/libs/constants';
-import { formatDate } from '@/libs/utils';
+import { formartDateDist, formatDate } from '@/libs/utils';
 import { Assignment } from '@/types/workspace-type';
 import {
   ColumnDef,
@@ -27,7 +34,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { CircleIcon, XIcon } from 'lucide-react';
+import { CircleIcon, Loader2Icon, XIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -71,12 +78,10 @@ const levels = [
 
 const columns: ColumnDef<Assignment>[] = [
   {
-    accessorKey: 'id',
     header: 'No.',
     cell: ({ row }) => <>{row.index + 1}</>,
   },
   {
-    accessorKey: 'name',
     header: 'Name',
     cell: ({ row }) => {
       return (
@@ -88,37 +93,54 @@ const columns: ColumnDef<Assignment>[] = [
     },
   },
   {
-    header: 'Created at',
-    cell: ({ row }) => (
-      <span className="text-xs">{formatDate(row.original.createdAt, 'EEE, d MMM yyyy')}</span>
-    ),
-  },
-  {
-    header: 'Last sumitted at',
-    cell: ({ row }) => {
-      if (!row.original.lastSubmittedAt) return <>-</>;
-      return (
-        <span className="text-xs">
-          {formatDate(row.original.lastSubmittedAt, 'EEE, d MMM yyyy p')}
-        </span>
-      );
-    },
-  },
-  {
-    accessorKey: 'level',
     header: 'Level',
     cell: ({ row }) => {
-      const level = levels.find((level) => level.value === row.getValue('level'));
+      const level = levels.find((level) => level.value === row.original.level);
       if (!level) return null;
       return <span>{level.label}</span>;
     },
     filterFn: (row, id, value) => value.includes(row.getValue(id)),
   },
   {
-    accessorKey: 'status',
+    header: 'Due date',
+    cell: ({ row }) => {
+      return !row.original.dueDate ? (
+        <span className="text-xs text-muted-foreground">No due date</span>
+      ) : (
+        <span className="text-xs">{formatDate(row.original.dueDate, 'EEE, d MMM yyyy p')}</span>
+      );
+    },
+  },
+  {
+    header: 'Submission',
+    cell: ({ row }) => {
+      if (!row.original.lastSubmittedAt) return <>-</>;
+      const isLate = row.original.lastSubmittedAt > row.original.dueDate;
+      return (
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger>
+              <Badge variant={isLate ? 'muted' : 'outline'}>{isLate ? 'Late' : 'In time'}</Badge>
+            </TooltipTrigger>
+            <TooltipContent className="flex flex-col">
+              <span className="text-xs">
+                Submitted on {formatDate(row.original.lastSubmittedAt, 'EEE, d MMM yyyy p')}
+              </span>
+              {isLate && (
+                <span className="text-xs text-muted-foreground">
+                  (Late {formartDateDist(row.original.dueDate, row.original.lastSubmittedAt)})
+                </span>
+              )}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      );
+    },
+  },
+  {
     header: 'Status',
     cell: ({ row }) => {
-      const status = statuses.find((status) => status.value === row.getValue('status'));
+      const status = statuses.find((status) => status.value === row.original.status);
       if (!status) return null;
       return (
         <div className="flex items-center space-x-2">
@@ -134,7 +156,7 @@ const columns: ColumnDef<Assignment>[] = [
 export const AssignmentsTable = () => {
   const navigate = useNavigate();
   const { workspaceId } = useParams();
-  const { data: assignments } = useListAssignmentQuery(Number(workspaceId));
+  const { data: assignments, isLoading } = useListAssignmentQuery(Number(workspaceId));
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -225,12 +247,7 @@ export const AssignmentsTable = () => {
                     key={row.id}
                     data-state={row.getIsSelected() && 'selected'}
                     onClick={() =>
-                      navigate(
-                        RoutePath.ASSIGNMENT.replace(
-                          ':workspaceId',
-                          Number(workspaceId).toString(),
-                        ).replace(':assignmentId', row.original.id.toString()),
-                      )
+                      navigate(RoutePath.ASSIGNMENT(Number(workspaceId), row.original.id))
                     }
                   >
                     {row.getVisibleCells().map((cell) => (
@@ -246,7 +263,13 @@ export const AssignmentsTable = () => {
                     colSpan={columns.length}
                     className="h-24 text-center"
                   >
-                    No results
+                    {isLoading ? (
+                      <div className="flex items-center justify-center text-sm text-muted-foreground">
+                        <Loader2Icon className="mr-2 h-4 w-4 animate-spin" /> Loading
+                      </div>
+                    ) : (
+                      'No results'
+                    )}
                   </TableCell>
                 </TableRow>
               )}

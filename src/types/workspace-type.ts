@@ -54,11 +54,11 @@ export type Assignment = {
   memoryLimit: number;
   timeLimit: number;
   level: AssignmentLevel;
-  createdAt: Date;
   updatedAt: Date;
-
-  lastSubmittedAt: Date;
+  createdAt: Date;
+  dueDate: Date;
   status: AssignmentStatus;
+  lastSubmittedAt: Date;
 };
 
 export type Submission = {

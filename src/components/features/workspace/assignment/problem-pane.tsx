@@ -8,7 +8,7 @@ import {
   useListSubmission,
   useListSubmissionSubscription,
 } from '@/hooks/workspace-hook';
-import { Loader2Icon, XCircleIcon } from 'lucide-react';
+import { Loader2Icon, XIcon } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 
 export const ProblemPane = () => {
@@ -52,7 +52,7 @@ export const ProblemPane = () => {
         {detail && <Markdown markdown={detail} />}
         {isDetailError && (
           <div className="flex items-center justify-center py-8 text-muted-foreground">
-            <XCircleIcon className="mr-1 h-5 w-5" />
+            <XIcon className="mr-1 h-5 w-5" />
             Cannot load detail
           </div>
         )}

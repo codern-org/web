@@ -1,28 +1,30 @@
-export enum RoutePath {
-  GOOGLE_AUTH_CALLBACK = '/auth/google/callback',
+export const RoutePath = {
+  HONE: '/',
+  SIGNIN: '/signin',
+  SIGNUP: '/signup',
 
-  HONE = '/',
-  SIGNIN = '/signin',
-  SIGNUP = '/signup',
+  CHANGE_PASSWORD: '/changepassword',
 
-  CHANGE_PASSWORD = '/changepassword',
+  DASHBOARD: '/dashboard',
 
-  DASHBOARD = '/dashboard',
-  WORKSPACE = '/dashboard/workspace/:workspaceId',
-  ASSIGNMENT = '/dashboard/workspace/:workspaceId/assignment/:assignmentId',
+  WORKSPACE: (workspaceId: number, content: WorkspaceContent) =>
+    `/dashboard/workspace/${workspaceId}/${content}`,
+  WORKSPACE_SETTINGS: (workspaceId: number) => `/dashboard/workspace/${workspaceId}/settings`,
 
-  ORGANIZER_DASHBOARD = '/organizer',
-  ORGANIZER_WORKSPACE = '/organizer/workspace/:workspaceId',
-  ORGANIZER_WORKSPACCE_SETTINGS = '/organizer/workspace/:workspaceId/settings/:settings',
-}
+  ASSIGNMENT: (workspaceId: number, assignmentId: number) =>
+    `/dashboard/workspace/${workspaceId}/assignment/${assignmentId}`,
+  CREATE_ASSIGNMENT: (workspaceId: number) =>
+    `/dashboard/workspace/${workspaceId}/assignment/create`,
+};
 
-export enum OrganizerWorkspaceTab {
+export enum WorkspaceContent {
   ASSIGNMENT = 'assignment',
+  SCOREBOARD = 'scoreboard',
   PARTICIPANT = 'participant',
   SETTINGS = 'settings',
 }
 
-export enum OrganizerWorkspaceSettingsTab {
+export enum WorkspaceSettingsContent {
   GENERAL = 'general',
   ADMIN = 'admin',
   INVITATION = 'invitation',

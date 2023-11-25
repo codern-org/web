@@ -3,7 +3,7 @@ import { Separator } from '@/components/common/separator';
 import { OrganizerWorkspaceAdminSettings } from '@/components/features/organizer/workspace/dashboard/settings/admin';
 import { OrganizerWorkspaceGeneralSettings } from '@/components/features/organizer/workspace/dashboard/settings/general';
 import { OrganizerWorkspaceInvitationSettings } from '@/components/features/organizer/workspace/dashboard/settings/invitation';
-import { OrganizerWorkspaceSettingsTab, RoutePath } from '@/libs/constants';
+import { RoutePath, WorkspaceSettingsContent } from '@/libs/constants';
 import { classNames } from '@/libs/utils';
 import { LucideIcon, SettingsIcon, UserPlusIcon, UsersIcon } from 'lucide-react';
 import { HTMLAttributes, ReactNode } from 'react';
@@ -13,19 +13,19 @@ const sidebarNavItems: SidebarNavItem[] = [
   {
     icon: SettingsIcon,
     title: 'General',
-    tab: OrganizerWorkspaceSettingsTab.GENERAL,
+    tab: WorkspaceSettingsContent.GENERAL,
     content: <OrganizerWorkspaceGeneralSettings />,
   },
   {
     icon: UsersIcon,
     title: 'Admin',
-    tab: OrganizerWorkspaceSettingsTab.ADMIN,
+    tab: WorkspaceSettingsContent.ADMIN,
     content: <OrganizerWorkspaceAdminSettings />,
   },
   {
     icon: UserPlusIcon,
     title: 'Invitation',
-    tab: OrganizerWorkspaceSettingsTab.INVITATION,
+    tab: WorkspaceSettingsContent.INVITATION,
     content: <OrganizerWorkspaceInvitationSettings />,
   },
 ];
@@ -36,7 +36,7 @@ export const OrganizerWorkspaceSettings = () => {
 
   if (!settings || !content) {
     // TODO: refactor hardcoded redirect path
-    return <Navigate to={'./settings/' + OrganizerWorkspaceSettingsTab.GENERAL} />;
+    return <Navigate to={'./settings/' + WorkspaceSettingsContent.GENERAL} />;
   }
 
   return (
@@ -59,7 +59,7 @@ export const OrganizerWorkspaceSettings = () => {
 
 type SidebarNavItem = {
   icon: LucideIcon;
-  tab: OrganizerWorkspaceSettingsTab;
+  tab: WorkspaceSettingsContent;
   title: string;
   content: ReactNode;
 };
@@ -77,10 +77,7 @@ const SidebarNav = ({ className, items, workspaceId, ...props }: SidebarNavProps
       {...props}
     >
       {items.map((item) => {
-        const pathname = RoutePath.ORGANIZER_WORKSPACCE_SETTINGS.replace(
-          ':workspaceId',
-          workspaceId.toString(),
-        );
+        const pathname = RoutePath.WORKSPACE_SETTINGS(Number(workspaceId));
         const href = pathname.replace(':settings', item.tab.toString());
 
         return (
