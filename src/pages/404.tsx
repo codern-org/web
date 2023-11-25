@@ -2,11 +2,9 @@ import { Button } from '@/components/common/button';
 import { NavigationBar } from '@/components/common/navigation-bar';
 import { PageLayout } from '@/components/common/page-layout';
 import { RoutePath } from '@/libs/constants';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function NotFoundPage() {
-  const navigate = useNavigate();
-
   return (
     <PageLayout>
       <NavigationBar>
@@ -14,15 +12,15 @@ export default function NotFoundPage() {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => navigate(RoutePath.SIGNIN)}
+            asChild
           >
-            Sign in
+            <Link to={RoutePath.SIGNIN}>Sign in</Link>
           </Button>
           <Button
             size="sm"
-            onClick={() => navigate(RoutePath.SIGNUP)}
+            asChild
           >
-            Sign up
+            <Link to={RoutePath.SIGNUP}>Sign up</Link>
           </Button>
         </div>
       </NavigationBar>
@@ -35,9 +33,9 @@ export default function NotFoundPage() {
 
         <Button
           className="mt-8"
-          onClick={() => navigate(RoutePath.HONE)}
+          asChild
         >
-          Back to homepage
+          <Link to={RoutePath.HONE}>Back to homepage</Link>
         </Button>
       </div>
     </PageLayout>

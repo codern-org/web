@@ -9,7 +9,7 @@ import {
 } from '@/libs/constants';
 import { WorkspaceRole } from '@/types/workspace-type';
 import { ReactNode, useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 export type WorkspaceContentTabs = {
   value: WorkspaceContentEnum;
@@ -20,7 +20,6 @@ export type WorkspaceContentTabs = {
 };
 
 export const WorkspaceContent = () => {
-  const navigate = useNavigate();
   const { workspaceId, content } = useParams();
   const { data: workspace } = useGetWorkspaceQuery(Number(workspaceId));
 
@@ -67,12 +66,13 @@ export const WorkspaceContent = () => {
     >
       <TabsList>
         {tabs.map((tab) => (
-          <TabsTrigger
-            key={tab.value}
-            value={tab.value}
-            onClick={() => navigate(tab.path)}
-            children={tab.label}
-          />
+          <Link to={tab.path}>
+            <TabsTrigger
+              key={tab.value}
+              value={tab.value}
+              children={tab.label}
+            />
+          </Link>
         ))}
       </TabsList>
       {tabs.map((tab) => (

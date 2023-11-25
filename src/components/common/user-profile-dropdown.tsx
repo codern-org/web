@@ -15,7 +15,7 @@ import { authService } from '@/services/auth-service';
 import { UserAccountType } from '@/types/auth-type';
 import { useQueryClient } from '@tanstack/react-query';
 import { ChevronDownIcon, LogOutIcon, SettingsIcon } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export type UserProfileDropdownProps = {
   displayName: string;
@@ -64,9 +64,11 @@ export const UserProfileDropdown = ({
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={() => navigate(RoutePath.CHANGE_PASSWORD)}>
-            <SettingsIcon className="mr-2 h-4 w-4" />
-            <span>Change password</span>
+          <DropdownMenuItem asChild>
+            <Link to={RoutePath.CHANGE_PASSWORD}>
+              <SettingsIcon className="mr-2 h-4 w-4" />
+              <span>Change password</span>
+            </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />

@@ -36,7 +36,7 @@ import {
 } from '@tanstack/react-table';
 import { CircleIcon, Loader2Icon, PlusIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const statuses = [
   {
@@ -227,11 +227,13 @@ export const AssignmentsTable = () => {
           {workspace && [WorkspaceRole.ADMIN, WorkspaceRole.OWNER].includes(workspace.role) && (
             <Button
               size="sm"
-              className="h-9 flex-none"
-              onClick={() => navigate(RoutePath.CREATE_ASSIGNMENT(Number(workspaceId)))}
+              className="h-9"
+              asChild
             >
-              <PlusIcon className="mr-1 h-4 w-4" />
-              Create
+              <Link to={RoutePath.CREATE_ASSIGNMENT(Number(workspaceId))}>
+                <PlusIcon className="mr-1 h-4 w-4" />
+                Create
+              </Link>
             </Button>
           )}
         </div>
