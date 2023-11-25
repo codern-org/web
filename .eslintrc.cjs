@@ -11,7 +11,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:prettier/recommended',
   ],
-  plugins: ['simple-import-sort', 'prettier', 'react-refresh'],
+  plugins: ['simple-import-sort', 'prettier'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
@@ -19,7 +19,5 @@ module.exports = {
   },
   rules: {
     'prettier/prettier': ['error'],
-
-    'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
   },
 };
