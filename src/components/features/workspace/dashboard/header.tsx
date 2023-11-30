@@ -5,6 +5,7 @@ import { WorkspaceBreadcrumb } from '@/components/features/workspace/dashboard/b
 import { useGetWorkspaceQuery, useListAssignmentQuery } from '@/hooks/workspace-hook';
 import { formatDate } from '@/libs/utils';
 import { AssignmentStatus } from '@/types/workspace-type';
+import { CalendarIcon, UserIcon } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 
 export const WorkspaceHeader = () => {
@@ -21,33 +22,46 @@ export const WorkspaceHeader = () => {
       <div className="container">
         <WorkspaceBreadcrumb className="pt-6" />
 
-        <div className="flex flex-row items-center justify-between space-x-8 py-8">
-          <div className="flex flex-col">
-            {workspace ? (
-              <h2 className="mb-6 text-3xl font-semibold tracking-tight">{workspace.name}</h2>
-            ) : (
-              <Skeleton className="mb-6 h-9 w-48" />
-            )}
-
-            <div className="mb-6 flex items-center space-x-3">
+        <div className="flex items-center justify-between space-x-8 py-8">
+          <div className="flex flex-col space-y-12">
+            <div className="flex items-center space-x-3">
               <Image
-                src={workspace?.ownerProfileUrl}
+                src={workspace?.profileUrl}
                 alt=""
-                className="h-10 w-10 rounded-full"
+                className="h-11 w-11 rounded-md"
               />
+              {workspace ? (
+                <h2 className="text-4xl font-semibold tracking-tight">{workspace.name}</h2>
+              ) : (
+                <Skeleton className="h-9 w-48" />
+              )}
+            </div>
+            <div className="flex items-center space-x-6">
               <div>
-                <p className="text-sm leading-none text-muted-foreground">Owner</p>
-                <p className="text-sm font-medium">{workspace?.ownerName}</p>
+                <p className="mb-1 flex items-center text-sm leading-none text-muted-foreground">
+                  <UserIcon className="mr-1 h-4 w-4" />
+                  Owner
+                </p>
+                {workspace ? (
+                  <p className="text-sm font-medium">{workspace.ownerName}</p>
+                ) : (
+                  <Skeleton className="mt-2 h-3 w-24" />
+                )}
+              </div>
+              <div>
+                <p className="mb-1 flex items-center text-sm leading-none text-muted-foreground">
+                  <CalendarIcon className="mr-1 h-4 w-4" />
+                  Joined
+                </p>
+                {workspace ? (
+                  <p className="text-sm font-medium">
+                    {formatDate(workspace.joinedAt, 'EEEE, d MMMM yyyy')}
+                  </p>
+                ) : (
+                  <Skeleton className="mb-1 h-3 w-48" />
+                )}
               </div>
             </div>
-
-            {workspace ? (
-              <p className="text-xs text-secondary-foreground">
-                Joined at {formatDate(workspace.joinedAt, 'EEEE, d MMMM yyyy')}
-              </p>
-            ) : (
-              <Skeleton className="mb-1 h-3 w-48" />
-            )}
           </div>
 
           <div className="relative hidden overflow-hidden rounded-md border bg-gradient-to-br from-background/50 from-60% to-accent/50 shadow-lg lg:block">

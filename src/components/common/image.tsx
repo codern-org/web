@@ -27,7 +27,9 @@ export const Image = ({ src, className, ...props }: ImageProps) => {
   }
 
   return (
-    <div className={classNames('relative overflow-hidden', error && 'bg-muted', className)}>
+    <div
+      className={classNames('relative flex-none overflow-hidden', error && 'bg-muted', className)}
+    >
       {loading && (
         <LoaderIcon className="absolute inset-0 m-auto animate-spin-slow text-muted-foreground" />
       )}

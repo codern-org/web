@@ -44,7 +44,7 @@ export const WorkspaceCard = ({ workspace }: WorkspaceCardProps) => {
           <div className="flex flex-row items-center space-x-3">
             <Image
               src={profileUrl}
-              className="h-11 w-11 flex-none rounded-md"
+              className="h-11 w-11 rounded-md"
               alt=""
             />
             <div className="flex flex-col">
