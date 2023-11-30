@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { BrowserRouter, Route, Routes as RouterRoutes } from 'react-router-dom';
+import { Route, Routes as RouterRoutes } from 'react-router-dom';
 
 const pages = import.meta.glob('@/pages/**/*.tsx', { eager: true });
 const preservedPages = import.meta.glob('@/pages/404.tsx', { eager: true });
@@ -29,20 +29,18 @@ export function Routes() {
   const NotFoundPage = preservedRoutes?.['404'] || Fragment;
 
   return (
-    <BrowserRouter>
-      <RouterRoutes>
-        {routes.map(({ path, element: Element = Fragment }) => (
-          <Route
-            key={path}
-            path={path}
-            element={<Element />}
-          />
-        ))}
+    <RouterRoutes>
+      {routes.map(({ path, element: Element = Fragment }) => (
         <Route
-          path="*"
-          element={<NotFoundPage />}
+          key={path}
+          path={path}
+          element={<Element />}
         />
-      </RouterRoutes>
-    </BrowserRouter>
+      ))}
+      <Route
+        path="*"
+        element={<NotFoundPage />}
+      />
+    </RouterRoutes>
   );
 }
