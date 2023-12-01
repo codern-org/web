@@ -5,10 +5,12 @@ export const RoutePath = {
   SIGNIN: '/signin',
   SIGNUP: '/signup',
 
-  CHANGE_PASSWORD: '/changepassword',
+  CHANGE_PASSWORD: '/change-password',
+
+  ACCOUNT_SETTINGS: (settings: AccountSettingsContent) => `/settings/${settings}`,
+  FALLBACK_ACCOUNT_SETTINGS: `/settings/profile`,
 
   DASHBOARD: '/dashboard',
-
   /** For CodernLogo component only */
   FALLBACK_DASHBOARD: '/dashboard/*',
 
@@ -31,6 +33,13 @@ export const getBaseRoutePath = (pathname: string) =>
   matchPath(RoutePath.FALLBACK_DASHBOARD, pathname)?.pathnameBase === RoutePath.DASHBOARD
     ? RoutePath.DASHBOARD
     : RoutePath.HONE;
+
+export enum AccountSettingsContent {
+  PROFILE = 'profile',
+}
+
+export const isValidAccountSettingsContent = (content: string = '') =>
+  Object.values(AccountSettingsContent).includes(content as AccountSettingsContent);
 
 export enum WorkspaceContent {
   ASSIGNMENT = 'assignment',

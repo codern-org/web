@@ -14,7 +14,7 @@ import { RoutePath } from '@/libs/constants';
 import { authService } from '@/services/auth-service';
 import { UserAccountType } from '@/types/auth-type';
 import { useQueryClient } from '@tanstack/react-query';
-import { ChevronDownIcon, LogOutIcon, SettingsIcon } from 'lucide-react';
+import { ChevronDownIcon, LockIcon, LogOutIcon, SettingsIcon } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
 export type UserProfileDropdownProps = {
@@ -66,8 +66,14 @@ export const UserProfileDropdown = ({
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
             <Link to={RoutePath.CHANGE_PASSWORD}>
-              <SettingsIcon className="mr-2 h-4 w-4" />
+              <LockIcon className="mr-2 h-4 w-4" />
               <span>Change password</span>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link to={RoutePath.FALLBACK_ACCOUNT_SETTINGS}>
+              <SettingsIcon className="mr-2 h-4 w-4" />
+              <span>Settings</span>
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
@@ -78,21 +84,6 @@ export const UserProfileDropdown = ({
             <span>Sign out</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
-
-        {/* TODO: implement later */}
-        {/* {accountType !== UserAccountType.PRO && (
-          <>
-            <DropdownMenuSeparator />
-            <div className="p-2">
-              <Button
-                size="sm"
-                className="w-full"
-              >
-                Upgrade to Pro
-              </Button>
-            </div>
-          </>
-        )} */}
       </DropdownMenuContent>
     </DropdownMenu>
   );
