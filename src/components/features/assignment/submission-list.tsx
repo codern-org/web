@@ -1,4 +1,4 @@
-import { Submission as SubmissionComponent } from '@/components/features/workspace/assignment/submission';
+import { Submission as SubmissionComponent } from '@/components/features/assignment/submission';
 import { useListSubmission } from '@/hooks/workspace-hook';
 import { useParams } from 'react-router-dom';
 

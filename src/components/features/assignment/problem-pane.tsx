@@ -1,6 +1,6 @@
 import { Markdown } from '@/components/common/markdown';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/common/tab';
-import { SubmissionList } from '@/components/features/workspace/assignment/submission-list';
+import { SubmissionList } from '@/components/features/assignment/submission-list';
 import { ProblemPaneTabs, useProblemPane } from '@/hooks/problem-pane-hook';
 import {
   useAssignmentDetail,

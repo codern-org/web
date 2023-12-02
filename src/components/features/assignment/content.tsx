@@ -1,9 +1,9 @@
-import { ProblemPane } from '@/components/features/workspace/assignment/problem-pane';
+import { ProblemPane } from '@/components/features/assignment/problem-pane';
 import { EditorProvider } from '@/hooks/editor-hook';
 import { ProblemPaneProvider } from '@/hooks/problem-pane-hook';
 import { Suspense, lazy } from 'react';
 
-const EditorPane = lazy(() => import('@/components/features/workspace/assignment/editor-pane'));
+const EditorPane = lazy(() => import('@/components/features/assignment/editor-pane'));
 
 export const AssignmentContent = () => {
   return (

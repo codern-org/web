@@ -1,8 +1,8 @@
 import { buttonVariants } from '@/components/common/button';
 import { Separator } from '@/components/common/separator';
-import { WorkspaceAdminSettings } from '@/components/features/workspace/dashboard/content/settings/content/admin';
-import { WorkspaceGeneralSettings } from '@/components/features/workspace/dashboard/content/settings/content/general';
-import { WorkspaceInvitationSettings } from '@/components/features/workspace/dashboard/content/settings/content/invitation';
+import { WorkspaceAdminSettings } from '@/components/features/workspace/content/settings/content/admin';
+import { WorkspaceGeneralSettings } from '@/components/features/workspace/content/settings/content/general';
+import { WorkspaceInvitationSettings } from '@/components/features/workspace/content/settings/content/invitation';
 import { RoutePath, WorkspaceSettingsContent } from '@/libs/constants';
 import { classNames } from '@/libs/utils';
 import { LucideIcon, SettingsIcon, UserPlusIcon, UsersIcon } from 'lucide-react';

@@ -1,7 +1,7 @@
 import { Badge } from '@/components/common/badge';
 import { Separator } from '@/components/common/separator';
 import { Skeleton } from '@/components/common/skeleton';
-import { AssignmentBreadcrumb } from '@/components/features/workspace/assignment/breadcrumb';
+import { AssignmentBreadcrumb } from '@/components/features/assignment/breadcrumb';
 import { useGetAssignmentQuery } from '@/hooks/workspace-hook';
 import { formatDate } from '@/libs/utils';
 import { useParams } from 'react-router-dom';

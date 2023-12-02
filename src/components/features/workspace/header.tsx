@@ -1,7 +1,7 @@
 import { Image } from '@/components/common/image';
 import { MojiBun } from '@/components/common/moji-bun';
 import { Skeleton } from '@/components/common/skeleton';
-import { WorkspaceBreadcrumb } from '@/components/features/workspace/dashboard/breadcrumb';
+import { WorkspaceBreadcrumb } from '@/components/features/workspace/breadcrumb';
 import { useGetWorkspaceQuery, useListAssignmentQuery } from '@/hooks/workspace-hook';
 import { formatDate } from '@/libs/utils';
 import { AssignmentStatus } from '@/types/workspace-type';

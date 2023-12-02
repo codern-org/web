@@ -1,6 +1,6 @@
 import { Skeleton } from '@/components/common/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/common/tab';
-import { AssignmentsTable } from '@/components/features/workspace/dashboard/content/assignment/table';
+import { AssignmentsTable } from '@/components/features/workspace/content/assignment/table';
 import { useGetWorkspaceQuery } from '@/hooks/workspace-hook';
 import {
   RoutePath,

@@ -1,8 +1,8 @@
 import { PageLayout } from '@/components/common/page-layout';
 import { withAuth } from '@/components/common/route/private-route';
 import { DashboardNavBar } from '@/components/features/dashboard/dashboard-navbar';
-import { WorkspaceContent } from '@/components/features/workspace/dashboard/content';
-import { WorkspaceHeader } from '@/components/features/workspace/dashboard/header';
+import { WorkspaceContent } from '@/components/features/workspace/content';
+import { WorkspaceHeader } from '@/components/features/workspace/header';
 import {
   RoutePath,
   WorkspaceContent as WorkspaceContentEnum,
