@@ -1,6 +1,7 @@
 import { Skeleton } from '@/components/common/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/common/tab';
-import { AssignmentsTable } from '@/components/features/workspace/content/assignment/table';
+import { AssignmentTable } from '@/components/features/workspace/content/assignment/table';
+import { WorkspaceParticipantTable } from '@/components/features/workspace/content/participant/table';
 import { useGetWorkspaceQuery } from '@/hooks/workspace-hook';
 import {
   RoutePath,
@@ -29,15 +30,15 @@ export const WorkspaceContent = () => {
       {
         value: WorkspaceContentEnum.ASSIGNMENT,
         path: RoutePath.WORKSPACE(workspace.id, WorkspaceContentEnum.ASSIGNMENT),
-        label: 'Assignments',
-        content: <AssignmentsTable />,
+        label: 'Assignment',
+        content: <AssignmentTable />,
         restrictedRole: [WorkspaceRole.MEMBER, WorkspaceRole.ADMIN, WorkspaceRole.OWNER],
       },
       {
         value: WorkspaceContentEnum.PARTICIPANT,
         path: RoutePath.WORKSPACE(workspace.id, WorkspaceContentEnum.PARTICIPANT),
         label: 'Participant',
-        content: <></>,
+        content: <WorkspaceParticipantTable />,
         restrictedRole: [WorkspaceRole.ADMIN, WorkspaceRole.OWNER],
       },
       {
@@ -69,6 +70,7 @@ export const WorkspaceContent = () => {
           <Link
             key={tab.value}
             to={tab.path}
+            draggable="false"
           >
             <TabsTrigger
               value={tab.value}

@@ -25,13 +25,11 @@ export enum WorkspaceRole {
 
 export type WorkspaceParticipant = {
   userId: string;
+  name: string;
   role: WorkspaceRole;
+  profileUrl: string;
   joinedAt: Date;
 };
-
-export enum WorkspaceFilter {
-  PARTICIPANT = 'participants',
-}
 
 export enum AssignmentLevel {
   EASY = 'EASY',

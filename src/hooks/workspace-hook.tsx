@@ -2,12 +2,7 @@ import { toast, useToast } from '@/hooks/toast-hook';
 import { useWebSocket } from '@/hooks/websocket-hook';
 import { ApiService } from '@/services/api-service';
 import { workspaceService } from '@/services/workspace-service';
-import {
-  Assignment,
-  CreateSubmissionParams,
-  Submission,
-  WorkspaceFilter,
-} from '@/types/workspace-type';
+import { Assignment, CreateSubmissionParams, Submission } from '@/types/workspace-type';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { useEffect } from 'react';
@@ -68,10 +63,18 @@ export const useListSubmissionSubscription = () => {
   }, [queryClient, subscribe, unsubscribe, toast]);
 };
 
-export const useListWorkspaceQuery = (selector?: WorkspaceFilter[]) =>
+export const useListWorkspaceQuery = () =>
   useQuery({
-    queryKey: ['workspaces', selector],
-    queryFn: () => workspaceService.listWorkspace(selector),
+    queryKey: ['workspaces'],
+    queryFn: () => workspaceService.listWorkspace(),
+  });
+
+export const useListWorkspaceParticipantQuery = (workspaceId: number) =>
+  useQuery({
+    queryKey: ['workspaces', workspaceId, 'participants'],
+    queryFn: () => workspaceService.listWorkspaceParticipant(workspaceId),
+    staleTime: Infinity,
+    gcTime: 0,
   });
 
 export const useListAssignmentQuery = (workspaceId: number) =>
@@ -82,10 +85,10 @@ export const useListAssignmentQuery = (workspaceId: number) =>
     gcTime: 0,
   });
 
-export const useGetWorkspaceQuery = (id: number, selector?: WorkspaceFilter[]) =>
+export const useGetWorkspaceQuery = (id: number) =>
   useQuery({
-    queryKey: ['workspaces', id, selector],
-    queryFn: () => workspaceService.getWorkspace(id, selector),
+    queryKey: ['workspaces', id],
+    queryFn: () => workspaceService.getWorkspace(id),
     staleTime: Infinity,
     gcTime: 0,
   });

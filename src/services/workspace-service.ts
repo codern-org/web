@@ -1,5 +1,5 @@
 import { ApiService } from '@/services/api-service';
-import { Assignment, Submission, Workspace, WorkspaceFilter } from '@/types/workspace-type';
+import { Assignment, Submission, Workspace, WorkspaceParticipant } from '@/types/workspace-type';
 
 class WorkspaceService extends ApiService {
   public async createSubmission(
@@ -21,12 +21,22 @@ class WorkspaceService extends ApiService {
       .catch(this.throwError);
   }
 
-  public async listWorkspace(selector?: WorkspaceFilter[]): Promise<Workspace[]> {
-    let url = '/workspaces';
-    if (selector) url += '?fields=' + selector.join(',');
-    return this.get(url)
+  public async listWorkspace(): Promise<Workspace[]> {
+    return this.get('/workspaces')
       .then((response) => {
         return response.data.data as unknown as Workspace[];
+      })
+      .catch(this.throwError);
+  }
+
+  public async listWorkspaceParticipant(workspaceId: number): Promise<WorkspaceParticipant[]> {
+    const url = '/workspaces/:workspaceId/participants'.replace(
+      ':workspaceId',
+      workspaceId.toString(),
+    );
+    return this.get(url)
+      .then((response) => {
+        return response.data.data as unknown as WorkspaceParticipant[];
       })
       .catch(this.throwError);
   }
@@ -54,9 +64,8 @@ class WorkspaceService extends ApiService {
       .catch(this.throwError);
   }
 
-  public async getWorkspace(id: number, selector?: WorkspaceFilter[]): Promise<Workspace> {
-    let url = '/workspaces/:workspaceId'.replace(':workspaceId', id.toString());
-    if (selector) url += '?fields=' + selector.join(',');
+  public async getWorkspace(id: number): Promise<Workspace> {
+    const url = '/workspaces/:workspaceId'.replace(':workspaceId', id.toString());
     return this.get(url)
       .then((response) => {
         return response.data.data as unknown as Workspace;
