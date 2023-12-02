@@ -9,13 +9,11 @@ import {
   DropdownMenuTrigger,
 } from '@/components/common/dropdown';
 import { Image } from '@/components/common/image';
-import { useUser } from '@/hooks/auth-hook';
+import { useAuth } from '@/hooks/auth-hook';
 import { RoutePath } from '@/libs/constants';
-import { authService } from '@/services/auth-service';
 import { UserAccountType } from '@/types/auth-type';
-import { useQueryClient } from '@tanstack/react-query';
 import { ChevronDownIcon, LockIcon, LogOutIcon, SettingsIcon } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export type UserProfileDropdownProps = {
   displayName: string;
@@ -28,22 +26,13 @@ export const UserProfileDropdown = ({
   email,
   accountType,
 }: UserProfileDropdownProps) => {
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
-  const { data: user } = useUser();
-
-  const signOut = () => {
-    authService.signOut().finally(() => {
-      queryClient.removeQueries();
-      navigate(RoutePath.SIGNIN);
-    });
-  };
+  const { user, signOut } = useAuth();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex flex-row items-center space-x-1 rounded-sm focus-visible:outline-none">
         <Image
-          src={user?.profileUrl}
+          src={user.data?.profileUrl}
           alt=""
           className="h-8 w-8 select-none rounded-md"
         />

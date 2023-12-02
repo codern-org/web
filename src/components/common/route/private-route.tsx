@@ -1,5 +1,5 @@
 import { MojiBun } from '@/components/common/moji-bun';
-import { useUser } from '@/hooks/auth-hook';
+import { useAuth } from '@/hooks/auth-hook';
 import { useToast } from '@/hooks/toast-hook';
 import { RoutePath } from '@/libs/constants';
 import { Loader2Icon } from 'lucide-react';
@@ -17,20 +17,20 @@ export function withAuth<T extends WithAuthProps = WithAuthProps>(
   const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
   const ComponentWithAuth = (props: Omit<T, keyof WithAuthProps>) => {
-    const { isLoading, isError } = useUser();
+    const { user } = useAuth();
     const { toast } = useToast();
 
     useEffect(() => {
-      if (isError) {
+      if (user.isError) {
         toast({
           variant: 'danger',
           title: 'Authentication is required',
           description: 'Please sign in to continue',
         });
       }
-    }, [isError, toast]);
+    }, [user.isError, toast]);
 
-    if (isLoading) {
+    if (user.isLoading) {
       return (
         <div className="flex h-screen flex-col items-center justify-center">
           <MojiBun className="mb-6 h-28 w-28 animate-pulse" />
@@ -41,7 +41,7 @@ export function withAuth<T extends WithAuthProps = WithAuthProps>(
       );
     }
 
-    return isError ? <Navigate to={to} /> : <WrappedComponent {...(props as T)} />;
+    return user.isError ? <Navigate to={to} /> : <WrappedComponent {...(props as T)} />;
   };
   ComponentWithAuth.displayName = `withAuth(${displayName})`;
 

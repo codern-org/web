@@ -1,11 +1,11 @@
 import { Button } from '@/components/common/button';
 import { NavigationBar, NavigationBarProps } from '@/components/common/navigation-bar';
 import { UserProfileDropdown } from '@/components/common/user-profile-dropdown';
-import { useUser } from '@/hooks/auth-hook';
+import { useAuth } from '@/hooks/auth-hook';
 import { BellIcon } from 'lucide-react';
 
 export const DashboardNavBar = (props: NavigationBarProps) => {
-  const { data: user } = useUser();
+  const { user } = useAuth();
 
   return (
     <NavigationBar {...props}>
@@ -18,11 +18,11 @@ export const DashboardNavBar = (props: NavigationBarProps) => {
         <BellIcon className="h-4 w-4" />
       </Button>
 
-      {user && (
+      {user.data && (
         <UserProfileDropdown
-          displayName={user.displayName}
-          email={user.email}
-          accountType={user.accountType}
+          displayName={user.data.displayName}
+          email={user.data.email}
+          accountType={user.data.accountType}
         />
       )}
     </NavigationBar>

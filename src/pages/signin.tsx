@@ -2,14 +2,14 @@ import { Button } from '@/components/common/button';
 import { NavigationBar } from '@/components/common/navigation-bar';
 import { PageLayout } from '@/components/common/page-layout';
 import { SignInForm } from '@/components/features/signin/form';
-import { useUser } from '@/hooks/auth-hook';
+import { useAuth } from '@/hooks/auth-hook';
 import { RoutePath } from '@/libs/constants';
 import { Navigate } from 'react-router-dom';
 
 export default function SignInPage() {
-  const { data: user } = useUser();
+  const { user } = useAuth();
 
-  if (user) return <Navigate to={RoutePath.DASHBOARD} />;
+  if (user.data) return <Navigate to={RoutePath.DASHBOARD} />;
 
   return (
     <PageLayout>

@@ -10,33 +10,20 @@ import {
 } from '@/components/common/form';
 import { Input } from '@/components/common/input';
 import { SignInWithGoogleButton } from '@/components/features/signin/with-google-button';
+import { useAuth } from '@/hooks/auth-hook';
 import { useStrictForm } from '@/hooks/form-hook';
-import { useToast } from '@/hooks/toast-hook';
-import { RoutePath } from '@/libs/constants';
-import { authService } from '@/services/auth-service';
 import {
   SignInFormDefaultValues,
   SignInFormSchema,
   SignInFormValues,
 } from '@/types/schema/sign-in-schema';
-import { useNavigate } from 'react-router-dom';
 
 export const SignInForm = () => {
-  const { toast } = useToast();
-  const navigate = useNavigate();
   const form = useStrictForm(SignInFormSchema, SignInFormDefaultValues);
+  const { signIn } = useAuth();
 
   const onSubmit = (data: SignInFormValues) => {
-    authService
-      .signIn(data.email, data.password)
-      .then(() => navigate(RoutePath.DASHBOARD))
-      .catch((error) => {
-        toast({
-          variant: 'danger',
-          title: 'Cannot sign in to your account',
-          description: error.message,
-        });
-      });
+    signIn(data.email, data.password);
   };
 
   return (
@@ -76,6 +63,7 @@ export const SignInForm = () => {
               <FormControl>
                 <Input
                   type="password"
+                  autoComplete="current-password"
                   placeholder=""
                   className="h-9"
                   {...field}
