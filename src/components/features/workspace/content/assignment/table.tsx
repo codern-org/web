@@ -35,7 +35,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { CircleIcon, Loader2Icon, PlusIcon, XIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const statuses = [
@@ -156,17 +156,18 @@ const columns: ColumnDef<Assignment>[] = [
   },
 ];
 
-export const AssignmentsTable = () => {
+export const AssignmentTable = () => {
   const navigate = useNavigate();
   const { workspaceId } = useParams();
   const { data: assignments, isLoading } = useListAssignmentQuery(Number(workspaceId));
   const { data: workspace } = useGetWorkspaceQuery(Number(workspaceId));
 
+  const data = useMemo(() => assignments || [], [assignments]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
-    data: assignments || [],
+    data,
     columns,
     state: {
       sorting,

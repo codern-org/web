@@ -28,7 +28,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { Loader2Icon, PlusIcon, XIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 const roles = [
@@ -84,11 +84,12 @@ export const WorkspaceParticipantTable = () => {
   const { data: participants, isLoading } = useListWorkspaceParticipantQuery(Number(workspaceId));
   const { data: workspace } = useGetWorkspaceQuery(Number(workspaceId));
 
+  const data = useMemo(() => participants || [], [participants]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
-    data: participants || [],
+    data,
     columns,
     state: {
       sorting,
