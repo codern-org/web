@@ -1,5 +1,6 @@
 import { Submission as SubmissionComponent } from '@/components/features/assignment/submission';
 import { useListSubmission } from '@/hooks/workspace-hook';
+import { XIcon } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 
 export const SubmissionList = () => {
@@ -7,7 +8,12 @@ export const SubmissionList = () => {
   const { data: submissions } = useListSubmission(Number(workspaceId), Number(assignmentId));
 
   if (!submissions || submissions.length === 0) {
-    return <>No submissions</>;
+    return (
+      <div className="flex items-center justify-center py-8 text-muted-foreground">
+        <XIcon className="mr-1 h-5 w-5" />
+        No submission
+      </div>
+    );
   }
 
   return (

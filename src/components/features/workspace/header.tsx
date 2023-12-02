@@ -2,20 +2,14 @@ import { Image } from '@/components/common/image';
 import { MojiBun } from '@/components/common/moji-bun';
 import { Skeleton } from '@/components/common/skeleton';
 import { WorkspaceBreadcrumb } from '@/components/features/workspace/breadcrumb';
-import { useGetWorkspaceQuery, useListAssignmentQuery } from '@/hooks/workspace-hook';
+import { useGetWorkspaceQuery } from '@/hooks/workspace-hook';
 import { formatDate } from '@/libs/utils';
-import { AssignmentStatus } from '@/types/workspace-type';
 import { CalendarIcon, UserIcon } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 
 export const WorkspaceHeader = () => {
   const { workspaceId } = useParams();
   const { data: workspace } = useGetWorkspaceQuery(Number(workspaceId));
-  const { data: assignments } = useListAssignmentQuery(Number(workspaceId));
-
-  const completedAssignments = assignments?.filter(
-    (assignment) => assignment.status === AssignmentStatus.COMPLETED,
-  );
 
   return (
     <div className="border-b bg-background">
@@ -76,9 +70,9 @@ export const WorkspaceHeader = () => {
                 <p className="text-sm text-muted-foreground">Total assignments</p>
               </div>
               <div>
-                {workspace && completedAssignments ? (
+                {workspace ? (
                   <p className="mb-1 text-xl font-medium">
-                    {workspace.totalAssignment - completedAssignments.length}
+                    {workspace.totalAssignment - workspace.completedAssignment}
                   </p>
                 ) : (
                   <Skeleton className="mb-1 h-7 w-10" />

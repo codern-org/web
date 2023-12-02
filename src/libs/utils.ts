@@ -18,7 +18,15 @@ export const getValidChildren = (children: React.ReactNode) => {
 
 export const formatDate = (date: Date, format: string) => formatDateFns(date, format);
 
-export const formartDateDist = (date: Date, base: Date) => formatDateDistFns(date, base);
+export const formartDateDist = (
+  date: Date,
+  base: Date,
+  options?: {
+    includeSeconds?: boolean;
+    addSuffix?: boolean;
+    locale?: Locale;
+  },
+) => formatDateDistFns(date, base, options);
 
 const ISO_DATE_FORMAT = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d*)?(?:[-+]\d{2}:?\d{2}|Z)?$/;
 
