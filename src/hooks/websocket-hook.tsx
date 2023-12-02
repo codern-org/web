@@ -14,6 +14,8 @@ type WebSocketProviderProps = {
 };
 
 type WebSocketProviderState = {
+  connect: () => void;
+  disconnect: () => void;
   subscribe: (channel: string, cb: WebSocketChannelHandler) => void;
   unsubscribe: (channel: string, cb: WebSocketChannelHandler) => void;
 };
@@ -37,24 +39,33 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
     });
 
     ws.current.addEventListener('close', (event) => {
-      try {
-        const reason: WsErrorReason = JSON.parse(event.reason);
-        if (reason.error.code) return;
-      } catch {
-        /* empty */
-      }
-
       console.log(
         '%c🤖 Dimension portal is terminated...',
         'background-color: red; color: white; font-size: 0.7rem; padding: 0.125rem; border-radius: 0.25rem',
       );
 
+      try {
+        // Close by server, unauthorized
+        const reason: WsErrorReason = JSON.parse(event.reason);
+        if (reason.error.code) return;
+      } catch {
+        // Use code 1000 to check reason later for manually closing.
+        // Use code 4000 as unmounting notice.
+        // And 1006 seems occur in react strict mode after first rendering
+        if ([1000, 1006, 4000].includes(event.code)) {
+          return;
+        }
+      }
+
       setTimeout(() => {
-        console.log(
-          '%c🤖 Dimension portal is reopening...',
-          'background-color: red; color: white; font-size: 0.7rem; padding: 0.125rem; border-radius: 0.25rem',
-        );
-        if (ws.current?.readyState === WebSocket.CLOSED) connect();
+        // Avoid race condition
+        if (ws.current?.readyState === WebSocket.CLOSED) {
+          console.log(
+            '%c🤖 Dimension portal is reopening...',
+            'background-color: orange; color: white; font-size: 0.7rem; padding: 0.125rem; border-radius: 0.25rem',
+          );
+          connect();
+        }
       }, 3000);
     });
 
@@ -68,12 +79,14 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
     });
   }, []);
 
+  const disconnect = useCallback((code = 1000) => {
+    ws.current?.close(code);
+  }, []);
+
   useEffect(() => {
     connect();
-    return () => {
-      if (ws.current) ws.current.close();
-    };
-  }, [connect]);
+    return () => disconnect(4000);
+  }, [connect, disconnect]);
 
   const subscribe = (channel: string, cb: WebSocketChannelHandler) => {
     const handlers = channelHandlers.current.get(channel);
@@ -93,8 +106,10 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
   };
 
   const value = {
-    subscribe: subscribe,
-    unsubscribe: unsubscribe,
+    connect,
+    disconnect,
+    subscribe,
+    unsubscribe,
   };
 
   return (
