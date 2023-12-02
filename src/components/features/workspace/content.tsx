@@ -39,7 +39,7 @@ export const WorkspaceContent = () => {
         path: RoutePath.WORKSPACE(workspace.id, WorkspaceContentEnum.PARTICIPANT),
         label: 'Participant',
         content: <WorkspaceParticipantTable />,
-        restrictedRole: [WorkspaceRole.ADMIN, WorkspaceRole.OWNER],
+        restrictedRole: [WorkspaceRole.MEMBER, WorkspaceRole.ADMIN, WorkspaceRole.OWNER],
       },
       {
         value: WorkspaceContentEnum.SETTINGS,
