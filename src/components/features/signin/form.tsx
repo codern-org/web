@@ -46,6 +46,7 @@ export const SignInForm = () => {
               <FormControl>
                 <Input
                   placeholder=""
+                  autoComplete="username"
                   className="h-9"
                   {...field}
                 />
@@ -63,8 +64,8 @@ export const SignInForm = () => {
               <FormControl>
                 <Input
                   type="password"
-                  autoComplete="current-password"
                   placeholder=""
+                  autoComplete="current-password"
                   className="h-9"
                   {...field}
                 />
