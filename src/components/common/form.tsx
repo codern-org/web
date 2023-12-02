@@ -145,7 +145,13 @@ FormDescription.displayName = 'FormDescription';
 export const FormMessage = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLParagraphElement>>(
   ({ className, children, ...props }, ref) => {
     const { error, formMessageId } = useFormField();
-    const body = error ? String(error?.message) : children;
+    const body = error
+      ? Array.isArray(error)
+        ? '' // For useFieldArray, show inner field error instead of parent field
+        : error?.root
+        ? String(error?.root.message)
+        : String(error?.message)
+      : children;
 
     if (!body) {
       return null;
