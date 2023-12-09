@@ -37,6 +37,31 @@ export const useListSubmission = (workspaceId: number, assignmentId: number) =>
     queryFn: () => workspaceService.listSubmission(workspaceId, assignmentId),
   });
 
+export const useGetSubmissionCode = (
+  workspaceId: number,
+  assignmentId: number,
+  submissionId: number,
+  url: string | undefined,
+) =>
+  useQuery({
+    enabled: !!url,
+    queryKey: [
+      'workspaces',
+      workspaceId,
+      'assignments',
+      assignmentId,
+      'submissions',
+      submissionId,
+      'code',
+    ],
+    queryFn: () => workspaceService.getSubmissionCode(url as string),
+    retry: (failureCount, error) => {
+      if (axios.isAxiosError(error) && error.response?.status === 404) return false;
+      if (ApiService.isDomainError(error) && error.code === 3001) return false;
+      return failureCount !== 3;
+    },
+  });
+
 export const useListSubmissionSubscription = (workspaceId: number, assignmentId: number) => {
   const queryClient = useQueryClient();
   const { subscribe, unsubscribe } = useWebSocket();

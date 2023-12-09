@@ -29,6 +29,15 @@ class WorkspaceService extends ApiService {
       .catch(this.throwError);
   }
 
+  public async getWorkspace(id: number): Promise<Workspace> {
+    const url = '/workspaces/:workspaceId'.replace(':workspaceId', id.toString());
+    return this.get(url)
+      .then((response) => {
+        return response.data.data as unknown as Workspace;
+      })
+      .catch(this.throwError);
+  }
+
   public async listWorkspaceParticipant(workspaceId: number): Promise<WorkspaceParticipant[]> {
     const url = '/workspaces/:workspaceId/participants'.replace(
       ':workspaceId',
@@ -53,26 +62,6 @@ class WorkspaceService extends ApiService {
       .catch(this.throwError);
   }
 
-  public async listSubmission(workspaceId: number, assignmentId: number): Promise<Submission[]> {
-    const url = '/workspaces/:workspaceId/assignments/:assignmentId/submissions'
-      .replace(':workspaceId', workspaceId.toString())
-      .replace(':assignmentId', assignmentId.toString());
-    return this.get(url)
-      .then((response) => {
-        return response.data.data as unknown as Submission[];
-      })
-      .catch(this.throwError);
-  }
-
-  public async getWorkspace(id: number): Promise<Workspace> {
-    const url = '/workspaces/:workspaceId'.replace(':workspaceId', id.toString());
-    return this.get(url)
-      .then((response) => {
-        return response.data.data as unknown as Workspace;
-      })
-      .catch(this.throwError);
-  }
-
   public async getAssignment(workspaceId: number, assignmentId: number): Promise<Assignment> {
     const url = '/workspaces/:workspaceId/assignments/:assignmentId'
       .replace(':workspaceId', workspaceId.toString())
@@ -84,11 +73,23 @@ class WorkspaceService extends ApiService {
       .catch(this.throwError);
   }
 
-  public async getAssignmentDetail(url: string): Promise<string> {
-    if (url.startsWith('/')) url = window.APP_CONFIG.BACKEND_URL + '/file' + url;
+  public async listSubmission(workspaceId: number, assignmentId: number): Promise<Submission[]> {
+    const url = '/workspaces/:workspaceId/assignments/:assignmentId/submissions'
+      .replace(':workspaceId', workspaceId.toString())
+      .replace(':assignmentId', assignmentId.toString());
     return this.get(url)
-      .then((response) => response.data as unknown as string)
+      .then((response) => {
+        return response.data.data as unknown as Submission[];
+      })
       .catch(this.throwError);
+  }
+
+  public async getSubmissionCode(url: string): Promise<string> {
+    return this.getFile(url);
+  }
+
+  public async getAssignmentDetail(url: string): Promise<string> {
+    return this.getFile(url);
   }
 }
 

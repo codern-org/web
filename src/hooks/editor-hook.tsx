@@ -20,6 +20,9 @@ const initialOptions: MonacoEditorOptions = {
 };
 
 type EditorProviderProps = {
+  code?: string;
+  options?: MonacoEditorOptions;
+  readOnly?: boolean;
   children: ReactNode;
 };
 
@@ -29,27 +32,21 @@ type EditorProviderState = {
   onMount: (editor: MonacoEditor, monaco: Monaco) => void;
   options: MonacoEditorOptions;
   getCode: () => string;
+  setCode: (code: string, language?: string) => void;
   getLanguage: () => string;
 };
 
-const initialState: EditorProviderState = {
-  editorRef: null,
-  monacoRef: null,
-  onMount: () => {},
-  options: {},
-  getCode: () => '',
-  getLanguage: () => '',
-};
+const EditorProviderContext = createContext<EditorProviderState | null>(null);
 
-const EditorProviderContext = createContext<EditorProviderState>(initialState);
-
-export const EditorProvider = ({ children }: EditorProviderProps) => {
+export const EditorProvider = ({
+  code = '',
+  options = initialOptions,
+  readOnly = false,
+  children,
+}: EditorProviderProps) => {
   const { displayTheme } = useTheme();
   const editorRef = useRef<MonacoEditor | null>(null);
   const monacoRef = useRef<Monaco | null>(null);
-
-  // TODO: better manipulation
-  const options = initialOptions;
 
   const getCurrentModel = () => {
     if (!editorRef.current) return null;
@@ -60,6 +57,13 @@ export const EditorProvider = ({ children }: EditorProviderProps) => {
     const model = getCurrentModel();
     if (!model) return '';
     return model.getValue();
+  };
+
+  const setCode = (code: string, language?: string) => {
+    const model = getCurrentModel();
+    if (!model || !monacoRef.current) return;
+    model.setValue(code);
+    if (language) monacoRef.current.editor.setModelLanguage(model, language);
   };
 
   const getLanguage = () => {
@@ -79,20 +83,24 @@ export const EditorProvider = ({ children }: EditorProviderProps) => {
     editorRef.current = editor;
     monacoRef.current = monaco;
     // Set initial model
-    const model = monaco.editor.createModel('', 'c', monaco.Uri.file('/main'));
+    const model = monaco.editor.createModel(code, 'c', monaco.Uri.file(Date.now().toString()));
     editor.setModel(model);
     // Sync theme
     monaco.editor.setTheme(`vs-${displayTheme}`);
     editor.focus();
   };
 
-  const value = {
+  const value: EditorProviderState = {
     editorRef: editorRef.current,
     monacoRef: monacoRef.current,
-    onMount: onMount,
-    options: options,
-    getCode: getCode,
-    getLanguage: getLanguage,
+    onMount,
+    options: {
+      ...options,
+      readOnly,
+    },
+    getCode,
+    setCode,
+    getLanguage,
   };
 
   return <EditorProviderContext.Provider value={value}>{children}</EditorProviderContext.Provider>;

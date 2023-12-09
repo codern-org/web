@@ -64,6 +64,7 @@ export type Submission = {
   language: string;
   status: AssignmentStatus;
   score: number;
+  fileUrl: string;
   submittedAt: Date;
   compilationLog?: string;
   results?: SubmissionResult[];

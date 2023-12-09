@@ -31,6 +31,13 @@ export abstract class ApiService {
     });
   }
 
+  protected getFile(url: string) {
+    if (url.startsWith('/')) url = window.APP_CONFIG.BACKEND_URL + '/file' + url;
+    return this.get(url)
+      .then((response) => response.data as unknown as string)
+      .catch(this.throwError);
+  }
+
   // Throws the error object from the API response. Or return the root of the error if it does not exist,
   // in case the root of the error instance is not from the API response.
   protected throwError(error: unknown): never {

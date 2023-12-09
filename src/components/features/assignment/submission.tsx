@@ -1,10 +1,10 @@
-import { Button } from '@/components/common/button';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/common/collapsible';
 import { Separator } from '@/components/common/separator';
+import { SubmissionCodeView } from '@/components/features/assignment/submission-code-view';
 import { classNames, compactNumber, formatDate } from '@/libs/utils';
 import {
   AssignmentStatus,
@@ -12,7 +12,7 @@ import {
   Submission as SubmissionType,
 } from '@/types/workspace-type';
 import DOMPurify from 'dompurify';
-import { ChevronDownIcon, CopyIcon, Loader2Icon } from 'lucide-react';
+import { ChevronDownIcon, Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 
 const ERROR_MESSAGE_MAP = {
@@ -40,10 +40,6 @@ export type SubmissionProps = {
 export const Submission = ({ defaultOpen, index, submission }: SubmissionProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const isGrading = submission.status === AssignmentStatus.GRADING;
-  const isIncompleted = submission.status === AssignmentStatus.INCOMPLETED;
-  const isCompleted = submission.status === AssignmentStatus.COMPLETED;
-
   return (
     <Collapsible
       defaultOpen={defaultOpen}
@@ -60,21 +56,7 @@ export const Submission = ({ defaultOpen, index, submission }: SubmissionProps) 
           </div>
         </div>
         <div className="flex flex-row items-center space-x-2">
-          <div className="flex items-center space-x-2 rounded-md border px-2">
-            <span
-              className={classNames(
-                'h-2 w-2 rounded-full',
-                isGrading && 'bg-yellow-500',
-                isIncompleted && 'bg-red-500',
-                isCompleted && 'bg-green-500',
-              )}
-            />
-            <span className="text-sm text-secondary-foreground">
-              {isGrading && 'Grading'}
-              {isCompleted && 'Passed'}
-              {isIncompleted && 'Failed'}
-            </span>
-          </div>
+          <SubmissionStatusBadge status={submission.status} />
           <ChevronDownIcon
             className={classNames(
               'h-4 w-4 text-secondary-foreground',
@@ -88,17 +70,38 @@ export const Submission = ({ defaultOpen, index, submission }: SubmissionProps) 
         <Separator className="my-3" />
         <div className="flex flex-col justify-between space-y-2 text-xs xl:flex-row xl:items-center xl:space-y-0">
           <p className="text-muted-foreground xl:mb-0">Submission id: {submission.id}</p>
-          <Button
-            size="sm"
-            variant="secondary"
-            className="h-6 space-x-1 px-2 py-0"
-          >
-            <CopyIcon className="h-3 w-3" />
-            <span>Copy code</span>
-          </Button>
+          <SubmissionCodeView submission={submission} />
         </div>
       </CollapsibleContent>
     </Collapsible>
+  );
+};
+
+export type SubmissionStatusBadgeProps = {
+  status: AssignmentStatus;
+};
+
+export const SubmissionStatusBadge = ({ status }: SubmissionStatusBadgeProps) => {
+  const isGrading = status === AssignmentStatus.GRADING;
+  const isIncompleted = status === AssignmentStatus.INCOMPLETED;
+  const isCompleted = status === AssignmentStatus.COMPLETED;
+
+  return (
+    <div className="flex items-center space-x-2 rounded-md border px-2 font-normal">
+      <span
+        className={classNames(
+          'h-2 w-2 rounded-full',
+          isGrading && 'bg-yellow-500',
+          isIncompleted && 'bg-red-500',
+          isCompleted && 'bg-green-500',
+        )}
+      />
+      <span className="text-sm text-secondary-foreground">
+        {isGrading && 'Grading'}
+        {isCompleted && 'Passed'}
+        {isIncompleted && 'Failed'}
+      </span>
+    </div>
   );
 };
 

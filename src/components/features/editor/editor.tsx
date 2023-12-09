@@ -7,10 +7,12 @@ export const Editor = () => {
   const { options, onMount } = useEditor();
 
   return (
-    <MonacoEditorComponent
-      options={options}
-      onMount={onMount}
-      className="overflow-hidden rounded-md border"
-    />
+    <div className="h-full overflow-hidden">
+      <MonacoEditorComponent
+        options={options}
+        onMount={onMount}
+        className="overflow-hidden rounded-md border"
+      />
+    </div>
   );
 };
