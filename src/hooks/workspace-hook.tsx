@@ -37,19 +37,22 @@ export const useListSubmission = (workspaceId: number, assignmentId: number) =>
     queryFn: () => workspaceService.listSubmission(workspaceId, assignmentId),
   });
 
-export const useListSubmissionSubscription = () => {
+export const useListSubmissionSubscription = (workspaceId: number, assignmentId: number) => {
   const queryClient = useQueryClient();
   const { subscribe, unsubscribe } = useWebSocket();
   const { toast } = useToast();
 
   useEffect(() => {
     const updateSubmissions = (newSubmission: Submission) => {
-      queryClient.setQueryData(['submission'], (submission: Submission[]) => {
-        return submission.map((submission) => {
-          if (submission.id === newSubmission.id) return newSubmission;
-          return submission;
-        });
-      });
+      queryClient.setQueryData(
+        ['workspaces', workspaceId, 'assignments', assignmentId, 'submissions'],
+        (submission: Submission[]) => {
+          return submission.map((submission) => {
+            if (submission.id === newSubmission.id) return newSubmission;
+            return submission;
+          });
+        },
+      );
       toast({
         title: `Submission grading is done!`,
         description: 'Please check the result',
@@ -57,10 +60,8 @@ export const useListSubmissionSubscription = () => {
     };
 
     subscribe('onSubmissionUpdate', updateSubmissions);
-    return () => {
-      unsubscribe('onSubmissionUpdate', updateSubmissions);
-    };
-  }, [queryClient, subscribe, unsubscribe, toast]);
+    return () => unsubscribe('onSubmissionUpdate', updateSubmissions);
+  }, [queryClient, subscribe, unsubscribe, toast, workspaceId, assignmentId]);
 };
 
 export const useListWorkspaceQuery = () =>

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { deserializeDate } from '@/libs/utils';
 import { WsErrorReason } from '@/types/api-response-type';
 import { ReactNode, createContext, useCallback, useContext, useEffect, useRef } from 'react';
 
@@ -72,6 +73,7 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
     ws.current.addEventListener('message', (event) => {
       const payload = JSON.parse(event.data) as WebSocketPayload;
       if (payload.channel && payload.message) {
+        deserializeDate(payload.message);
         const handlers = channelHandlers.current.get(payload.channel);
         if (!handlers) return;
         handlers.forEach((handler) => handler(payload.message));
