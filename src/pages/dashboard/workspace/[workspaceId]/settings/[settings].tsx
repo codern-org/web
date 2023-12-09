@@ -3,14 +3,15 @@ import { withAuth } from '@/components/common/route/private-route';
 import { DashboardNavBar } from '@/components/features/dashboard/dashboard-navbar';
 import { WorkspaceSettingsHeader } from '@/components/features/workspace/content/settings/header';
 import { WorkspaceSettings } from '@/components/features/workspace/content/settings/settings';
+import { useWorkspaceParams } from '@/hooks/router-hook';
 import { isValidWorkspaceSettingsContent, RoutePath } from '@/libs/constants';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 function WorkspaceSettingsPage() {
-  const { workspaceId, settings } = useParams();
+  const { workspaceId, settings } = useWorkspaceParams();
 
   if (!isValidWorkspaceSettingsContent(settings)) {
-    return <Navigate to={RoutePath.FALLBACK_WORKSPACE_SETTINGS(Number(workspaceId))} />;
+    return <Navigate to={RoutePath.FALLBACK_WORKSPACE_SETTINGS(workspaceId)} />;
   }
 
   return (

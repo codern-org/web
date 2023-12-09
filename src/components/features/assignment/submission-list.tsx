@@ -1,11 +1,11 @@
 import { Submission as SubmissionComponent } from '@/components/features/assignment/submission';
+import { useWorkspaceParams } from '@/hooks/router-hook';
 import { useListSubmission } from '@/hooks/workspace-hook';
 import { XIcon } from 'lucide-react';
-import { useParams } from 'react-router-dom';
 
 export const SubmissionList = () => {
-  const { workspaceId, assignmentId } = useParams();
-  const { data: submissions } = useListSubmission(Number(workspaceId), Number(assignmentId));
+  const { workspaceId, assignmentId } = useWorkspaceParams();
+  const { data: submissions } = useListSubmission(workspaceId, assignmentId);
 
   if (!submissions || submissions.length === 0) {
     return (

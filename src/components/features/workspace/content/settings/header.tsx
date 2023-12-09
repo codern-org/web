@@ -1,14 +1,14 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@/components/common/breadcrumb';
 import { Image } from '@/components/common/image';
 import { Skeleton } from '@/components/common/skeleton';
+import { useWorkspaceParams } from '@/hooks/router-hook';
 import { useGetWorkspaceQuery } from '@/hooks/workspace-hook';
 import { RoutePath } from '@/libs/constants';
 import { formatDate } from '@/libs/utils';
-import { useParams } from 'react-router-dom';
 
 export const WorkspaceSettingsHeader = () => {
-  const { workspaceId } = useParams();
-  const { data: workspace } = useGetWorkspaceQuery(Number(workspaceId));
+  const { workspaceId } = useWorkspaceParams();
+  const { data: workspace } = useGetWorkspaceQuery(workspaceId);
 
   return (
     <div className="border-b bg-background">
@@ -19,7 +19,7 @@ export const WorkspaceSettingsHeader = () => {
           </BreadcrumbItem>
           <BreadcrumbItem>
             {workspace ? (
-              <BreadcrumbLink href={RoutePath.FALLBACK_WORKSPACE(Number(workspaceId))}>
+              <BreadcrumbLink href={RoutePath.FALLBACK_WORKSPACE(workspaceId)}>
                 {workspace.name}
               </BreadcrumbLink>
             ) : (

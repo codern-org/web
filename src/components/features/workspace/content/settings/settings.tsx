@@ -3,6 +3,7 @@ import { Separator } from '@/components/common/separator';
 import { WorkspaceAdminSettings } from '@/components/features/workspace/content/settings/content/admin';
 import { WorkspaceGeneralSettings } from '@/components/features/workspace/content/settings/content/general';
 import { WorkspaceInvitationSettings } from '@/components/features/workspace/content/settings/content/invitation';
+import { useWorkspaceParams } from '@/hooks/router-hook';
 import { RoutePath, WorkspaceSettingsContent } from '@/libs/constants';
 import { classNames } from '@/libs/utils';
 import { LucideIcon, SettingsIcon, UserPlusIcon, UsersIcon } from 'lucide-react';
@@ -31,7 +32,7 @@ const sidebarNavItems: SidebarNavItem[] = [
 ];
 
 export const WorkspaceSettings = () => {
-  const { workspaceId, settings } = useParams();
+  const { workspaceId, settings } = useWorkspaceParams();
   const content = sidebarNavItems.find((item) => item.tab === settings)?.content;
 
   return (
@@ -44,7 +45,7 @@ export const WorkspaceSettings = () => {
           <aside className="w-1/5">
             <SidebarNav
               items={sidebarNavItems}
-              workspaceId={Number(workspaceId)}
+              workspaceId={workspaceId}
             />
           </aside>
           <div className="flex-1">{content}</div>

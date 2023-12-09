@@ -11,19 +11,19 @@ import {
 import { Editor } from '@/components/features/editor/editor';
 import { useEditor } from '@/hooks/editor-hook';
 import { useProblemPane } from '@/hooks/problem-pane-hook';
+import { useWorkspaceParams } from '@/hooks/router-hook';
 import { useToast } from '@/hooks/toast-hook';
 import { useCreateSubmission } from '@/hooks/workspace-hook';
 import { Loader2Icon, SettingsIcon } from 'lucide-react';
-import { useParams } from 'react-router-dom';
 
 export const EditorPane = () => {
-  const { workspaceId, assignmentId } = useParams();
+  const { workspaceId, assignmentId } = useWorkspaceParams();
   const { getCode, getLanguage } = useEditor();
   const { toast } = useToast();
   const { setTab } = useProblemPane();
   const { mutate: submit, isPending: isSubmitting } = useCreateSubmission(
-    Number(workspaceId),
-    Number(assignmentId),
+    workspaceId,
+    assignmentId,
   );
 
   const handleSubmit = () => {

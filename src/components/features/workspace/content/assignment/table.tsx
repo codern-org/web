@@ -17,6 +17,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/common/tooltip';
+import { useWorkspaceParams } from '@/hooks/router-hook';
 import { useGetWorkspaceQuery, useListAssignmentQuery } from '@/hooks/workspace-hook';
 import { RoutePath } from '@/libs/constants';
 import { formartDateDist, formatDate } from '@/libs/utils';
@@ -36,7 +37,7 @@ import {
 } from '@tanstack/react-table';
 import { CircleIcon, Loader2Icon, PlusIcon, XIcon } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const statuses = [
   {
@@ -158,9 +159,9 @@ const columns: ColumnDef<Assignment>[] = [
 
 export const AssignmentTable = () => {
   const navigate = useNavigate();
-  const { workspaceId } = useParams();
-  const { data: assignments, isLoading } = useListAssignmentQuery(Number(workspaceId));
-  const { data: workspace } = useGetWorkspaceQuery(Number(workspaceId));
+  const { workspaceId } = useWorkspaceParams();
+  const { data: assignments, isLoading } = useListAssignmentQuery(workspaceId);
+  const { data: workspace } = useGetWorkspaceQuery(workspaceId);
 
   const data = useMemo(() => assignments || [], [assignments]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -231,7 +232,7 @@ export const AssignmentTable = () => {
               className="h-9"
               asChild
             >
-              <Link to={RoutePath.CREATE_ASSIGNMENT(Number(workspaceId))}>
+              <Link to={RoutePath.CREATE_ASSIGNMENT(workspaceId)}>
                 <PlusIcon className="mr-1 h-4 w-4" />
                 Create
               </Link>
@@ -264,9 +265,7 @@ export const AssignmentTable = () => {
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && 'selected'}
-                    onClick={() =>
-                      navigate(RoutePath.ASSIGNMENT(Number(workspaceId), row.original.id))
-                    }
+                    onClick={() => navigate(RoutePath.ASSIGNMENT(workspaceId, row.original.id))}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>

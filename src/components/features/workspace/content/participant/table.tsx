@@ -11,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/common/table';
+import { useWorkspaceParams } from '@/hooks/router-hook';
 import { useGetWorkspaceQuery, useListWorkspaceParticipantQuery } from '@/hooks/workspace-hook';
 import { formatDate } from '@/libs/utils';
 import { WorkspaceParticipant, WorkspaceRole } from '@/types/workspace-type';
@@ -29,7 +30,6 @@ import {
 } from '@tanstack/react-table';
 import { Loader2Icon, PlusIcon, XIcon } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
 
 const roles = [
   {
@@ -80,9 +80,9 @@ const columns: ColumnDef<WorkspaceParticipant>[] = [
 ];
 
 export const WorkspaceParticipantTable = () => {
-  const { workspaceId } = useParams();
-  const { data: participants, isLoading } = useListWorkspaceParticipantQuery(Number(workspaceId));
-  const { data: workspace } = useGetWorkspaceQuery(Number(workspaceId));
+  const { workspaceId } = useWorkspaceParams();
+  const { data: participants, isLoading } = useListWorkspaceParticipantQuery(workspaceId);
+  const { data: workspace } = useGetWorkspaceQuery(workspaceId);
 
   const data = useMemo(() => participants || [], [participants]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -182,7 +182,7 @@ export const WorkspaceParticipantTable = () => {
                     data-state={row.getIsSelected() && 'selected'}
                     onClick={
                       () => {}
-                      // navigate(RoutePath.ASSIGNMENT(Number(workspaceId), row.original.id))
+                      // navigate(RoutePath.ASSIGNMENT(workspaceId, row.original.id))
                     }
                   >
                     {row.getVisibleCells().map((cell) => (

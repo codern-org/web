@@ -39,7 +39,7 @@ export const WorkspaceCard = ({ workspace }: WorkspaceCardProps) => {
 
   return (
     <Card className="bg-background transition-colors hover:border-primary">
-      <Link to={RoutePath.WORKSPACE(Number(id), WorkspaceContent.ASSIGNMENT)}>
+      <Link to={RoutePath.WORKSPACE(id, WorkspaceContent.ASSIGNMENT)}>
         <CardHeader className="flex flex-row justify-between">
           <div className="flex flex-row items-center space-x-3">
             <Image

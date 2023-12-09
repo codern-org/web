@@ -2,6 +2,7 @@ import { Markdown } from '@/components/common/markdown';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/common/tab';
 import { SubmissionList } from '@/components/features/assignment/submission-list';
 import { ProblemPaneTabs, useProblemPane } from '@/hooks/problem-pane-hook';
+import { useWorkspaceParams } from '@/hooks/router-hook';
 import {
   useAssignmentDetail,
   useGetAssignmentQuery,
@@ -9,20 +10,19 @@ import {
   useListSubmissionSubscription,
 } from '@/hooks/workspace-hook';
 import { Loader2Icon, XIcon } from 'lucide-react';
-import { useParams } from 'react-router-dom';
 
 export const ProblemPane = () => {
-  const { workspaceId, assignmentId } = useParams();
+  const { workspaceId, assignmentId } = useWorkspaceParams();
   const { tab, setTab } = useProblemPane();
-  const { data: submissions } = useListSubmission(Number(workspaceId), Number(assignmentId));
-  const { data: assignment } = useGetAssignmentQuery(Number(workspaceId), Number(assignmentId));
+  const { data: submissions } = useListSubmission(workspaceId, assignmentId);
+  const { data: assignment } = useGetAssignmentQuery(workspaceId, assignmentId);
   const {
     data: detail,
     isError: isDetailError,
     isLoading: isDetailLoading,
-  } = useAssignmentDetail(Number(workspaceId), assignment);
+  } = useAssignmentDetail(workspaceId, assignment);
 
-  useListSubmissionSubscription();
+  useListSubmissionSubscription(workspaceId, assignmentId);
 
   return (
     <Tabs

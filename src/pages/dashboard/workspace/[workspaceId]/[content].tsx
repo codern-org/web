@@ -3,22 +3,23 @@ import { withAuth } from '@/components/common/route/private-route';
 import { DashboardNavBar } from '@/components/features/dashboard/dashboard-navbar';
 import { WorkspaceContent } from '@/components/features/workspace/content';
 import { WorkspaceHeader } from '@/components/features/workspace/header';
+import { useWorkspaceParams } from '@/hooks/router-hook';
 import {
   RoutePath,
   WorkspaceContent as WorkspaceContentEnum,
   isValidWorkspaceContent,
 } from '@/libs/constants';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 function WorkspaceContentPage() {
-  const { workspaceId, content } = useParams();
+  const { workspaceId, content } = useWorkspaceParams();
 
   if (!isValidWorkspaceContent(content)) {
-    return <Navigate to={RoutePath.FALLBACK_WORKSPACE(Number(workspaceId))} />;
+    return <Navigate to={RoutePath.FALLBACK_WORKSPACE(workspaceId)} />;
   }
 
   if (content === WorkspaceContentEnum.SETTINGS) {
-    return <Navigate to={RoutePath.FALLBACK_WORKSPACE_SETTINGS(Number(workspaceId))} />;
+    return <Navigate to={RoutePath.FALLBACK_WORKSPACE_SETTINGS(workspaceId)} />;
   }
 
   return (

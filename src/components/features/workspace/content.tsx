@@ -2,6 +2,7 @@ import { Skeleton } from '@/components/common/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/common/tab';
 import { AssignmentTable } from '@/components/features/workspace/content/assignment/table';
 import { WorkspaceParticipantTable } from '@/components/features/workspace/content/participant/table';
+import { useWorkspaceParams } from '@/hooks/router-hook';
 import { useGetWorkspaceQuery } from '@/hooks/workspace-hook';
 import {
   RoutePath,
@@ -10,7 +11,7 @@ import {
 } from '@/libs/constants';
 import { WorkspaceRole } from '@/types/workspace-type';
 import { ReactNode, useMemo } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export type WorkspaceContentTabs = {
   value: WorkspaceContentEnum;
@@ -21,8 +22,8 @@ export type WorkspaceContentTabs = {
 };
 
 export const WorkspaceContent = () => {
-  const { workspaceId, content } = useParams();
-  const { data: workspace } = useGetWorkspaceQuery(Number(workspaceId));
+  const { workspaceId, content } = useWorkspaceParams();
+  const { data: workspace } = useGetWorkspaceQuery(workspaceId);
 
   const tabs = useMemo<WorkspaceContentTabs[]>(() => {
     if (!workspace) return [];

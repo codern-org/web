@@ -5,13 +5,13 @@ import {
   BreadcrumbProps,
 } from '@/components/common/breadcrumb';
 import { Skeleton } from '@/components/common/skeleton';
+import { useWorkspaceParams } from '@/hooks/router-hook';
 import { useGetWorkspaceQuery } from '@/hooks/workspace-hook';
 import { RoutePath } from '@/libs/constants';
-import { useParams } from 'react-router-dom';
 
 export const WorkspaceBreadcrumb = (props: BreadcrumbProps) => {
-  const { workspaceId } = useParams();
-  const { data: workspace } = useGetWorkspaceQuery(Number(workspaceId));
+  const { workspaceId } = useWorkspaceParams();
+  const { data: workspace } = useGetWorkspaceQuery(workspaceId);
 
   return (
     <Breadcrumb {...props}>

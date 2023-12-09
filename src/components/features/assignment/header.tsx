@@ -2,13 +2,13 @@ import { Badge } from '@/components/common/badge';
 import { Separator } from '@/components/common/separator';
 import { Skeleton } from '@/components/common/skeleton';
 import { AssignmentBreadcrumb } from '@/components/features/assignment/breadcrumb';
+import { useWorkspaceParams } from '@/hooks/router-hook';
 import { useGetAssignmentQuery } from '@/hooks/workspace-hook';
 import { formatDate } from '@/libs/utils';
-import { useParams } from 'react-router-dom';
 
 export const AssignmentHeader = () => {
-  const { workspaceId, assignmentId } = useParams();
-  const { data: assignment } = useGetAssignmentQuery(Number(workspaceId), Number(assignmentId));
+  const { workspaceId, assignmentId } = useWorkspaceParams();
+  const { data: assignment } = useGetAssignmentQuery(workspaceId, assignmentId);
 
   return (
     <div className="container flex flex-col">

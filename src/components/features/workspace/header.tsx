@@ -2,15 +2,15 @@ import { Image } from '@/components/common/image';
 import { MojiBun } from '@/components/common/moji-bun';
 import { Skeleton } from '@/components/common/skeleton';
 import { WorkspaceBreadcrumb } from '@/components/features/workspace/breadcrumb';
+import { useWorkspaceParams } from '@/hooks/router-hook';
 import { useGetWorkspaceQuery } from '@/hooks/workspace-hook';
 import { formatDate } from '@/libs/utils';
 import { WorkspaceRole } from '@/types/workspace-type';
 import { CalendarIcon } from 'lucide-react';
-import { useParams } from 'react-router-dom';
 
 export const WorkspaceHeader = () => {
-  const { workspaceId } = useParams();
-  const { data: workspace } = useGetWorkspaceQuery(Number(workspaceId));
+  const { workspaceId } = useWorkspaceParams();
+  const { data: workspace } = useGetWorkspaceQuery(workspaceId);
 
   return (
     <div className="border-b bg-background">
