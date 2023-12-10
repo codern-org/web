@@ -13,6 +13,8 @@ export const buttonVariants = cva(
           'border border-secondary text-secondary-foreground hover:border-primary hover:text-primary',
         outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
+        danger:
+          'border border-danger bg-danger text-primary-foreground hover:bg-primary-foreground hover:text-danger',
       },
       size: {
         sm: 'h-9 px-3',
