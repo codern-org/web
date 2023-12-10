@@ -50,3 +50,8 @@ export const deserializeDate = (data: unknown) => {
   }
   return data;
 };
+
+export const getBlobFromUrl = async (url: string) => {
+  const response = await fetch(url);
+  return response.blob();
+};

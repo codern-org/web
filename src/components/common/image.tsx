@@ -21,7 +21,8 @@ export const Image = ({ src, className, ...props }: ImageProps) => {
   let outputUrl = src;
   if (
     !src?.startsWith('/src/assets/') && // Local development
-    !src?.startsWith('/assets/') // Production build
+    !src?.startsWith('/assets/') && // Production build
+    !src?.startsWith('blob:') // Blob for local file display
   ) {
     outputUrl = window.APP_CONFIG.BACKEND_URL + '/file' + src;
   }
@@ -39,7 +40,7 @@ export const Image = ({ src, className, ...props }: ImageProps) => {
         src={src && outputUrl}
         onLoad={onLoad}
         onError={onError}
-        className={classNames('h-full w-full', (loading || error) && 'invisible')}
+        className={classNames('h-full w-full object-cover', (loading || error) && 'invisible')}
         {...props}
       />
     </div>
