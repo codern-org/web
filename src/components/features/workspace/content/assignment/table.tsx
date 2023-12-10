@@ -118,7 +118,9 @@ const columns: ColumnDef<Assignment>[] = [
     header: 'Submission',
     cell: ({ row }) => {
       if (!row.original.lastSubmittedAt) return <>-</>;
-      const isLate = row.original.lastSubmittedAt > row.original.dueDate;
+      const isLate = row.original.dueDate
+        ? row.original.lastSubmittedAt > row.original.dueDate
+        : false;
       return (
         <TooltipProvider delayDuration={0}>
           <Tooltip>

@@ -60,7 +60,11 @@ export const AssignmentHeader = () => {
         <div className="space-y-0.5">
           {assignment ? (
             <p className="text-sm">
-              Due date: {formatDate(assignment.dueDate, 'EEE, d MMM yyyy p')}
+              {assignment.dueDate ? (
+                <>Due date: {formatDate(assignment.dueDate, 'EEE, d MMM yyyy p')}</>
+              ) : (
+                <>No due date</>
+              )}
             </p>
           ) : (
             <Skeleton className="h-5 w-64" />
