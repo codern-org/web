@@ -5,7 +5,7 @@ import { PageLayout } from '@/components/common/page-layout';
 import { RoutePath } from '@/libs/constants';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export function FallbackError({ error, reset }: FallbackComponentProps) {
+export function FallbackError({ reset }: FallbackComponentProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const isHistoryExists = location.key !== 'default';
