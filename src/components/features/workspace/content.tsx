@@ -2,6 +2,7 @@ import { Skeleton } from '@/components/common/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/common/tab';
 import { AssignmentTable } from '@/components/features/workspace/content/assignment/table';
 import { WorkspaceParticipantTable } from '@/components/features/workspace/content/participant/table';
+import { WorkspaceScoreboardTable } from '@/components/features/workspace/content/scoreboard/table';
 import { useWorkspaceParams } from '@/hooks/router-hook';
 import { useGetWorkspaceQuery } from '@/hooks/workspace-hook';
 import {
@@ -33,6 +34,13 @@ export const WorkspaceContent = () => {
         path: RoutePath.WORKSPACE(workspace.id, WorkspaceContentEnum.ASSIGNMENT),
         label: 'Assignment',
         content: <AssignmentTable />,
+        restrictedRole: [WorkspaceRole.MEMBER, WorkspaceRole.ADMIN, WorkspaceRole.OWNER],
+      },
+      {
+        value: WorkspaceContentEnum.SCOREBOARD,
+        path: RoutePath.WORKSPACE(workspace.id, WorkspaceContentEnum.SCOREBOARD),
+        label: 'Scoreboard',
+        content: <WorkspaceScoreboardTable />,
         restrictedRole: [WorkspaceRole.MEMBER, WorkspaceRole.ADMIN, WorkspaceRole.OWNER],
       },
       {

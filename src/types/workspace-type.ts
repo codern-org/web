@@ -31,6 +31,14 @@ export type WorkspaceParticipant = {
   joinedAt: Date;
 };
 
+export type WorkspaceRank = {
+  userId: string;
+  displayName: string;
+  profileUrl: string;
+  score: number;
+  completedAssignment: number;
+};
+
 export enum AssignmentLevel {
   EASY = 'EASY',
   NORMAL = 'NORMAL',

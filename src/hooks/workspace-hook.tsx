@@ -119,6 +119,12 @@ export const useGetWorkspaceQuery = (id: number) =>
     gcTime: 0,
   });
 
+export const useGetScoreboardQuery = (workspaceId: number) =>
+  useQuery({
+    queryKey: ['workspace', workspaceId, 'scoreboard'],
+    queryFn: () => workspaceService.getScoreboard(workspaceId),
+  });
+
 export const useGetAssignmentQuery = (workspaceId: number, assignmentId: number) =>
   useQuery({
     queryKey: ['workspaces', workspaceId, 'assignments', assignmentId],
