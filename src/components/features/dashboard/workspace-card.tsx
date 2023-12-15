@@ -35,7 +35,7 @@ export const WorkspaceCard = ({ workspace }: WorkspaceCardProps) => {
     role,
     participantCount,
   } = workspace;
-  const progress = totalAssignment ? (completedAssignment / totalAssignment) * 100 : 0;
+  const progress = totalAssignment ? Math.round((completedAssignment / totalAssignment) * 100) : 0;
 
   return (
     <Card className="bg-background transition-colors hover:border-primary">
