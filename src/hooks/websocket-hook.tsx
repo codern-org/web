@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { usePageVisibility } from '@/hooks/visibility-hook';
 import { deserializeDate } from '@/libs/utils';
 import { WsErrorReason } from '@/types/api-response-type';
 import { ReactNode, createContext, useCallback, useContext, useEffect, useRef } from 'react';
@@ -28,6 +29,7 @@ const WebSocketProviderContext = createContext<WebSocketProviderState>(
 export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
   const ws = useRef<WebSocket>();
   const channelHandlers = useRef<Map<string, WebSocketChannelHandler[]>>(new Map());
+  const isPageVisible = usePageVisibility();
 
   const connect = useCallback(() => {
     ws.current = new WebSocket(window.APP_CONFIG.WS_URL);
@@ -52,22 +54,20 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
       } catch {
         // Use code 1000 to check reason later for manually closing.
         // Use code 4000 as unmounting notice.
-        // And 1006 seems occur in react strict mode after first rendering
-        if ([1000, 1006, 4000].includes(event.code)) {
+        if ([1000, 4000].includes(event.code)) {
           return;
         }
       }
 
       setTimeout(() => {
-        // Avoid race condition
-        if (ws.current?.readyState === WebSocket.CLOSED) {
+        if (!document.hidden && ws.current?.readyState === WebSocket.CLOSED) {
           console.log(
             '%c🤖 Dimension portal is reopening...',
             'background-color: orange; color: white; font-size: 0.7rem; padding: 0.125rem; border-radius: 0.25rem',
           );
           connect();
         }
-      }, 3000);
+      }, 1000);
     });
 
     ws.current.addEventListener('message', (event) => {
@@ -82,13 +82,21 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
   }, []);
 
   const disconnect = useCallback((code = 1000) => {
-    ws.current?.close(code);
+    if (!ws.current) return;
+
+    // https://github.com/facebook/create-react-app/issues/10387#issuecomment-1671051977
+    if (ws.current.readyState === WebSocket.OPEN) {
+      ws.current.close(code);
+    } else {
+      ws.current.addEventListener('open', () => ws.current?.close(code));
+    }
   }, []);
 
   useEffect(() => {
-    connect();
+    if (isPageVisible) connect();
+    else disconnect(1000);
     return () => disconnect(4000);
-  }, [connect, disconnect]);
+  }, [isPageVisible, connect, disconnect]);
 
   const subscribe = (channel: string, cb: WebSocketChannelHandler) => {
     const handlers = channelHandlers.current.get(channel);
