@@ -25,6 +25,7 @@ import { useCreateAssignment } from '@/hooks/workspace-hook';
 import {
   CreateAssignmentDefaultValues,
   CreateAssignmentSchema,
+  CreateAssignmentSchemaValues,
 } from '@/types/schema/create-assignment-schema';
 import { AssignmentLevel } from '@/types/workspace-type';
 import {
@@ -34,6 +35,7 @@ import {
   PlusIcon,
   TrashIcon,
 } from 'lucide-react';
+import { DragEvent } from 'react';
 import { useFieldArray } from 'react-hook-form';
 
 export const CreateAssignmentForm = () => {
@@ -49,6 +51,24 @@ export const CreateAssignmentForm = () => {
     control: form.control,
     name: 'testcases',
   });
+
+  const handleDropFile = <T extends HTMLInputElement | HTMLTextAreaElement>(
+    event: DragEvent<T>,
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const { files } = event.dataTransfer;
+    const reader = new FileReader();
+
+    reader.onload = (readerEvent) => {
+      const fileContent = readerEvent.target?.result;
+      if (!fileContent) return;
+      const fieldName = (event.target as T).name as keyof CreateAssignmentSchemaValues;
+      form.setValue(fieldName, fileContent.toString());
+    };
+    reader.readAsText(files[0]);
+  };
 
   return (
     <div className="container py-8">
@@ -198,6 +218,7 @@ export const CreateAssignmentForm = () => {
                       <Textarea
                         className="h-72"
                         placeholder="Detail of an assignment"
+                        onDrop={handleDropFile}
                         {...field}
                       />
                     </FormControl>
@@ -265,6 +286,7 @@ export const CreateAssignmentForm = () => {
                                       wrap="off"
                                       className="h-24"
                                       placeholder={`Input of testcase ${index + 1}`}
+                                      onDrop={handleDropFile}
                                       {...field}
                                     />
                                   </FormControl>
@@ -283,6 +305,7 @@ export const CreateAssignmentForm = () => {
                                       wrap="off"
                                       className="h-24"
                                       placeholder={`Output of testcase ${index + 1}`}
+                                      onDrop={handleDropFile}
                                       {...field}
                                     />
                                   </FormControl>
