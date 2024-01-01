@@ -34,7 +34,7 @@ export abstract class ApiService {
   protected getFile(url: string) {
     if (url.startsWith('/')) url = window.APP_CONFIG.BACKEND_URL + '/file' + url;
     return this.get(url)
-      .then((response) => response.data as unknown as string)
+      .then((response) => response.data.toString())
       .catch(this.throwError);
   }
 

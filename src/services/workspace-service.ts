@@ -1,4 +1,5 @@
 import { ApiService } from '@/services/api-service';
+import { CreateAssignmentSchemaValues } from '@/types/schema/create-assignment-schema';
 import {
   Assignment,
   Submission,
@@ -8,6 +9,33 @@ import {
 } from '@/types/workspace-type';
 
 class WorkspaceService extends ApiService {
+  public async createAssignment(
+    workspaceId: number,
+    assignment: CreateAssignmentSchemaValues,
+  ): Promise<CreateAssignmentSchemaValues> {
+    const url = '/workspaces/:workspaceId/assignments'.replace(
+      ':workspaceId',
+      workspaceId.toString(),
+    );
+
+    const formData = new FormData();
+    formData.append('name', assignment.name);
+    formData.append('description', assignment.description);
+    formData.append('memoryLimit', assignment.memoryLimit.toString());
+    formData.append('timeLimit', assignment.timeLimit.toString());
+    formData.append('level', assignment.level);
+    formData.append('detail', new Blob([assignment.detail]), 'detail.md');
+
+    assignment.testcases.forEach((testcase, i) => {
+      formData.append('testcaseInput', new Blob([testcase.in + '\n']), `${i + 1}.in`);
+      formData.append('testcaseOutput', new Blob([testcase.out + '\n']), `${i + 1}.out`);
+    });
+
+    return this.post(url, formData)
+      .then(() => assignment)
+      .catch(this.throwError);
+  }
+
   public async createSubmission(
     workspaceId: number,
     assignmentId: number,

@@ -41,7 +41,7 @@ export type WorkspaceRank = {
 
 export enum AssignmentLevel {
   EASY = 'EASY',
-  NORMAL = 'NORMAL',
+  MEDIUM = 'MEDIUM',
   HARD = 'HARD',
 }
 

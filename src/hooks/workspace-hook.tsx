@@ -1,11 +1,38 @@
 import { toast, useToast } from '@/hooks/toast-hook';
 import { useWebSocket } from '@/hooks/websocket-hook';
+import { RoutePath, WorkspaceContent } from '@/libs/constants';
 import { ApiService } from '@/services/api-service';
 import { workspaceService } from '@/services/workspace-service';
+import { CreateAssignmentSchemaValues } from '@/types/schema/create-assignment-schema';
 import { Assignment, CreateSubmissionParams, Submission } from '@/types/workspace-type';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+export const useCreateAssignment = (workspaceId: number) => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: (assignment: CreateAssignmentSchemaValues) =>
+      workspaceService.createAssignment(workspaceId, assignment),
+    onSuccess: (assignment) => {
+      queryClient.invalidateQueries({ queryKey: ['workspaces', workspaceId, 'assignments'] });
+      toast({
+        title: 'Create assignment successfully',
+        description: `New assignment ${assignment.name}`,
+      });
+      navigate(RoutePath.WORKSPACE(workspaceId, WorkspaceContent.ASSIGNMENT));
+    },
+    onError: (error) => {
+      toast({
+        variant: 'danger',
+        title: 'Cannot submit your code',
+        description: error.message,
+      });
+    },
+  });
+};
 
 export const useCreateSubmission = (workspaceId: number, assignmentId: number) => {
   const queryClient = useQueryClient();
