@@ -4,8 +4,8 @@ export const useWorkspaceParams = () => {
   const { workspaceId, assignmentId, content, settings } = useParams();
 
   return {
-    workspaceId: Number(workspaceId),
-    assignmentId: Number(assignmentId),
+    workspaceId: BigInt(workspaceId || 0),
+    assignmentId: BigInt(assignmentId || 0),
     content,
     settings,
   };

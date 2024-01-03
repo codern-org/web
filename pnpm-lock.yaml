@@ -71,6 +71,9 @@ dependencies:
   dompurify:
     specifier: ^3.0.6
     version: 3.0.6
+  json-bigint:
+    specifier: ^1.0.0
+    version: 1.0.0
   katex:
     specifier: ^0.16.9
     version: 0.16.9
@@ -115,6 +118,9 @@ devDependencies:
   '@types/dompurify':
     specifier: ^3.0.4
     version: 3.0.4
+  '@types/json-bigint':
+    specifier: ^1.0.4
+    version: 1.0.4
   '@types/markdown-it':
     specifier: ^13.0.5
     version: 13.0.5
@@ -2181,6 +2187,10 @@ packages:
     resolution: {integrity: sha512-CS2rOaoQ/eAgAfcTfq6amKG7bsN+EMcgGY4FAFQdvSj2y1ixvOZTUA9mOtCai7E1SYu283XNw7urKK30nP3wkQ==}
     dev: true
 
+  /@types/json-bigint@1.0.4:
+    resolution: {integrity: sha512-ydHooXLbOmxBbubnA7Eh+RpBzuaIiQjh8WGJYQB50JFGFrdxW7JzVlyEV7fAXw0T2sqJ1ysTneJbiyNLqZRAag==}
+    dev: true
+
   /@types/json-schema@7.0.14:
     resolution: {integrity: sha512-U3PUjAudAdJBeC2pgN8uTIKgxrb4nlDF3SF0++EldXQvQBGkpFZMSnwQiIoDU77tv45VgNkl/L4ouD+rEomujw==}
     dev: true
@@ -2587,6 +2597,10 @@ packages:
     resolution: {integrity: sha512-GPEid2Y9QU1Exl1rpO9B2IPJGHPSupF5GnVIP0blYvNOMer2bTvSWs1jGOUg04hTmu67nmLsQ9TBo1puaotBHg==}
     engines: {node: '>=0.6'}
     dev: true
+
+  /bignumber.js@9.1.2:
+    resolution: {integrity: sha512-2/mKyZH9K85bzOEfhXDBFZTGd1CTs+5IHpeFQo9luiBG7hghdC851Pj2WAhb6E3R6b9tZj/XKhbg4fum+Kepug==}
+    dev: false
 
   /binary-extensions@2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
@@ -4058,6 +4072,12 @@ packages:
     engines: {node: '>=4'}
     hasBin: true
     dev: true
+
+  /json-bigint@1.0.0:
+    resolution: {integrity: sha512-SiPv/8VpZuWbvLSMtTDU8hEfrZWg/mH/nV/b4o0CYbSxu1UIQPLdwKOCIyLQX+VIPO5vrLX3i8qtqFyhdPSUSQ==}
+    dependencies:
+      bignumber.js: 9.1.2
+    dev: false
 
   /json-buffer@3.0.1:
     resolution: {integrity: sha512-4bV5BfR2mqfQTJm+V5tPPdf+ZpuhiIvTuAB5g8kcrXOZpTT/QwwVRWBywX1ozr6lEuPdbHxwaJlm9G6mI2sfSQ==}

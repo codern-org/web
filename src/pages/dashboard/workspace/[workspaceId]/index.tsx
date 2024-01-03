@@ -1,10 +1,11 @@
 import { withAuth } from '@/components/common/route/private-route';
+import { useWorkspaceParams } from '@/hooks/router-hook';
 import { RoutePath } from '@/libs/constants';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 function IndividualWorkspacePage() {
-  const { workspaceId } = useParams();
-  return <Navigate to={RoutePath.FALLBACK_WORKSPACE(Number(workspaceId))} />;
+  const { workspaceId } = useWorkspaceParams();
+  return <Navigate to={RoutePath.FALLBACK_WORKSPACE(workspaceId)} />;
 }
 
 export default withAuth(IndividualWorkspacePage);

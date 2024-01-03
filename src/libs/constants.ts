@@ -14,18 +14,18 @@ export const RoutePath = {
   /** For CodernLogo component only */
   FALLBACK_DASHBOARD: '/dashboard/*',
 
-  WORKSPACE: (workspaceId: number, content: WorkspaceContent) =>
+  WORKSPACE: (workspaceId: bigint, content: WorkspaceContent) =>
     `/dashboard/workspace/${workspaceId}/${content}`,
-  FALLBACK_WORKSPACE: (workspaceId: number) => `/dashboard/workspace/${workspaceId}/assignment`,
+  FALLBACK_WORKSPACE: (workspaceId: bigint) => `/dashboard/workspace/${workspaceId}/assignment`,
 
-  WORKSPACE_SETTINGS: (workspaceId: number, settings: WorkspaceSettingsContent) =>
+  WORKSPACE_SETTINGS: (workspaceId: bigint, settings: WorkspaceSettingsContent) =>
     `/dashboard/workspace/${workspaceId}/settings/${settings}`,
-  FALLBACK_WORKSPACE_SETTINGS: (workspaceId: number) =>
+  FALLBACK_WORKSPACE_SETTINGS: (workspaceId: bigint) =>
     `/dashboard/workspace/${workspaceId}/settings/general`,
 
-  ASSIGNMENT: (workspaceId: number, assignmentId: number) =>
+  ASSIGNMENT: (workspaceId: bigint, assignmentId: bigint) =>
     `/dashboard/workspace/${workspaceId}/assignment/${assignmentId}`,
-  CREATE_ASSIGNMENT: (workspaceId: number) =>
+  CREATE_ASSIGNMENT: (workspaceId: bigint) =>
     `/dashboard/workspace/${workspaceId}/assignment/create`,
 };
 

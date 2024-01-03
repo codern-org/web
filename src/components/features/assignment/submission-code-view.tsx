@@ -63,7 +63,7 @@ export const SubmissionCodeView = ({ submission }: SubmissionCodeViewProps) => {
           </DialogTitle>
           <DialogDescription asChild>
             <div className="flex space-x-2">
-              <span>ID: {submission.id}</span>
+              <span>ID: {submission.id.toString()}</span>
               <Separator orientation="vertical" />
               <span className="text-sm font-normal">Language: {submission.language}</span>
             </div>

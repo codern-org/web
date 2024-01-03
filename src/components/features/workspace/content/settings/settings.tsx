@@ -64,7 +64,7 @@ type SidebarNavItem = {
 
 type SidebarNavProps = HTMLAttributes<HTMLElement> & {
   items: SidebarNavItem[];
-  workspaceId: number;
+  workspaceId: bigint;
 };
 
 const SidebarNav = ({ className, items, workspaceId, ...props }: SidebarNavProps) => {

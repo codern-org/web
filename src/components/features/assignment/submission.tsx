@@ -69,7 +69,7 @@ export const Submission = ({ defaultOpen, index, submission }: SubmissionProps) 
         <SubmissionResults submission={submission} />
         <Separator className="my-3" />
         <div className="flex flex-col justify-between space-y-2 text-xs xl:flex-row xl:items-center xl:space-y-0">
-          <p className="text-muted-foreground xl:mb-0">Submission id: {submission.id}</p>
+          <p className="text-muted-foreground xl:mb-0">Submission id: {submission.id.toString()}</p>
           <SubmissionCodeView submission={submission} />
         </div>
       </CollapsibleContent>

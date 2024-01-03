@@ -1,5 +1,5 @@
 export type Workspace = {
-  id: number;
+  id: bigint;
   name: string;
   profileUrl: string;
   createdAt: Date;
@@ -53,7 +53,7 @@ export enum AssignmentStatus {
 }
 
 export type Assignment = {
-  id: number;
+  id: bigint;
   name: string;
   description: string;
   detailUrl: string;
@@ -68,7 +68,7 @@ export type Assignment = {
 };
 
 export type Submission = {
-  id: number;
+  id: bigint;
   language: string;
   status: AssignmentStatus;
   score: number;
@@ -84,7 +84,7 @@ export type CreateSubmissionParams = {
 };
 
 export type SubmissionResult = {
-  testcaseId: number;
+  testcaseId: bigint;
   isPassed: boolean;
   status: SubmissionStatusDetail;
   memoryUsage: number;

@@ -10,7 +10,7 @@ import {
 
 class WorkspaceService extends ApiService {
   public async createAssignment(
-    workspaceId: number,
+    workspaceId: bigint,
     assignment: CreateAssignmentSchemaValues,
   ): Promise<CreateAssignmentSchemaValues> {
     const url = '/workspaces/:workspaceId/assignments'.replace(
@@ -37,8 +37,8 @@ class WorkspaceService extends ApiService {
   }
 
   public async createSubmission(
-    workspaceId: number,
-    assignmentId: number,
+    workspaceId: bigint,
+    assignmentId: bigint,
     code: string,
     language: string,
   ): Promise<void> {
@@ -63,7 +63,7 @@ class WorkspaceService extends ApiService {
       .catch(this.throwError);
   }
 
-  public async getWorkspace(id: number): Promise<Workspace> {
+  public async getWorkspace(id: bigint): Promise<Workspace> {
     const url = '/workspaces/:workspaceId'.replace(':workspaceId', id.toString());
     return this.get(url)
       .then((response) => {
@@ -72,7 +72,7 @@ class WorkspaceService extends ApiService {
       .catch(this.throwError);
   }
 
-  public async getScoreboard(workspaceId: number): Promise<WorkspaceRank[]> {
+  public async getScoreboard(workspaceId: bigint): Promise<WorkspaceRank[]> {
     const url = '/workspaces/:workspaceId/scoreboard'.replace(
       ':workspaceId',
       workspaceId.toString(),
@@ -84,7 +84,7 @@ class WorkspaceService extends ApiService {
       .catch(this.throwError);
   }
 
-  public async listWorkspaceParticipant(workspaceId: number): Promise<WorkspaceParticipant[]> {
+  public async listWorkspaceParticipant(workspaceId: bigint): Promise<WorkspaceParticipant[]> {
     const url = '/workspaces/:workspaceId/participants'.replace(
       ':workspaceId',
       workspaceId.toString(),
@@ -96,7 +96,7 @@ class WorkspaceService extends ApiService {
       .catch(this.throwError);
   }
 
-  public async listAssignment(workspaceId: number): Promise<Assignment[]> {
+  public async listAssignment(workspaceId: bigint): Promise<Assignment[]> {
     const url = '/workspaces/:workspaceId/assignments'.replace(
       ':workspaceId',
       workspaceId.toString(),
@@ -108,7 +108,7 @@ class WorkspaceService extends ApiService {
       .catch(this.throwError);
   }
 
-  public async getAssignment(workspaceId: number, assignmentId: number): Promise<Assignment> {
+  public async getAssignment(workspaceId: bigint, assignmentId: bigint): Promise<Assignment> {
     const url = '/workspaces/:workspaceId/assignments/:assignmentId'
       .replace(':workspaceId', workspaceId.toString())
       .replace(':assignmentId', assignmentId.toString());
@@ -119,7 +119,7 @@ class WorkspaceService extends ApiService {
       .catch(this.throwError);
   }
 
-  public async listSubmission(workspaceId: number, assignmentId: number): Promise<Submission[]> {
+  public async listSubmission(workspaceId: bigint, assignmentId: bigint): Promise<Submission[]> {
     const url = '/workspaces/:workspaceId/assignments/:assignmentId/submissions'
       .replace(':workspaceId', workspaceId.toString())
       .replace(':assignmentId', assignmentId.toString());

@@ -10,7 +10,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export const useCreateAssignment = (workspaceId: number) => {
+export const useCreateAssignment = (workspaceId: bigint) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   return useMutation({
@@ -34,7 +34,7 @@ export const useCreateAssignment = (workspaceId: number) => {
   });
 };
 
-export const useCreateSubmission = (workspaceId: number, assignmentId: number) => {
+export const useCreateSubmission = (workspaceId: bigint, assignmentId: bigint) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ code, language }: CreateSubmissionParams) =>
@@ -58,16 +58,16 @@ export const useCreateSubmission = (workspaceId: number, assignmentId: number) =
   });
 };
 
-export const useListSubmission = (workspaceId: number, assignmentId: number) =>
+export const useListSubmission = (workspaceId: bigint, assignmentId: bigint) =>
   useQuery({
     queryKey: ['workspaces', workspaceId, 'assignments', assignmentId, 'submissions'],
     queryFn: () => workspaceService.listSubmission(workspaceId, assignmentId),
   });
 
 export const useGetSubmissionCode = (
-  workspaceId: number,
-  assignmentId: number,
-  submissionId: number,
+  workspaceId: bigint,
+  assignmentId: bigint,
+  submissionId: bigint,
   url: string | undefined,
 ) =>
   useQuery({
@@ -89,7 +89,7 @@ export const useGetSubmissionCode = (
     },
   });
 
-export const useListSubmissionSubscription = (workspaceId: number, assignmentId: number) => {
+export const useListSubmissionSubscription = (workspaceId: bigint, assignmentId: bigint) => {
   const queryClient = useQueryClient();
   const { subscribe, unsubscribe } = useWebSocket();
   const { toast } = useToast();
@@ -122,7 +122,7 @@ export const useListWorkspaceQuery = () =>
     queryFn: () => workspaceService.listWorkspace(),
   });
 
-export const useListWorkspaceParticipantQuery = (workspaceId: number) =>
+export const useListWorkspaceParticipantQuery = (workspaceId: bigint) =>
   useQuery({
     queryKey: ['workspaces', workspaceId, 'participants'],
     queryFn: () => workspaceService.listWorkspaceParticipant(workspaceId),
@@ -130,7 +130,7 @@ export const useListWorkspaceParticipantQuery = (workspaceId: number) =>
     gcTime: 0,
   });
 
-export const useListAssignmentQuery = (workspaceId: number) =>
+export const useListAssignmentQuery = (workspaceId: bigint) =>
   useQuery({
     queryKey: ['workspaces', workspaceId, 'assignments'],
     queryFn: () => workspaceService.listAssignment(workspaceId),
@@ -138,7 +138,7 @@ export const useListAssignmentQuery = (workspaceId: number) =>
     gcTime: 0,
   });
 
-export const useGetWorkspaceQuery = (id: number) =>
+export const useGetWorkspaceQuery = (id: bigint) =>
   useQuery({
     queryKey: ['workspaces', id],
     queryFn: () => workspaceService.getWorkspace(id),
@@ -146,19 +146,19 @@ export const useGetWorkspaceQuery = (id: number) =>
     gcTime: 0,
   });
 
-export const useGetScoreboardQuery = (workspaceId: number) =>
+export const useGetScoreboardQuery = (workspaceId: bigint) =>
   useQuery({
     queryKey: ['workspace', workspaceId, 'scoreboard'],
     queryFn: () => workspaceService.getScoreboard(workspaceId),
   });
 
-export const useGetAssignmentQuery = (workspaceId: number, assignmentId: number) =>
+export const useGetAssignmentQuery = (workspaceId: bigint, assignmentId: bigint) =>
   useQuery({
     queryKey: ['workspaces', workspaceId, 'assignments', assignmentId],
     queryFn: () => workspaceService.getAssignment(workspaceId, assignmentId),
   });
 
-export const useAssignmentDetail = (workspaceId: number, assignment: Assignment | undefined) =>
+export const useAssignmentDetail = (workspaceId: bigint, assignment: Assignment | undefined) =>
   useQuery({
     enabled: !!assignment,
     queryKey: ['workspaces', workspaceId, 'assignments', assignment?.id, 'detail'],
