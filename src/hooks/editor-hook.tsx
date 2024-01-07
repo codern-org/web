@@ -34,6 +34,7 @@ type EditorProviderState = {
   getCode: () => string;
   setCode: (code: string, language?: string) => void;
   getLanguage: () => string;
+  setLanguage: (language: string) => void;
 };
 
 const EditorProviderContext = createContext<EditorProviderState | null>(null);
@@ -63,13 +64,19 @@ export const EditorProvider = ({
     const model = getCurrentModel();
     if (!model || !monacoRef.current) return;
     model.setValue(code);
-    if (language) monacoRef.current.editor.setModelLanguage(model, language);
+    if (language) setLanguage(language);
   };
 
   const getLanguage = () => {
     const model = getCurrentModel();
     if (!model) return '';
     return model.getLanguageId();
+  };
+
+  const setLanguage = (language: string) => {
+    const model = getCurrentModel();
+    if (!model || !monacoRef.current) return;
+    monacoRef.current.editor.setModelLanguage(model, language);
   };
 
   // Sync theme after monaco has initialized
@@ -101,6 +108,7 @@ export const EditorProvider = ({
     getCode,
     setCode,
     getLanguage,
+    setLanguage,
   };
 
   return <EditorProviderContext.Provider value={value}>{children}</EditorProviderContext.Provider>;

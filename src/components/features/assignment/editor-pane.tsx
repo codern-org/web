@@ -18,7 +18,7 @@ import { Loader2Icon, SettingsIcon } from 'lucide-react';
 
 export const EditorPane = () => {
   const { workspaceId, assignmentId } = useWorkspaceParams();
-  const { getCode, getLanguage } = useEditor();
+  const { getCode, getLanguage, setLanguage } = useEditor();
   const { toast } = useToast();
   const { setTab } = useProblemPane();
   const { mutate: submit, isPending: isSubmitting } = useCreateSubmission(
@@ -51,7 +51,10 @@ export const EditorPane = () => {
           >
             <SettingsIcon className="h-4 w-4" />
           </Button>
-          <Select defaultValue="c">
+          <Select
+            defaultValue="c"
+            onValueChange={setLanguage}
+          >
             <SelectTrigger className="h-9 w-32 focus:ring-0 focus:ring-offset-0">
               <SelectValue />
             </SelectTrigger>
