@@ -98,8 +98,8 @@ export const useListSubmissionSubscription = (workspaceId: bigint, assignmentId:
     const updateSubmissions = (newSubmission: Submission) => {
       queryClient.setQueryData(
         ['workspaces', workspaceId, 'assignments', assignmentId, 'submissions'],
-        (submission: Submission[]) => {
-          return submission.map((submission) => {
+        (submissions: Submission[]) => {
+          return submissions.map((submission) => {
             if (submission.id === newSubmission.id) return newSubmission;
             return submission;
           });
