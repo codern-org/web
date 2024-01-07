@@ -1,5 +1,6 @@
 import clsx, { ClassValue } from 'clsx';
 import { formatDistance as formatDateDistFns, format as formatDateFns, parseISO } from 'date-fns';
+import JSONBigInt from 'json-bigint';
 import { Children, ReactElement, isValidElement } from 'react';
 import { twMerge } from 'tailwind-merge';
 
@@ -33,6 +34,8 @@ const ISO_DATE_FORMAT = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d*)?(?:[-+]\d
 export const isIsoDateString = (value: unknown): value is string => {
   return typeof value === 'string' && ISO_DATE_FORMAT.test(value);
 };
+
+export const JSONBigIntParser = JSONBigInt({ useNativeBigInt: true });
 
 // Parse response data from ISO date string to JavaScript date object recursively
 export const deserializeDate = (data: unknown) => {

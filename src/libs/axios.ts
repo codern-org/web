@@ -1,13 +1,10 @@
-import { deserializeDate } from '@/libs/utils';
+import { JSONBigIntParser, deserializeDate } from '@/libs/utils';
 import axios from 'axios';
-import JSONBigInt from 'json-bigint';
 
 export const Axios = axios.create({
   baseURL: window.APP_CONFIG.BACKEND_URL,
   withCredentials: true,
 });
-
-const JSONBigIntParser = JSONBigInt({ useNativeBigInt: true });
 
 Axios.interceptors.request.use((request) => {
   request.transformResponse = [

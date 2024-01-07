@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { usePageVisibility } from '@/hooks/visibility-hook';
-import { deserializeDate } from '@/libs/utils';
+import { JSONBigIntParser, deserializeDate } from '@/libs/utils';
 import { WsErrorReason } from '@/types/api-response-type';
 import { ReactNode, createContext, useCallback, useContext, useEffect, useRef } from 'react';
 
@@ -71,7 +71,7 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
     });
 
     ws.current.addEventListener('message', (event) => {
-      const payload = JSON.parse(event.data) as WebSocketPayload;
+      const payload = JSONBigIntParser.parse(event.data) as WebSocketPayload;
       if (payload.channel && payload.message) {
         deserializeDate(payload.message);
         const handlers = channelHandlers.current.get(payload.channel);
