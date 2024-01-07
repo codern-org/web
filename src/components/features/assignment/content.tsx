@@ -1,3 +1,8 @@
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from '@/components/common/resizable';
 import { ProblemPane } from '@/components/features/assignment/problem-pane';
 import { EditorProvider } from '@/hooks/editor-hook';
 import { ProblemPaneProvider } from '@/hooks/problem-pane-hook';
@@ -8,18 +13,25 @@ const EditorPane = lazy(() => import('@/components/features/assignment/editor-pa
 export const AssignmentContent = () => {
   return (
     <ProblemPaneProvider>
-      <div className="container flex h-full flex-col justify-between space-y-4 overflow-hidden py-6 lg:flex-row lg:space-x-4 lg:space-y-0">
-        <div className="w-full lg:w-2/5">
+      <ResizablePanelGroup
+        direction="horizontal"
+        className="container flex h-full flex-col justify-between space-y-4 overflow-hidden py-6 lg:flex-row lg:space-x-4 lg:space-y-0"
+      >
+        <ResizablePanel defaultSize={40}>
           <ProblemPane />
-        </div>
-        <div className="h-full w-full lg:h-auto lg:w-3/5">
+        </ResizablePanel>
+        <ResizableHandle withHandle />
+        <ResizablePanel
+          defaultSize={60}
+          className="h-full w-full lg:h-auto lg:w-3/5"
+        >
           <Suspense>
             <EditorProvider>
               <EditorPane />
             </EditorProvider>
           </Suspense>
-        </div>
-      </div>
+        </ResizablePanel>
+      </ResizablePanelGroup>
     </ProblemPaneProvider>
   );
 };
