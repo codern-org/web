@@ -1,5 +1,5 @@
 import { ApiService } from '@/services/api-service';
-import { CreateAssignmentSchemaValues } from '@/types/schema/create-assignment-schema';
+import { CreateAssignmentSchemaValues } from '@/types/schema/assignment-schema';
 import {
   Assignment,
   Submission,
@@ -51,6 +51,12 @@ class WorkspaceService extends ApiService {
     formData.append('language', language.toUpperCase());
 
     return this.post(url, formData)
+      .then(() => {})
+      .catch(this.throwError);
+  }
+
+  public async joinWorkspace(code: string): Promise<void> {
+    return this.get(`/join/${code}`)
       .then(() => {})
       .catch(this.throwError);
   }

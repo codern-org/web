@@ -3,7 +3,7 @@ import { useWebSocket } from '@/hooks/websocket-hook';
 import { RoutePath, WorkspaceContent } from '@/libs/constants';
 import { ApiService } from '@/services/api-service';
 import { workspaceService } from '@/services/workspace-service';
-import { CreateAssignmentSchemaValues } from '@/types/schema/create-assignment-schema';
+import { CreateAssignmentSchemaValues } from '@/types/schema/assignment-schema';
 import { Assignment, CreateSubmissionParams, Submission } from '@/types/workspace-type';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';

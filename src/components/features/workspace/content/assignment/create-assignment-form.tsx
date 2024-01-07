@@ -26,7 +26,7 @@ import {
   CreateAssignmentDefaultValues,
   CreateAssignmentSchema,
   CreateAssignmentSchemaValues,
-} from '@/types/schema/create-assignment-schema';
+} from '@/types/schema/assignment-schema';
 import { AssignmentLevel } from '@/types/workspace-type';
 import {
   AlertTriangleIcon,

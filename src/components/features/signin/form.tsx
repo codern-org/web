@@ -16,7 +16,7 @@ import {
   SignInFormDefaultValues,
   SignInFormSchema,
   SignInFormValues,
-} from '@/types/schema/sign-in-schema';
+} from '@/types/schema/user-schema';
 
 export const SignInForm = () => {
   const form = useStrictForm(SignInFormSchema, SignInFormDefaultValues);

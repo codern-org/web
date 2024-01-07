@@ -14,7 +14,7 @@ import { useStrictForm } from '@/hooks/form-hook';
 import { useToast } from '@/hooks/toast-hook';
 import { RoutePath } from '@/libs/constants';
 import { authService } from '@/services/auth-service';
-import { ChangePassFormSchema, ChangePassFormValues } from '@/types/schema/sign-in-schema';
+import { ChangePassFormSchema, ChangePassFormValues } from '@/types/schema/user-schema';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';

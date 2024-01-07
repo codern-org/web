@@ -13,7 +13,7 @@ import { Input } from '@/components/common/input';
 import { Separator } from '@/components/common/separator';
 import { useAuth } from '@/hooks/auth-hook';
 import { useStrictForm } from '@/hooks/form-hook';
-import { SettingsProfileSchema } from '@/types/schema/profile-setting-schema';
+import { SettingsProfileSchema } from '@/types/schema/user-schema';
 import { PencilIcon } from 'lucide-react';
 import { ChangeEvent, useRef } from 'react';
 
