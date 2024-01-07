@@ -10,19 +10,22 @@ export const Axios = axios.create({
 const JSONBigIntParser = JSONBigInt({ useNativeBigInt: true });
 
 Axios.interceptors.request.use((request) => {
-  // Prevent default behaviour of parsing the response with JSON.parse
-  request.transformResponse = [(data) => data];
+  request.transformResponse = [
+    (data) => {
+      try {
+        data = JSONBigIntParser.parse(data);
+      } catch {
+        try {
+          data = JSON.parse(data);
+        } catch {
+          // In case of file content, etc.
+        }
+      }
+      if (data.data) deserializeDate(data.data);
+      return data;
+    },
+  ];
   return request;
-});
-
-Axios.interceptors.response.use((response) => {
-  try {
-    response.data = JSONBigIntParser.parse(response.data);
-  } catch {
-    // In case of file content, etc.
-  }
-  if (response.data.data) deserializeDate(response.data.data);
-  return response;
 });
 
 // Hacky way for tanstack-query cache key
