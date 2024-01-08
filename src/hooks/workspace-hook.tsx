@@ -169,3 +169,30 @@ export const useAssignmentDetail = (workspaceId: bigint, assignment: Assignment 
       return failureCount !== 3;
     },
   });
+
+export const useDeleteAssignment = (workspaceId: bigint, assignmentId: bigint) => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: () => workspaceService.deleteAssignment(workspaceId, assignmentId),
+    onSuccess: () => {
+      queryClient.setQueryData(
+        ['workspaces', workspaceId, 'assignments'],
+        (assignments: Assignment[]) => {
+          return assignments.filter((assignment) => assignment.id !== assignmentId);
+        },
+      );
+      toast({
+        title: 'Delete assignment successfully',
+      });
+      navigate(RoutePath.WORKSPACE(workspaceId, WorkspaceContent.ASSIGNMENT));
+    },
+    onError: (error) => {
+      toast({
+        variant: 'danger',
+        title: 'Cannot delete this assignment',
+        description: error.message,
+      });
+    },
+  });
+};

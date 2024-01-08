@@ -19,7 +19,7 @@ export abstract class ApiService {
     return Axios.patch<ApiResponse<T>>(url, data);
   }
 
-  protected delete<T = object>(url: string, data: object) {
+  protected delete<T = object>(url: string, data?: object) {
     return Axios.delete<ApiResponse<T>>(url, data);
   }
 

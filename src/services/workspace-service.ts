@@ -143,6 +143,15 @@ class WorkspaceService extends ApiService {
   public async getAssignmentDetail(url: string): Promise<string> {
     return this.getFile(url);
   }
+
+  public async deleteAssignment(workspaceId: bigint, assignmentId: bigint): Promise<void> {
+    const url = '/workspaces/:workspaceId/assignments/:assignmentId'
+      .replace(':workspaceId', workspaceId.toString())
+      .replace(':assignmentId', assignmentId.toString());
+    return this.delete(url)
+      .then(() => {})
+      .catch(this.throwError);
+  }
 }
 
 export const workspaceService = new WorkspaceService();

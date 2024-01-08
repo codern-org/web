@@ -17,6 +17,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/common/tooltip';
+import { AssignmentTableRowActions } from '@/components/features/workspace/content/assignment/table-row-actions';
 import { useWorkspaceParams } from '@/hooks/router-hook';
 import { useGetWorkspaceQuery, useListAssignmentQuery } from '@/hooks/workspace-hook';
 import { RoutePath } from '@/libs/constants';
@@ -25,6 +26,7 @@ import { Assignment, WorkspaceRole } from '@/types/workspace-type';
 import {
   ColumnDef,
   ColumnFiltersState,
+  Row,
   SortingState,
   flexRender,
   getCoreRowModel,
@@ -36,7 +38,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { CircleIcon, Loader2Icon, PlusIcon, XIcon } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { MouseEvent, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const statuses = [
@@ -157,6 +159,10 @@ const columns: ColumnDef<Assignment>[] = [
     },
     filterFn: (row, id, value) => value.includes(row.getValue(id)),
   },
+  {
+    id: 'actions',
+    cell: ({ row }) => <AssignmentTableRowActions row={row} />,
+  },
 ];
 
 export const AssignmentTable = () => {
@@ -175,6 +181,7 @@ export const AssignmentTable = () => {
     state: {
       sorting,
       columnFilters,
+      columnVisibility: { actions: workspace?.role !== WorkspaceRole.MEMBER },
     },
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -186,6 +193,18 @@ export const AssignmentTable = () => {
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
   const isFiltered = table.getState().columnFilters.length > 0;
+
+  // TODO: better solution without hack
+  // Hacky way to prevent page navigation when click dropdown button on table row
+  // Try to use Link component but it's not working because of how HTML work to render <td>sZ
+  const handleRowClick = (event: MouseEvent<HTMLTableRowElement>, row: Row<Assignment>) => {
+    const target = event.target as Element;
+    const role = target.getAttribute('role'); // For open dialog
+    const state = target.getAttribute('data-state'); // For close dialog
+    const buttonType = target.getAttribute('type'); // For dialog button click
+    if (role === 'menuitem' || state === 'open' || buttonType) return;
+    navigate(RoutePath.ASSIGNMENT(workspaceId, row.original.id));
+  };
 
   return (
     <div className="space-y-4">
@@ -249,15 +268,13 @@ export const AssignmentTable = () => {
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <TableHead key={header.id}>
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(header.column.columnDef.header, header.getContext())}
-                      </TableHead>
-                    );
-                  })}
+                  {headerGroup.headers.map((header) => (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(header.column.columnDef.header, header.getContext())}
+                    </TableHead>
+                  ))}
                 </TableRow>
               ))}
             </TableHeader>
@@ -267,7 +284,7 @@ export const AssignmentTable = () => {
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && 'selected'}
-                    onClick={() => navigate(RoutePath.ASSIGNMENT(workspaceId, row.original.id))}
+                    onClick={(event) => handleRowClick(event, row)}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
