@@ -64,7 +64,14 @@ export type Assignment = {
   createdAt: Date;
   dueDate: Date;
   status: AssignmentStatus;
+  testcases: Testcase[];
   lastSubmittedAt: Date;
+};
+
+export type Testcase = {
+  id: bigint;
+  inputFileUrl: string;
+  outputFileUrl: string;
 };
 
 export type Submission = {

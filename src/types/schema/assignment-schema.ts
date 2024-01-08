@@ -1,4 +1,4 @@
-import { AssignmentLevel } from '@/types/workspace-type';
+import { Assignment, AssignmentLevel } from '@/types/workspace-type';
 import * as z from 'zod';
 
 export const CreateAssignmentSchema = z.object({
@@ -36,3 +36,20 @@ export const CreateAssignmentSchema = z.object({
 export type CreateAssignmentSchemaValues = z.infer<typeof CreateAssignmentSchema>;
 
 export const CreateAssignmentDefaultValues: Partial<CreateAssignmentSchemaValues> = {};
+
+export const parseToCreateAssignmentSchema = (
+  assignment: Assignment,
+  detail: string,
+  testcases: CreateAssignmentSchemaValues['testcases'],
+) => {
+  const { name, description, memoryLimit, timeLimit, level } = assignment;
+  return CreateAssignmentSchema.parse({
+    name,
+    description,
+    memoryLimit: memoryLimit.toString(),
+    timeLimit: timeLimit.toString(),
+    level,
+    detail,
+    testcases,
+  });
+};

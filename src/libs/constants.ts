@@ -27,6 +27,8 @@ export const RoutePath = {
     `/dashboard/workspace/${workspaceId}/assignment/${assignmentId}`,
   CREATE_ASSIGNMENT: (workspaceId: bigint) =>
     `/dashboard/workspace/${workspaceId}/assignment/create`,
+  EDIT_ASSIGNMENT: (workspaceId: bigint, assignmentId: bigint) =>
+    `/dashboard/workspace/${workspaceId}/assignment/${assignmentId}/edit`,
 };
 
 export const getBaseRoutePath = (pathname: string) =>

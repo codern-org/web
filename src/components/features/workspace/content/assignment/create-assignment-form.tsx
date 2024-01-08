@@ -19,14 +19,8 @@ import {
 import { Separator } from '@/components/common/separator';
 import { Textarea } from '@/components/common/textarea';
 import { AssignmentDetailPreview } from '@/components/features/workspace/content/assignment/assignment-detail-preview';
-import { useStrictForm } from '@/hooks/form-hook';
-import { useWorkspaceParams } from '@/hooks/router-hook';
-import { useCreateAssignment } from '@/hooks/workspace-hook';
-import {
-  CreateAssignmentDefaultValues,
-  CreateAssignmentSchema,
-  CreateAssignmentSchemaValues,
-} from '@/types/schema/assignment-schema';
+import { useCreateAssignmentForm } from '@/hooks/workspace-hook';
+import { CreateAssignmentSchemaValues } from '@/types/schema/assignment-schema';
 import { AssignmentLevel } from '@/types/workspace-type';
 import {
   AlertTriangleIcon,
@@ -36,21 +30,18 @@ import {
   TrashIcon,
 } from 'lucide-react';
 import { DragEvent } from 'react';
-import { useFieldArray } from 'react-hook-form';
 
 export const CreateAssignmentForm = () => {
-  const { workspaceId } = useWorkspaceParams();
-  const { mutate: create, isPending: isCreating } = useCreateAssignment(workspaceId);
-
-  const form = useStrictForm(CreateAssignmentSchema, CreateAssignmentDefaultValues);
   const {
-    fields: testcases,
-    append: appendTestcase,
-    remove: removeTestcase,
-  } = useFieldArray({
-    control: form.control,
-    name: 'testcases',
-  });
+    form,
+    create,
+    isEditing,
+    isCreating,
+    isLoading,
+    testcases,
+    appendTestcase,
+    removeTestcase,
+  } = useCreateAssignmentForm();
 
   const handleDropFile = <T extends HTMLInputElement | HTMLTextAreaElement>(
     event: DragEvent<T>,
@@ -70,6 +61,11 @@ export const CreateAssignmentForm = () => {
     reader.readAsText(files[0]);
   };
 
+  if (isLoading) {
+    // TODO: skeleton
+    return <></>;
+  }
+
   return (
     <div className="container py-8">
       <Form {...form}>
@@ -78,7 +74,7 @@ export const CreateAssignmentForm = () => {
           className="flex h-full flex-col space-y-8 rounded-md border bg-background p-8 shadow"
         >
           <div className="py-2">
-            <h2 className="text-2xl font-semibold">Create assignment</h2>
+            <h2 className="text-2xl font-semibold">{isEditing ? 'Edit' : 'Create'} assignment</h2>
           </div>
 
           <Separator />
@@ -132,7 +128,7 @@ export const CreateAssignmentForm = () => {
                     <FormLabel>Level</FormLabel>
                     <Select
                       onValueChange={field.onChange}
-                      defaultValue={field.value}
+                      value={field.value}
                     >
                       <FormControl>
                         <SelectTrigger>
@@ -341,7 +337,7 @@ export const CreateAssignmentForm = () => {
             disabled={isCreating}
           >
             {isCreating && <Loader2Icon className="mr-2 h-3 w-3 animate-spin" />}
-            Create
+            {isEditing ? 'Edit' : 'Create'}
           </Button>
         </form>
       </Form>

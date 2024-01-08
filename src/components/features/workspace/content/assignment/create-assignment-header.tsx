@@ -24,7 +24,7 @@ export const CreateAssignmentHeader = () => {
           )}
         </BreadcrumbItem>
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink>Create assignment</BreadcrumbLink>
+          <BreadcrumbLink>Manage assignment</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
     </div>

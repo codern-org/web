@@ -1,13 +1,21 @@
+import { useStrictForm } from '@/hooks/form-hook';
+import { useWorkspaceParams } from '@/hooks/router-hook';
 import { toast, useToast } from '@/hooks/toast-hook';
 import { useWebSocket } from '@/hooks/websocket-hook';
 import { RoutePath, WorkspaceContent } from '@/libs/constants';
 import { ApiService } from '@/services/api-service';
 import { workspaceService } from '@/services/workspace-service';
-import { CreateAssignmentSchemaValues } from '@/types/schema/assignment-schema';
+import {
+  CreateAssignmentDefaultValues,
+  CreateAssignmentSchema,
+  CreateAssignmentSchemaValues,
+  parseToCreateAssignmentSchema,
+} from '@/types/schema/assignment-schema';
 import { Assignment, CreateSubmissionParams, Submission } from '@/types/workspace-type';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { useEffect } from 'react';
+import { useFieldArray } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 export const useCreateAssignment = (workspaceId: bigint) => {
@@ -32,6 +40,48 @@ export const useCreateAssignment = (workspaceId: bigint) => {
       });
     },
   });
+};
+
+export const useCreateAssignmentForm = () => {
+  const { workspaceId, assignmentId } = useWorkspaceParams();
+  const { mutate: create, isPending: isCreating } = useCreateAssignment(workspaceId);
+
+  const { data: assignment, isLoading: isAssignmentLoading } = useGetAssignmentQuery(
+    workspaceId,
+    assignmentId,
+  );
+  const { data: testcases, isLoading: isTestcaseLoading } = useAssignmentTestcase(
+    workspaceId,
+    assignment,
+  );
+  const { data: detail, isLoading: isDetailLoading } = useAssignmentDetail(workspaceId, assignment);
+  const isLoading = isAssignmentLoading || isDetailLoading || isTestcaseLoading;
+
+  const form = useStrictForm(CreateAssignmentSchema, CreateAssignmentDefaultValues);
+  const {
+    fields: testcaseFields,
+    append: appendTestcase,
+    remove: removeTestcase,
+  } = useFieldArray({
+    control: form.control,
+    name: 'testcases',
+  });
+
+  useEffect(() => {
+    if (!assignment || !detail || !testcases) return;
+    form.reset(parseToCreateAssignmentSchema(assignment, detail, testcases));
+  }, [form, assignment, detail, testcases]);
+
+  return {
+    form,
+    create,
+    isEditing: !!assignment,
+    isCreating,
+    isLoading,
+    testcases: testcaseFields,
+    appendTestcase,
+    removeTestcase,
+  };
 };
 
 export const useCreateSubmission = (workspaceId: bigint, assignmentId: bigint) => {
@@ -152,10 +202,11 @@ export const useGetScoreboardQuery = (workspaceId: bigint) =>
     queryFn: () => workspaceService.getScoreboard(workspaceId),
   });
 
-export const useGetAssignmentQuery = (workspaceId: bigint, assignmentId: bigint) =>
+export const useGetAssignmentQuery = (workspaceId: bigint, assignmentId: bigint | undefined) =>
   useQuery({
+    enabled: !!assignmentId,
     queryKey: ['workspaces', workspaceId, 'assignments', assignmentId],
-    queryFn: () => workspaceService.getAssignment(workspaceId, assignmentId),
+    queryFn: () => workspaceService.getAssignment(workspaceId, assignmentId!),
   });
 
 export const useAssignmentDetail = (workspaceId: bigint, assignment: Assignment | undefined) =>
@@ -165,7 +216,34 @@ export const useAssignmentDetail = (workspaceId: bigint, assignment: Assignment 
     queryFn: () => workspaceService.getAssignmentDetail(assignment?.detailUrl as string),
     retry: (failureCount, error) => {
       if (axios.isAxiosError(error) && error.response?.status === 404) return false;
-      if (ApiService.isDomainError(error) && error.code === 3001) return false;
+      if (ApiService.isDomainError(error) && error.code === 30001) return false;
+      return failureCount !== 3;
+    },
+  });
+
+export const useAssignmentTestcase = (workspaceId: bigint, assignment: Assignment | undefined) =>
+  useQuery({
+    enabled: !!assignment,
+    queryKey: ['workspaces', workspaceId, 'assignments', assignment?.id, 'testcases'],
+    queryFn: async () => {
+      const testcases = assignment!.testcases.map((testcase) => ({
+        in: workspaceService.getAssignmentTestcase(testcase.inputFileUrl),
+        out: workspaceService.getAssignmentTestcase(testcase.outputFileUrl),
+      }));
+      await Promise.all(testcases);
+
+      const result = [];
+      for (const entry of testcases) {
+        result.push({
+          in: await entry.in,
+          out: await entry.out,
+        });
+      }
+      return result;
+    },
+    retry: (failureCount, error) => {
+      if (axios.isAxiosError(error) && error.response?.status === 404) return false;
+      if (ApiService.isDomainError(error) && error.code === 30001) return false;
       return failureCount !== 3;
     },
   });

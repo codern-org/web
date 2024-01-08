@@ -18,9 +18,11 @@ import {
 } from '@/components/common/dropdown';
 import { useWorkspaceParams } from '@/hooks/router-hook';
 import { useDeleteAssignment } from '@/hooks/workspace-hook';
+import { RoutePath } from '@/libs/constants';
 import { Assignment } from '@/types/workspace-type';
 import { Row } from '@tanstack/react-table';
 import { MoreHorizontalIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 type AssignmentTableRowActionsProps = {
   row: Row<Assignment>;
@@ -28,7 +30,8 @@ type AssignmentTableRowActionsProps = {
 
 export const AssignmentTableRowActions = ({ row }: AssignmentTableRowActionsProps) => {
   const { workspaceId } = useWorkspaceParams();
-  const { mutate: deleteAssignment } = useDeleteAssignment(workspaceId, row.original.id);
+  const assignmentId = row.original.id;
+  const { mutate: deleteAssignment } = useDeleteAssignment(workspaceId, assignmentId);
 
   return (
     <AlertDialog>
@@ -46,7 +49,9 @@ export const AssignmentTableRowActions = ({ row }: AssignmentTableRowActionsProp
           align="end"
           className="w-[160px]"
         >
-          <DropdownMenuItem>Edit</DropdownMenuItem>
+          <Link to={RoutePath.EDIT_ASSIGNMENT(workspaceId, assignmentId)}>
+            <DropdownMenuItem>Edit</DropdownMenuItem>
+          </Link>
           <AlertDialogTrigger asChild>
             <DropdownMenuItem className="text-danger focus:bg-danger focus:text-white">
               Delete
