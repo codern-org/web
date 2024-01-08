@@ -1,6 +1,6 @@
 import { Axios } from '@/libs/axios';
 import { ApiError, ApiResponse } from '@/types/api-response-type';
-import axios from 'axios';
+import axios, { RawAxiosRequestHeaders } from 'axios';
 
 export abstract class ApiService {
   protected get<T = object>(url: string) {
@@ -31,9 +31,15 @@ export abstract class ApiService {
     });
   }
 
-  protected getFile(url: string) {
+  protected getFile<T = object>(url: string, disableCache: boolean = false) {
     if (url.startsWith('/')) url = window.APP_CONFIG.BACKEND_URL + '/file' + url;
-    return this.get(url)
+
+    const headers: RawAxiosRequestHeaders = {};
+    if (disableCache) {
+      headers['Cache-Control'] = 'no-cache';
+    }
+
+    return Axios.get<ApiResponse<T>>(url, { headers })
       .then((response) => response.data.toString())
       .catch(this.throwError);
   }

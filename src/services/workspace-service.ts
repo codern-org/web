@@ -141,11 +141,11 @@ class WorkspaceService extends ApiService {
   }
 
   public async getAssignmentDetail(url: string): Promise<string> {
-    return this.getFile(url);
+    return this.getFile(url, true);
   }
 
   public async getAssignmentTestcase(url: string): Promise<string> {
-    return this.getFile(url);
+    return this.getFile(url, true);
   }
 
   public async updateAssignment(
