@@ -45,6 +45,7 @@ export const useCreateAssignment = (workspaceId: bigint) => {
 export const useCreateAssignmentForm = () => {
   const { workspaceId, assignmentId } = useWorkspaceParams();
   const { mutate: create, isPending: isCreating } = useCreateAssignment(workspaceId);
+  const { mutate: update, isPending: isDeleting } = useUpdateAssignment(workspaceId, assignmentId);
 
   const { data: assignment, isLoading: isAssignmentLoading } = useGetAssignmentQuery(
     workspaceId,
@@ -75,8 +76,10 @@ export const useCreateAssignmentForm = () => {
   return {
     form,
     create,
+    update,
     isEditing: !!assignment,
     isCreating,
+    isDeleting,
     isLoading,
     testcases: testcaseFields,
     appendTestcase,
@@ -247,6 +250,31 @@ export const useAssignmentTestcase = (workspaceId: bigint, assignment: Assignmen
       return failureCount !== 3;
     },
   });
+
+export const useUpdateAssignment = (workspaceId: bigint, assignmentId: bigint) => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: (assignment: CreateAssignmentSchemaValues) =>
+      workspaceService.updateAssignment(workspaceId, assignmentId, assignment),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['workspaces', workspaceId, 'assignments', assignmentId],
+      });
+      toast({
+        title: 'Update assignment successfully',
+      });
+      navigate(RoutePath.WORKSPACE(workspaceId, WorkspaceContent.ASSIGNMENT));
+    },
+    onError: (error) => {
+      toast({
+        variant: 'danger',
+        title: 'Cannot update this assignment',
+        description: error.message,
+      });
+    },
+  });
+};
 
 export const useDeleteAssignment = (workspaceId: bigint, assignmentId: bigint) => {
   const queryClient = useQueryClient();

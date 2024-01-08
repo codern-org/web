@@ -41,9 +41,9 @@ export const parseToCreateAssignmentSchema = (
   assignment: Assignment,
   detail: string,
   testcases: CreateAssignmentSchemaValues['testcases'],
-) => {
+): CreateAssignmentSchemaValues => {
   const { name, description, memoryLimit, timeLimit, level } = assignment;
-  return CreateAssignmentSchema.parse({
+  return {
     name,
     description,
     memoryLimit: memoryLimit.toString(),
@@ -51,5 +51,5 @@ export const parseToCreateAssignmentSchema = (
     level,
     detail,
     testcases,
-  });
+  } as unknown as CreateAssignmentSchemaValues; // TODO: fix this hack (zod type number <-> string)
 };

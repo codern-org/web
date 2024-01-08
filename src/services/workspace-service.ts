@@ -148,6 +148,33 @@ class WorkspaceService extends ApiService {
     return this.getFile(url);
   }
 
+  public async updateAssignment(
+    workspaceId: bigint,
+    assignmentId: bigint,
+    assignment: CreateAssignmentSchemaValues,
+  ): Promise<void> {
+    const url = '/workspaces/:workspaceId/assignments/:assignmentId'
+      .replace(':workspaceId', workspaceId.toString())
+      .replace(':assignmentId', assignmentId.toString());
+
+    const formData = new FormData();
+    formData.append('name', assignment.name);
+    formData.append('description', assignment.description);
+    formData.append('memoryLimit', assignment.memoryLimit.toString());
+    formData.append('timeLimit', assignment.timeLimit.toString());
+    formData.append('level', assignment.level);
+    formData.append('detail', new Blob([assignment.detail]), 'detail.md');
+
+    assignment.testcases.forEach((testcase, i) => {
+      formData.append('testcaseInput', new Blob([testcase.in + '\n']), `${i + 1}.in`);
+      formData.append('testcaseOutput', new Blob([testcase.out + '\n']), `${i + 1}.out`);
+    });
+
+    return this.patch(url, formData)
+      .then(() => {})
+      .catch(this.throwError);
+  }
+
   public async deleteAssignment(workspaceId: bigint, assignmentId: bigint): Promise<void> {
     const url = '/workspaces/:workspaceId/assignments/:assignmentId'
       .replace(':workspaceId', workspaceId.toString())

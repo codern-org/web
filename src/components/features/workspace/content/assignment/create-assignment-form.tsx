@@ -35,6 +35,7 @@ export const CreateAssignmentForm = () => {
   const {
     form,
     create,
+    update,
     isEditing,
     isCreating,
     isLoading,
@@ -61,6 +62,14 @@ export const CreateAssignmentForm = () => {
     reader.readAsText(files[0]);
   };
 
+  const handleSubmit = (assignment: CreateAssignmentSchemaValues) => {
+    if (isEditing) {
+      update(assignment);
+    } else {
+      create(assignment);
+    }
+  };
+
   if (isLoading) {
     // TODO: skeleton
     return <></>;
@@ -70,7 +79,7 @@ export const CreateAssignmentForm = () => {
     <div className="container py-8">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit((assignment) => create(assignment))}
+          onSubmit={form.handleSubmit(handleSubmit)}
           className="flex h-full flex-col space-y-8 rounded-md border bg-background p-8 shadow"
         >
           <div className="py-2">
