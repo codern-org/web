@@ -10,7 +10,10 @@ import {
 } from '@/components/common/dialog';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/common/popover';
 import { Separator } from '@/components/common/separator';
-import { SubmissionStatusBadge } from '@/components/features/assignment/submission';
+import {
+  SubmissionResults,
+  SubmissionStatusBadge,
+} from '@/components/features/assignment/submission';
 import { Editor } from '@/components/features/editor/editor';
 import { EditorProvider } from '@/hooks/editor-hook';
 import { useWorkspaceParams } from '@/hooks/router-hook';
@@ -69,6 +72,17 @@ export const SubmissionCodeView = ({ submission }: SubmissionCodeViewProps) => {
             </div>
           </DialogDescription>
         </DialogHeader>
+
+        {submission.results && (
+          <div className="h-1/4 overflow-y-scroll rounded-md border px-4 py-3">
+            <div className="mb-1 text-sm">
+              Testcases ({submission.results.filter((result) => result.isPassed).length}/
+              {submission.results.length})
+            </div>
+            <SubmissionResults submission={submission} />
+          </div>
+        )}
+
         {code ? (
           <EditorProvider
             code={code}
@@ -81,6 +95,7 @@ export const SubmissionCodeView = ({ submission }: SubmissionCodeViewProps) => {
             <Loader2Icon className="mr-2 animate-spin" /> Loading...
           </div>
         )}
+
         <DialogFooter className="h-fit sm:justify-between">
           <div className="flex items-center text-xs text-muted-foreground">
             <CalendarIcon className="mr-1.5 h-4 w-4" />

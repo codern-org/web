@@ -45,6 +45,7 @@ export const isValidAccountSettingsContent = (content: string = '') =>
 
 export enum WorkspaceContent {
   ASSIGNMENT = 'assignment',
+  SUBMISSION = 'submission',
   SCOREBOARD = 'scoreboard',
   PARTICIPANT = 'participant',
   SETTINGS = 'settings',

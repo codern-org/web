@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/common/ta
 import { AssignmentTable } from '@/components/features/workspace/content/assignment/table';
 import { WorkspaceParticipantTable } from '@/components/features/workspace/content/participant/table';
 import { WorkspaceScoreboardTable } from '@/components/features/workspace/content/scoreboard/table';
+import { WorkspaceSubmissionTable } from '@/components/features/workspace/content/submission/table';
 import { useWorkspaceParams } from '@/hooks/router-hook';
 import { useGetWorkspaceQuery } from '@/hooks/workspace-hook';
 import {
@@ -35,6 +36,13 @@ export const WorkspaceContent = () => {
         label: 'Assignment',
         content: <AssignmentTable />,
         restrictedRole: [WorkspaceRole.MEMBER, WorkspaceRole.ADMIN, WorkspaceRole.OWNER],
+      },
+      {
+        value: WorkspaceContentEnum.SUBMISSION,
+        path: RoutePath.WORKSPACE(workspace.id, WorkspaceContentEnum.SUBMISSION),
+        label: 'Submission',
+        content: <WorkspaceSubmissionTable />,
+        restrictedRole: [WorkspaceRole.ADMIN, WorkspaceRole.OWNER],
       },
       {
         value: WorkspaceContentEnum.SCOREBOARD,

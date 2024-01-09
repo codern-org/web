@@ -1,6 +1,6 @@
 import { Button } from '@/components/common/button';
+import { DataTableFacetedFilter } from '@/components/common/data-table-faceted-filer';
 import { DataTablePagination } from '@/components/common/data-table-pagination';
-import { Image } from '@/components/common/image';
 import { SearchInput } from '@/components/common/search-input';
 import {
   Table,
@@ -10,9 +10,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/common/table';
+import { SubmissionCodeView } from '@/components/features/assignment/submission-code-view';
 import { useWorkspaceParams } from '@/hooks/router-hook';
-import { useGetScoreboardQuery, useListWorkspaceParticipantQuery } from '@/hooks/workspace-hook';
-import { WorkspaceRank, WorkspaceRole } from '@/types/workspace-type';
+import { useListSubmissionByWorkspaceId } from '@/hooks/workspace-hook';
+import { formatDate } from '@/libs/utils';
+import { Submission } from '@/types/workspace-type';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -26,53 +28,86 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { Loader2Icon, XIcon } from 'lucide-react';
+import { CircleIcon, Loader2Icon, XIcon } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
-const columns: ColumnDef<WorkspaceRank>[] = [
+const statuses = [
   {
-    header: 'Rank',
-    cell: ({ row }) => <>{row.index + 1}</>,
+    value: 'TODO',
+    label: 'Todo',
+    icon: <CircleIcon className="h-2 w-2 fill-yellow-400 stroke-none" />,
   },
   {
-    accessorKey: 'displayName',
-    header: 'Name',
-    cell: ({ row }) => (
-      <div className="flex items-center space-x-4">
-        <Image
-          src={row.original.profileUrl}
-          alt=""
-          className="h-10 w-10 rounded-full"
-        />
-        <span className="font-medium">{row.original.displayName}</span>
-      </div>
-    ),
+    value: 'GRADING',
+    label: 'Grading',
+    icon: <CircleIcon className="h-2 w-2 fill-muted-foreground stroke-none" />,
+  },
+  {
+    value: 'INCOMPLETED',
+    label: 'Failed',
+    icon: <CircleIcon className="h-2 w-2 fill-danger stroke-none" />,
+  },
+  {
+    value: 'COMPLETED',
+    label: 'Passed',
+    icon: <CircleIcon className="h-2 w-2 fill-green-400 stroke-none" />,
+  },
+];
+
+const columns: ColumnDef<Submission>[] = [
+  {
+    accessorKey: 'id',
+    header: 'ID',
+    cell: ({ row }) => row.original.id.toString(),
+    filterFn: (row, _, value) => row.original.id.toString().includes(value),
+  },
+  {
+    accessorKey: 'language',
+    header: 'Language',
+    cell: ({ row }) => row.original.language,
   },
   {
     accessorKey: 'score',
     header: 'Score',
-    cell: ({ row }) => <div className="font-medium">{row.original.score}</div>,
+    cell: ({ row }) => row.original.score,
   },
   {
-    accessorKey: 'completedAssignment',
-    header: 'Completed assignments',
-    cell: ({ row }) => row.original.completedAssignment,
+    accessorKey: 'status',
+    header: 'Status',
+    cell: ({ row }) => {
+      const status = statuses.find((status) => status.value === row.original.status);
+      if (!status) return null;
+      return (
+        <div className="flex items-center space-x-2">
+          {status.icon}
+          <span className="capitalize">{status.label}</span>
+        </div>
+      );
+    },
+    filterFn: (row, id, value) => value.includes(row.getValue(id)),
+  },
+  {
+    accessorKey: 'submittedAt',
+    header: 'Submitted at',
+    cell: ({ row }) => formatDate(row.original.submittedAt, 'd MMM yy pp'),
+  },
+  {
+    id: 'actions',
+    cell: ({ row }) => {
+      console.log(row.original);
+      return <SubmissionCodeView submission={row.original} />;
+    },
   },
 ];
 
-export const WorkspaceScoreboardTable = () => {
+export const WorkspaceSubmissionTable = () => {
   const { workspaceId } = useWorkspaceParams();
-  const { data: scoreboard, isLoading } = useGetScoreboardQuery(workspaceId);
-  const { data: participants } = useListWorkspaceParticipantQuery(workspaceId);
+  const { data: submissions, isLoading } = useListSubmissionByWorkspaceId(workspaceId);
 
-  const data = useMemo(() => {
-    if (!participants || !scoreboard) return [];
-    const memberIds = participants
-      .filter((participant) => participant.role === WorkspaceRole.MEMBER)
-      .map((participant) => participant.userId);
-    return scoreboard.filter((data) => memberIds.includes(data.userId));
-  }, [scoreboard, participants]);
-
+  const data = useMemo(
+    () => submissions?.sort((a, b) => b.submittedAt.getTime() - a.submittedAt.getTime()) || [],
+    [submissions],
+  );
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -82,9 +117,6 @@ export const WorkspaceScoreboardTable = () => {
     state: {
       sorting,
       columnFilters,
-    },
-    initialState: {
-      columnVisibility: { role: false },
     },
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -100,7 +132,7 @@ export const WorkspaceScoreboardTable = () => {
   return (
     <div className="space-y-4">
       <div className="flex flex-col justify-between md:flex-row md:items-center">
-        <h3 className="mb-4 text-lg font-medium md:mb-0">Scoreboard</h3>
+        <h3 className="mb-4 text-lg font-medium md:mb-0">Submission</h3>
         <div className="flex flex-row-reverse space-x-2 space-x-reverse md:flex-row md:space-x-2">
           {isFiltered && (
             <Button
@@ -113,12 +145,19 @@ export const WorkspaceScoreboardTable = () => {
             </Button>
           )}
 
+          <DataTableFacetedFilter
+            column={table.getColumn('status')}
+            title="Status"
+            options={statuses}
+            align="end"
+          />
+
           <SearchInput
             type="search"
             className="h-9 py-0"
-            placeholder="Search by name"
-            value={(table.getColumn('displayName')?.getFilterValue() as string) ?? ''}
-            onChange={(event) => table.getColumn('displayName')?.setFilterValue(event.target.value)}
+            placeholder="Search by id"
+            value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
+            onChange={(event) => table.getColumn('id')?.setFilterValue(event.target.value)}
           />
         </div>
       </div>

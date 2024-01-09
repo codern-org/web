@@ -106,7 +106,7 @@ type SubmissionResultsProps = {
   submission: SubmissionType;
 };
 
-const SubmissionResults = ({ submission }: SubmissionResultsProps) => {
+export const SubmissionResults = ({ submission }: SubmissionResultsProps) => {
   const { results } = submission;
   const isGrading = submission.status === AssignmentStatus.GRADING;
 

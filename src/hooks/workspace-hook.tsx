@@ -112,6 +112,12 @@ export const useCreateSubmission = (workspaceId: bigint, assignmentId: bigint) =
   });
 };
 
+export const useListSubmissionByWorkspaceId = (workspaceId: bigint) =>
+  useQuery({
+    queryKey: ['workspaces', workspaceId, 'submissions'],
+    queryFn: () => workspaceService.listSubmissionByWorkspace(workspaceId),
+  });
+
 export const useListSubmission = (workspaceId: bigint, assignmentId: bigint) =>
   useQuery({
     queryKey: ['workspaces', workspaceId, 'assignments', assignmentId, 'submissions'],
