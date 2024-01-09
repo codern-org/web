@@ -29,13 +29,11 @@ export const DashboardContent = () => {
           )}
         </h2>
         <div className="flex items-center space-x-2">
-          <div className="w-full">
-            <SearchInput
-              placeholder="Search workspace"
-              className="h-9"
-              onChange={(event) => setWorkspaceFilter(event.target.value)}
-            />
-          </div>
+          <SearchInput
+            placeholder="Search workspace"
+            className="h-9"
+            onChange={(event) => setWorkspaceFilter(event.target.value)}
+          />
           <AddWorkspaceDialog />
         </div>
       </div>

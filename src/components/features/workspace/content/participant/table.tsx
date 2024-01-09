@@ -134,15 +134,13 @@ export const WorkspaceParticipantTable = () => {
             align="end"
           />
 
-          <div className="w-full">
-            <SearchInput
-              type="search"
-              className="h-9 py-0"
-              placeholder="Search by name"
-              value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
-              onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
-            />
-          </div>
+          <SearchInput
+            type="search"
+            className="h-9 py-0"
+            placeholder="Search by name"
+            value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+            onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
+          />
 
           {workspace && [WorkspaceRole.ADMIN, WorkspaceRole.OWNER].includes(workspace.role) && (
             <Button

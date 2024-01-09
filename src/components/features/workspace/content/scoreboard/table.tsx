@@ -105,17 +105,13 @@ export const WorkspaceScoreboardTable = () => {
             </Button>
           )}
 
-          <div className="w-full">
-            <SearchInput
-              type="search"
-              className="h-9 py-0"
-              placeholder="Search by name"
-              value={(table.getColumn('displayName')?.getFilterValue() as string) ?? ''}
-              onChange={(event) =>
-                table.getColumn('displayName')?.setFilterValue(event.target.value)
-              }
-            />
-          </div>
+          <SearchInput
+            type="search"
+            className="h-9 py-0"
+            placeholder="Search by name"
+            value={(table.getColumn('displayName')?.getFilterValue() as string) ?? ''}
+            onChange={(event) => table.getColumn('displayName')?.setFilterValue(event.target.value)}
+          />
         </div>
       </div>
       <div className="space-y-4">

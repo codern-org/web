@@ -58,10 +58,7 @@ export const Submission = ({ defaultOpen, index, submission }: SubmissionProps) 
         <div className="flex flex-row items-center space-x-2">
           <SubmissionStatusBadge status={submission.status} />
           <ChevronDownIcon
-            className={classNames(
-              'h-4 w-4 text-secondary-foreground',
-              isOpen && 'rotate-180 transform',
-            )}
+            className={classNames('h-4 w-4 text-secondary-foreground', isOpen && 'rotate-180')}
           />
         </div>
       </CollapsibleTrigger>
