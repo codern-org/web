@@ -55,9 +55,11 @@ class WorkspaceService extends ApiService {
       .catch(this.throwError);
   }
 
-  public async joinWorkspace(code: string): Promise<void> {
+  public async joinWorkspace(code: string): Promise<Workspace> {
     return this.get(`/join/${code}`)
-      .then(() => {})
+      .then((response) => {
+        return response.data.data as unknown as Workspace;
+      })
       .catch(this.throwError);
   }
 

@@ -1,6 +1,7 @@
+import { ToastAction } from '@/components/common/toast';
 import { useStrictForm } from '@/hooks/form-hook';
 import { useWorkspaceParams } from '@/hooks/router-hook';
-import { toast, useToast } from '@/hooks/toast-hook';
+import { toast } from '@/hooks/toast-hook';
 import { useWebSocket } from '@/hooks/websocket-hook';
 import { RoutePath, WorkspaceContent } from '@/libs/constants';
 import { ApiService } from '@/services/api-service';
@@ -11,7 +12,7 @@ import {
   CreateAssignmentSchemaValues,
   parseToCreateAssignmentSchema,
 } from '@/types/schema/assignment-schema';
-import { Assignment, CreateSubmissionParams, Submission } from '@/types/workspace-type';
+import { Assignment, CreateSubmissionParams, Submission, Workspace } from '@/types/workspace-type';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { useEffect } from 'react';
@@ -145,7 +146,6 @@ export const useGetSubmissionCode = (
 export const useListSubmissionSubscription = (workspaceId: bigint, assignmentId: bigint) => {
   const queryClient = useQueryClient();
   const { subscribe, unsubscribe } = useWebSocket();
-  const { toast } = useToast();
 
   useEffect(() => {
     const updateSubmissions = (newSubmission: Submission) => {
@@ -166,7 +166,7 @@ export const useListSubmissionSubscription = (workspaceId: bigint, assignmentId:
 
     subscribe('onSubmissionUpdate', updateSubmissions);
     return () => unsubscribe('onSubmissionUpdate', updateSubmissions);
-  }, [queryClient, subscribe, unsubscribe, toast, workspaceId, assignmentId]);
+  }, [queryClient, subscribe, unsubscribe, workspaceId, assignmentId]);
 };
 
 export const useListWorkspaceQuery = () =>
@@ -198,6 +198,42 @@ export const useGetWorkspaceQuery = (id: bigint) =>
     staleTime: Infinity,
     gcTime: 0,
   });
+
+export const useJoinWorkspace = () => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: (invitationCode: string) => workspaceService.joinWorkspace(invitationCode),
+    onSuccess: (joinedWorkspace) => {
+      queryClient.setQueryData(['workspaces'], (workspaces: Workspace[]) =>
+        workspaces.concat(joinedWorkspace),
+      );
+      toast({
+        title: 'Join workspace successfully',
+        description: '',
+        action: (
+          <ToastAction
+            altText="View joined workspace"
+            onClick={() =>
+              navigate(RoutePath.WORKSPACE(joinedWorkspace.id, WorkspaceContent.ASSIGNMENT))
+            }
+            children="View"
+          />
+        ),
+      });
+    },
+    onError: (error) => {
+      let description = 'Please try again later';
+      if (ApiService.isDomainError(error) && error.code === 31003)
+        description = 'Invitation code is incorrect';
+      toast({
+        variant: 'danger',
+        title: 'Cannot join workspace',
+        description,
+      });
+    },
+  });
+};
 
 export const useGetScoreboardQuery = (workspaceId: bigint) =>
   useQuery({
