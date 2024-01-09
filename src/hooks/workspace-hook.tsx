@@ -224,8 +224,13 @@ export const useJoinWorkspace = () => {
     },
     onError: (error) => {
       let description = 'Please try again later';
-      if (ApiService.isDomainError(error) && error.code === 31003)
-        description = 'Invitation code is incorrect';
+      if (ApiService.isDomainError(error)) {
+        const domainErrorMessage = {
+          31003: 'Invitation code is incorrect',
+          30004: 'You already in the workspace',
+        }[error.code];
+        domainErrorMessage && (description = domainErrorMessage);
+      }
       toast({
         variant: 'danger',
         title: 'Cannot join workspace',
