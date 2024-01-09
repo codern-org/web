@@ -10,9 +10,9 @@ export const DashboardContent = () => {
   const { data: workspaces, isLoading } = useListWorkspaceQuery();
   const [workspaceFilter, setWorkspaceFilter] = useState<string>('');
 
-  const filteredWorkspace = workspaces?.filter((workspace) =>
-    workspace.name.includes(workspaceFilter),
-  );
+  const filteredWorkspace = workspaces?.filter((workspace) => {
+    return workspace.name.toLowerCase().includes(workspaceFilter.toLowerCase());
+  });
 
   return (
     <div className="container py-8 backdrop-blur-xl">
@@ -41,14 +41,12 @@ export const DashboardContent = () => {
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
         {filteredWorkspace &&
-          filteredWorkspace
-            .filter((workspace) => workspace.name.includes(workspaceFilter))
-            .map((workspace) => (
-              <WorkspaceCard
-                key={workspace.id}
-                workspace={workspace}
-              />
-            ))}
+          filteredWorkspace.map((workspace) => (
+            <WorkspaceCard
+              key={workspace.id}
+              workspace={workspace}
+            />
+          ))}
         {isLoading && <WorkspaceCardSkeleton />}
       </div>
       {filteredWorkspace?.length === 0 && (
