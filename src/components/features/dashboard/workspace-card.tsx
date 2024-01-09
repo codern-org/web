@@ -48,7 +48,7 @@ export const WorkspaceCard = ({ workspace }: WorkspaceCardProps) => {
               alt=""
             />
             <div className="flex flex-col">
-              <CardTitle className="mb-1 text-lg leading-tight">{name}</CardTitle>
+              <CardTitle className="mb-1 text-base leading-tight">{name}</CardTitle>
               <div className="text-sm">{ownerName}</div>
             </div>
           </div>
