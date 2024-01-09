@@ -159,7 +159,7 @@ class WorkspaceService extends ApiService {
   }
 
   public async getAssignmentTestcase(url: string): Promise<string> {
-    return this.getFile(url, true);
+    return this.getFile(url, true).then((data) => data.trimEnd());
   }
 
   public async updateAssignment(
