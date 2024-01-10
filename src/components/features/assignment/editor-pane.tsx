@@ -15,12 +15,16 @@ import { useWorkspaceParams } from '@/hooks/router-hook';
 import { useToast } from '@/hooks/toast-hook';
 import { useCreateSubmission } from '@/hooks/workspace-hook';
 import { Loader2Icon, SettingsIcon } from 'lucide-react';
+import { useState } from 'react';
 
 export const EditorPane = () => {
   const { workspaceId, assignmentId } = useWorkspaceParams();
-  const { getCode, getLanguage, setLanguage } = useEditor();
+
   const { toast } = useToast();
   const { setTab } = useProblemPane();
+  const [isDisable, setIsDisable] = useState(false);
+
+  const { getCode, getLanguage, setLanguage } = useEditor();
   const { mutate: submit, isPending: isSubmitting } = useCreateSubmission(
     workspaceId,
     assignmentId,
@@ -37,6 +41,8 @@ export const EditorPane = () => {
     }
     submit({ code, language: getLanguage() });
     setTab('submission');
+    setIsDisable(true);
+    setTimeout(() => setIsDisable(false), 2000);
   };
 
   return (
@@ -70,7 +76,7 @@ export const EditorPane = () => {
         <Button
           size="sm"
           onClick={handleSubmit}
-          disabled={isSubmitting}
+          disabled={isDisable}
         >
           {isSubmitting && <Loader2Icon className="mr-2 h-3 w-3 animate-spin" />}
           Submit
