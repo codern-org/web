@@ -14,7 +14,7 @@ import { useProblemPane } from '@/hooks/problem-pane-hook';
 import { useWorkspaceParams } from '@/hooks/router-hook';
 import { useToast } from '@/hooks/toast-hook';
 import { useCreateSubmission } from '@/hooks/workspace-hook';
-import { Loader2Icon, SettingsIcon } from 'lucide-react';
+import { Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 
 export const EditorPane = () => {
@@ -51,12 +51,13 @@ export const EditorPane = () => {
 
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-row space-x-2">
-          <Button
+          {/* TODO: implement editor settings */}
+          {/* <Button
             size="sm"
             variant="outline"
           >
             <SettingsIcon className="h-4 w-4" />
-          </Button>
+          </Button> */}
           <Select
             defaultValue="c"
             onValueChange={setLanguage}
