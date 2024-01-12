@@ -37,6 +37,8 @@ export type WorkspaceRank = {
   profileUrl: string;
   score: number;
   completedAssignment: number;
+  totalSubmissions: number;
+  lastSubmittedAt: Date;
 };
 
 export enum AssignmentLevel {

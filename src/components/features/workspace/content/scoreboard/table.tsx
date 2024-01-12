@@ -12,6 +12,7 @@ import {
 } from '@/components/common/table';
 import { useWorkspaceParams } from '@/hooks/router-hook';
 import { useGetScoreboardQuery, useListWorkspaceParticipantQuery } from '@/hooks/workspace-hook';
+import { formatDate } from '@/libs/utils';
 import { WorkspaceRank, WorkspaceRole } from '@/types/workspace-type';
 import {
   ColumnDef,
@@ -55,8 +56,24 @@ const columns: ColumnDef<WorkspaceRank>[] = [
   },
   {
     accessorKey: 'completedAssignment',
-    header: 'Completed assignments',
+    header: 'Completed Assignments',
     cell: ({ row }) => row.original.completedAssignment,
+  },
+  {
+    accessorKey: 'totalSubmissions',
+    header: 'Total Submitted',
+    cell: ({ row }) => row.original.totalSubmissions,
+  },
+  {
+    accessorKey: 'lastSubmission',
+    header: 'Last Submitted At',
+    cell: ({ row }) => {
+      return (
+        <span className="text-xs">
+          {formatDate(row.original.lastSubmittedAt, 'EEE, d MMM yyyy p')}
+        </span>
+      );
+    },
   },
 ];
 
