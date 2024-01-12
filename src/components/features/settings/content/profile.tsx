@@ -11,27 +11,17 @@ import {
 import { Image } from '@/components/common/image';
 import { Input } from '@/components/common/input';
 import { Separator } from '@/components/common/separator';
-import { useAuth } from '@/hooks/auth-hook';
-import { useStrictForm } from '@/hooks/form-hook';
-import { SettingsProfileSchema } from '@/types/schema/user-schema';
+import { useAccountProfileSettingsForm } from '@/hooks/auth-hook';
+import { AccountProfileSettingsSchemaValues } from '@/types/schema/user-schema';
 import { PencilIcon } from 'lucide-react';
-import { ChangeEvent, useRef } from 'react';
 
 export const AccountProfileSettings = () => {
-  const { user } = useAuth();
+  const { form, profileInputRef, profileUrl, editProfile, update } =
+    useAccountProfileSettingsForm();
 
-  const form = useStrictForm(SettingsProfileSchema, user.data);
-  const profileInputRef = useRef<HTMLInputElement>(null);
-  const profileUrl = form.watch('profileUrl');
-
-  const editProfile = (event: ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.files?.length) return;
-    const blobUrl = URL.createObjectURL(event.target.files[0]);
-    form.setValue('profileUrl', blobUrl);
+  const onSubmit = (data: AccountProfileSettingsSchemaValues) => {
+    update(data);
   };
-
-  // TODO: update profile with blob to file conversion
-  const onSubmit = () => {};
 
   return (
     <>

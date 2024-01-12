@@ -41,10 +41,13 @@ export const ChangePassFormSchema = z
 
 export type ChangePassFormValues = z.infer<typeof ChangePassFormSchema>;
 
-export const SettingsProfileSchema = z.object({
-  displayName: z.string().trim(),
-  email: z.string().trim().email({ message: 'Please use a valid email address' }),
-  profileUrl: z.instanceof(File).or(z.string().url()).nullable(),
+// prettier-ignore
+export const AccountProfileSettingsSchema = z.object({
+  displayName: z
+    .string()
+    .min(1, { message: 'Display name must be al least 1 character' })
+    .trim(),
+  profileUrl: z.string().trim(),
 });
 
-export type SettingsProfileValues = z.infer<typeof SettingsProfileSchema>;
+export type AccountProfileSettingsSchemaValues = z.infer<typeof AccountProfileSettingsSchema>;

@@ -1,4 +1,4 @@
-import { classNames } from '@/libs/utils';
+import { classNames, resolveFileUrl } from '@/libs/utils';
 import { ImageOffIcon, LoaderIcon } from 'lucide-react';
 import { ImgHTMLAttributes, useState } from 'react';
 
@@ -18,15 +18,6 @@ export const Image = ({ src, className, ...props }: ImageProps) => {
     setError(true);
   };
 
-  let outputUrl = src;
-  if (
-    !src?.startsWith('/src/assets/') && // Local development
-    !src?.startsWith('/assets/') && // Production build
-    !src?.startsWith('blob:') // Blob for local file display
-  ) {
-    outputUrl = window.APP_CONFIG.BACKEND_URL + '/file' + src;
-  }
-
   return (
     <div
       className={classNames('relative flex-none overflow-hidden', error && 'bg-muted', className)}
@@ -37,7 +28,7 @@ export const Image = ({ src, className, ...props }: ImageProps) => {
       {error && <ImageOffIcon className="absolute inset-0 m-auto h-5 w-5 text-muted-foreground" />}
 
       <img
-        src={src && outputUrl}
+        src={src && resolveFileUrl(src)}
         onLoad={onLoad}
         onError={onError}
         className={classNames('h-full w-full object-cover', (loading || error) && 'invisible')}

@@ -31,7 +31,7 @@ export abstract class ApiService {
     });
   }
 
-  protected getFile<T = object>(url: string, disableCache: boolean = false) {
+  protected getFileContent<T = object>(url: string, disableCache: boolean = false) {
     if (url.startsWith('/')) url = window.APP_CONFIG.BACKEND_URL + '/file' + url;
 
     const headers: RawAxiosRequestHeaders = {};

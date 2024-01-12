@@ -17,6 +17,17 @@ export const getValidChildren = (children: React.ReactNode) => {
   return Children.toArray(children).filter((child) => isValidElement(child)) as ReactElement[];
 };
 
+export const resolveFileUrl = (url: string) => {
+  if (
+    !url.startsWith('/src/assets/') && // Local development
+    !url.startsWith('/assets/') && // Production build
+    !url.startsWith('blob:') // Blob for local file display
+  ) {
+    return window.APP_CONFIG.BACKEND_URL + '/file' + url;
+  }
+  return url;
+};
+
 export const formatDate = (date: Date, format: string) => formatDateFns(date, format);
 
 export const formartDateDist = (

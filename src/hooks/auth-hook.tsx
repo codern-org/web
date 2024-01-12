@@ -1,8 +1,14 @@
-import { useToast } from '@/hooks/toast-hook';
+import { useStrictForm } from '@/hooks/form-hook';
+import { toast, useToast } from '@/hooks/toast-hook';
 import { useWebSocket } from '@/hooks/websocket-hook';
 import { RoutePath } from '@/libs/constants';
 import { authService } from '@/services/auth-service';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  AccountProfileSettingsSchema,
+  AccountProfileSettingsSchemaValues,
+} from '@/types/schema/user-schema';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { ChangeEvent, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const useAuth = () => {
@@ -48,5 +54,46 @@ export const useAuth = () => {
     user,
     signIn,
     signOut,
+  };
+};
+
+export const useUpdateAccountProfileSettings = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (user: AccountProfileSettingsSchemaValues) =>
+      authService.updateAccountProfileSettings(user),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+    },
+    onError: (error) => {
+      toast({
+        variant: 'danger',
+        title: 'Cannot update user',
+        description: error.message,
+      });
+    },
+  });
+};
+
+export const useAccountProfileSettingsForm = () => {
+  const { user } = useAuth();
+  const { mutate: update } = useUpdateAccountProfileSettings();
+
+  const form = useStrictForm(AccountProfileSettingsSchema, user.data);
+  const profileInputRef = useRef<HTMLInputElement>(null);
+  const profileUrl = form.watch('profileUrl');
+
+  const editProfile = (event: ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files?.length) return;
+    const blobUrl = URL.createObjectURL(event.target.files[0]);
+    form.setValue('profileUrl', blobUrl);
+  };
+
+  return {
+    form,
+    profileInputRef,
+    profileUrl,
+    editProfile,
+    update,
   };
 };
