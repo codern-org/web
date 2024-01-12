@@ -64,6 +64,9 @@ export const useUpdateAccountProfileSettings = () => {
       authService.updateAccountProfileSettings(user),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user'] });
+      toast({
+        title: 'Update profile successfully',
+      });
     },
     onError: (error) => {
       toast({
