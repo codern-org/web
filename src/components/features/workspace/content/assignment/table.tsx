@@ -145,6 +145,19 @@ const columns: ColumnDef<Assignment>[] = [
     },
   },
   {
+    accessorKey: 'score',
+    header: 'Score',
+    cell: ({ row }) => {
+      return row.original.score === null ? (
+        <span className="text-xs text-muted-foreground">None</span>
+      ) : (
+        <span className="text-xs">
+          {row.original.score} / {row.original.maxScore}
+        </span>
+      );
+    },
+  },
+  {
     accessorKey: 'status',
     header: 'Status',
     cell: ({ row }) => {

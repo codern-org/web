@@ -61,6 +61,8 @@ export type Assignment = {
   detailUrl: string;
   memoryLimit: number;
   timeLimit: number;
+  score: number | null;
+  maxScore: number;
   level: AssignmentLevel;
   updatedAt: Date;
   createdAt: Date;
