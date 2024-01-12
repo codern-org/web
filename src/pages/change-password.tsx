@@ -17,7 +17,7 @@ import { authService } from '@/services/auth-service';
 import { ChangePassFormSchema, ChangePassFormValues } from '@/types/schema/user-schema';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function ChangePasswordPage() {
   const queryClient = useQueryClient();
@@ -42,13 +42,15 @@ export default function ChangePasswordPage() {
   return (
     <PageLayout>
       <NavigationBar>
-        <Button
-          variant="secondary"
-          size="sm"
-          className="ml-auto"
-        >
-          Create account
-        </Button>
+        <Link to={RoutePath.SIGNUP}>
+          <Button
+            variant="secondary"
+            size="sm"
+            className="ml-auto"
+          >
+            Create account
+          </Button>
+        </Link>
       </NavigationBar>
 
       <div className="flex h-[calc(100vh-3.5rem)] items-center justify-center bg-accent/30">

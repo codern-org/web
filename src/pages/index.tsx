@@ -50,19 +50,23 @@ export default function IndexPage() {
           adventures.
         </p>
         <div className="flex flex-row space-x-4">
-          <Button
-            size="lg"
-            variant="outline"
-            className="py-6 text-lg"
-          >
-            Learn Codern
-          </Button>
-          <Button
-            size="lg"
-            className="py-6 text-lg"
-          >
-            Register Now
-          </Button>
+          <Link to={RoutePath.SIGNIN}>
+            <Button
+              size="lg"
+              variant="outline"
+              className="py-6 text-lg"
+            >
+              Getting Started
+            </Button>
+          </Link>
+          <Link to={RoutePath.SIGNUP}>
+            <Button
+              size="lg"
+              className="py-6 text-lg"
+            >
+              Register Now
+            </Button>
+          </Link>
         </div>
       </div>
     </PageLayout>

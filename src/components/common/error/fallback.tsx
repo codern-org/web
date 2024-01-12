@@ -3,7 +3,7 @@ import { FallbackComponentProps } from '@/components/common/error/error-boundary
 import { NavigationBar } from '@/components/common/navigation-bar';
 import { PageLayout } from '@/components/common/page-layout';
 import { RoutePath } from '@/libs/constants';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 export function FallbackError({ reset }: FallbackComponentProps) {
   const navigate = useNavigate();
@@ -22,13 +22,15 @@ export function FallbackError({ reset }: FallbackComponentProps) {
   return (
     <PageLayout className="flex h-screen flex-col">
       <NavigationBar>
-        <Button
-          variant="secondary"
-          size="sm"
-          className="ml-auto"
-        >
-          Create account
-        </Button>
+        <Link to={RoutePath.SIGNUP}>
+          <Button
+            variant="secondary"
+            size="sm"
+            className="ml-auto"
+          >
+            Create account
+          </Button>
+        </Link>
       </NavigationBar>
       <div className="flex h-full flex-col items-center justify-center">
         <div className="container mb-6 flex flex-col space-y-4 text-center">
