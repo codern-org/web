@@ -1,6 +1,7 @@
 import { Badge } from '@/components/common/badge';
 import { SearchInput } from '@/components/common/search-input';
 import { AddWorkspaceDialog } from '@/components/features/dashboard/add-workspace-dialog';
+import { SurveyDialog } from '@/components/features/dashboard/survey-dialog';
 import { WorkspaceCard } from '@/components/features/dashboard/workspace-card';
 import { WorkspaceCardSkeleton } from '@/components/features/dashboard/workspace-card-skeleton';
 import { useListWorkspaceQuery } from '@/hooks/workspace-hook';
@@ -16,6 +17,7 @@ export const DashboardContent = () => {
 
   return (
     <div className="container py-8 backdrop-blur-xl">
+      <SurveyDialog />
       <div className="mb-6 flex flex-col justify-between sm:flex-row sm:items-center">
         <h2 className="mb-3 flex items-center space-x-2 text-2xl font-semibold sm:mb-0">
           <span>Workspaces</span>
