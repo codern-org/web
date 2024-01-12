@@ -94,7 +94,6 @@ const columns: ColumnDef<Submission>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      console.log(row.original);
       return <SubmissionCodeView submission={row.original} />;
     },
   },

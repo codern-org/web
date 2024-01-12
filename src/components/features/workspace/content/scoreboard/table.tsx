@@ -56,17 +56,17 @@ const columns: ColumnDef<WorkspaceRank>[] = [
   },
   {
     accessorKey: 'completedAssignment',
-    header: 'Completed Assignments',
+    header: 'Completed assignments',
     cell: ({ row }) => row.original.completedAssignment,
   },
   {
     accessorKey: 'totalSubmissions',
-    header: 'Total Submitted',
+    header: 'Total submitted',
     cell: ({ row }) => row.original.totalSubmissions,
   },
   {
     accessorKey: 'lastSubmission',
-    header: 'Last Submitted At',
+    header: 'Last submitted at',
     cell: ({ row }) => {
       return (
         <span className="text-xs">
