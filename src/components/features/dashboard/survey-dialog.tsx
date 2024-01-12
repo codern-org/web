@@ -40,7 +40,7 @@ export const SurveyDialog = () => {
   };
 
   return (
-    <div className="container flex flex-col items-center justify-center">
+    <div className="mb-4 flex flex-col items-start justify-center lg:container lg:items-center">
       <Dialog
         open={isOpen}
         onOpenChange={(isOpen) => {
@@ -52,9 +52,11 @@ export const SurveyDialog = () => {
           <Button
             type="button"
             size="sm"
-            className="inline-flex animate-pulse items-center rounded-full border-none bg-muted px-3 py-1 text-sm font-medium text-primary shadow hover:animate-none hover:text-primary"
+            className="inline-flex animate-pulse items-center rounded-full border-none bg-muted bg-gradient-to-br from-neutral-800 to-neutral-400 p-0.5 text-sm font-medium text-primary shadow-md hover:animate-none hover:text-primary focus:outline-none"
           >
-            We are now on early access, We need your feedback 😘
+            <div className="flex h-full items-center justify-between rounded-full bg-accent px-3">
+              We are now on early access, We need your feedback 😘
+            </div>
           </Button>
         </DialogTrigger>
         <DialogContent>
