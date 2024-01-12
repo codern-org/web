@@ -5,7 +5,7 @@ import {
 } from '@/components/common/collapsible';
 import { Separator } from '@/components/common/separator';
 import { SubmissionCodeView } from '@/components/features/assignment/submission-code-view';
-import { classNames, compactNumber, formatDate } from '@/libs/utils';
+import { classNames, commasNumber, formatDate } from '@/libs/utils';
 import {
   AssignmentStatus,
   SubmissionStatusDetail,
@@ -147,12 +147,18 @@ export const SubmissionResults = ({ submission }: SubmissionResultsProps) => {
   return (
     results &&
     results.map((result, index) => {
-      const timeUsage = compactNumber(result.timeUsage || 0);
       const status = result.isPassed
         ? 'Correct'
         : result.status !== SubmissionStatusDetail.COMPLETED
         ? ERROR_MESSAGE_MAP[result.status]
         : 'Wrong';
+
+      const memoryUsage =
+        result.memoryUsage >= 1000
+          ? `${Math.round(result.memoryUsage / 1000)} MB`
+          : `${result.memoryUsage} KB`;
+
+      const timeUsage = `${commasNumber(result.timeUsage || 0)} ms`;
 
       return (
         <div
@@ -170,8 +176,7 @@ export const SubmissionResults = ({ submission }: SubmissionResultsProps) => {
           </span>
 
           <span className="text-muted-foreground">
-            ({compactNumber(result.memoryUsage || 0)} MB,&nbsp;
-            {timeUsage.includes('K') ? `${timeUsage.slice(0, -1)} s` : `${timeUsage} ms`})
+            ({memoryUsage} | {timeUsage})
           </span>
         </div>
       );

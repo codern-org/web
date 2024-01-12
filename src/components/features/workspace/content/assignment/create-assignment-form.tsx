@@ -190,7 +190,7 @@ export const CreateAssignmentForm = () => {
                   name="memoryLimit"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>Memory limit (kB)</FormLabel>
+                      <FormLabel>Memory limit (KB)</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Memory limit in kilobyte"
