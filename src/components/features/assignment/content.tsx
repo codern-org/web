@@ -6,11 +6,14 @@ import {
 import { ProblemPane } from '@/components/features/assignment/problem-pane';
 import { EditorProvider } from '@/hooks/editor-hook';
 import { ProblemPaneProvider } from '@/hooks/problem-pane-hook';
+import { useWorkspaceParams } from '@/hooks/router-hook';
 import { Suspense, lazy } from 'react';
 
 const EditorPane = lazy(() => import('@/components/features/assignment/editor-pane'));
 
 export const AssignmentContent = () => {
+  const { assignmentId } = useWorkspaceParams();
+
   return (
     <ProblemPaneProvider>
       <ResizablePanelGroup
@@ -26,7 +29,7 @@ export const AssignmentContent = () => {
           className="h-full w-full lg:h-auto lg:w-3/5"
         >
           <Suspense>
-            <EditorProvider>
+            <EditorProvider cacheKey={assignmentId.toString()}>
               <EditorPane />
             </EditorProvider>
           </Suspense>

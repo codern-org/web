@@ -21,6 +21,7 @@ const initialOptions: MonacoEditorOptions = {
 
 type EditorProviderProps = {
   code?: string;
+  cacheKey?: string;
   options?: MonacoEditorOptions;
   readOnly?: boolean;
   children: ReactNode;
@@ -40,7 +41,8 @@ type EditorProviderState = {
 const EditorProviderContext = createContext<EditorProviderState | null>(null);
 
 export const EditorProvider = ({
-  code = '',
+  code,
+  cacheKey = '',
   options = initialOptions,
   readOnly = false,
   children,
@@ -77,6 +79,7 @@ export const EditorProvider = ({
     const model = getCurrentModel();
     if (!model || !monacoRef.current) return;
     monacoRef.current.editor.setModelLanguage(model, language);
+    model.setValue(localStorage.getItem(`code-${getLanguage()}-${cacheKey}`) || '');
   };
 
   // Sync theme after monaco has initialized
@@ -89,9 +92,18 @@ export const EditorProvider = ({
   const onMount = (editor: MonacoEditor, monaco: Monaco) => {
     editorRef.current = editor;
     monacoRef.current = monaco;
+
     // Set initial model
-    const model = monaco.editor.createModel(code, 'c', monaco.Uri.file(Date.now().toString()));
+    const uri = monaco.Uri.file(Date.now().toString());
+    const modelValue = code || localStorage.getItem(`code-c-${cacheKey}`) || '';
+    const model = monaco.editor.createModel(modelValue, 'c', uri);
     editor.setModel(model);
+
+    // TODO: propery way to save code
+    model.onDidChangeContent(() => {
+      localStorage.setItem(`code-${getLanguage()}-${cacheKey}`, model.getValue());
+    });
+
     // Sync theme
     monaco.editor.setTheme(`vs-${displayTheme}`);
     editor.focus();
