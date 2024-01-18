@@ -22,15 +22,17 @@ class AuthService extends ApiService {
   public async updateAccountProfileSettings(
     user: AccountProfileSettingsSchemaValues,
   ): Promise<void> {
-    const profileUrl = resolveFileUrl(user.profileUrl);
-    const profile = await Axios.get(profileUrl, {
-      baseURL: '',
-      responseType: 'blob',
-    }).then((response) => new File([response.data], 'profile'));
-
     const formData = new FormData();
     formData.append('displayName', user.displayName);
-    formData.append('profile', profile, 'profile');
+
+    if (user.profileUrl) {
+      const profileUrl = resolveFileUrl(user.profileUrl);
+      const profile = await Axios.get(profileUrl, {
+        baseURL: '',
+        responseType: 'blob',
+      }).then((response) => new File([response.data], 'profile'));
+      formData.append('profile', profile, 'profile');
+    }
 
     return this.patch('/users', formData)
       .then(() => {})
