@@ -14,7 +14,6 @@ import {
 } from '@/types/schema/assignment-schema';
 import { Assignment, CreateSubmissionParams, Submission, Workspace } from '@/types/workspace-type';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
 import { useEffect } from 'react';
 import { useFieldArray } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -142,11 +141,7 @@ export const useGetSubmissionCode = (
       'code',
     ],
     queryFn: () => workspaceService.getSubmissionCode(url as string),
-    retry: (failureCount, error) => {
-      if (axios.isAxiosError(error) && error.response?.status === 404) return false;
-      if (ApiService.isDomainError(error) && error.code === 3001) return false;
-      return failureCount !== 3;
-    },
+    retry: false,
   });
 
 export const useListSubmissionSubscription = (workspaceId: bigint, assignmentId: bigint) => {
@@ -264,11 +259,7 @@ export const useAssignmentDetail = (workspaceId: bigint, assignment: Assignment 
     enabled: !!assignment,
     queryKey: ['workspaces', workspaceId, 'assignments', assignment?.id, 'detail'],
     queryFn: () => workspaceService.getAssignmentDetail(assignment?.detailUrl as string),
-    retry: (failureCount, error) => {
-      if (axios.isAxiosError(error) && error.response?.status === 404) return false;
-      if (ApiService.isDomainError(error) && error.code === 30001) return false;
-      return failureCount !== 3;
-    },
+    retry: false,
   });
 
 export const useAssignmentTestcase = (workspaceId: bigint, assignment: Assignment | undefined) =>
@@ -291,11 +282,7 @@ export const useAssignmentTestcase = (workspaceId: bigint, assignment: Assignmen
       }
       return result;
     },
-    retry: (failureCount, error) => {
-      if (axios.isAxiosError(error) && error.response?.status === 404) return false;
-      if (ApiService.isDomainError(error) && error.code === 30001) return false;
-      return failureCount !== 3;
-    },
+    retry: false,
   });
 
 export const useUpdateAssignment = (workspaceId: bigint, assignmentId: bigint) => {
