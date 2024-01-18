@@ -1,5 +1,6 @@
 import { Badge } from '@/components/common/badge';
 import { Button } from '@/components/common/button';
+import { DataTableColumnHeader } from '@/components/common/data-table-column-header';
 import { DataTableFacetedFilter } from '@/components/common/data-table-faceted-filer';
 import { DataTablePagination } from '@/components/common/data-table-pagination';
 import { SearchInput } from '@/components/common/search-input';
@@ -82,11 +83,16 @@ const levels = [
 const columns: ColumnDef<Assignment>[] = [
   {
     header: 'No.',
-    cell: ({ row }) => <>{row.index + 1}</>,
+    cell: ({ row }) => row.index + 1,
   },
   {
     accessorKey: 'name',
-    header: 'Name',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="Name"
+      />
+    ),
     cell: ({ row }) => {
       return (
         <div className="flex flex-col space-y-1">
@@ -95,19 +101,34 @@ const columns: ColumnDef<Assignment>[] = [
         </div>
       );
     },
+    enableSorting: true,
+    enableHiding: false,
   },
   {
     accessorKey: 'level',
-    header: 'Level',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="Level"
+      />
+    ),
     cell: ({ row }) => {
       const level = levels.find((level) => level.value === row.original.level);
       if (!level) return null;
       return <span>{level.label}</span>;
     },
     filterFn: (row, id, value) => value.includes(row.getValue(id)),
+    enableSorting: true,
+    enableHiding: false,
   },
   {
-    header: 'Due date',
+    accessorKey: 'dueDate',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="Due date"
+      />
+    ),
     cell: ({ row }) => {
       return !row.original.dueDate ? (
         <span className="text-xs text-muted-foreground">No due date</span>
@@ -115,6 +136,8 @@ const columns: ColumnDef<Assignment>[] = [
         <span className="text-xs">{formatDate(row.original.dueDate, 'EEE, d MMM yyyy p')}</span>
       );
     },
+    enableSorting: true,
+    enableHiding: false,
   },
   {
     header: 'Submission',
@@ -205,7 +228,13 @@ export const AssignmentTable = () => {
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
-  const isFiltered = table.getState().columnFilters.length > 0;
+  const isFiltered =
+    table.getState().columnFilters.length > 0 || table.getState().sorting.length > 0;
+
+  const resetFilter = () => {
+    table.resetColumnFilters();
+    table.resetSorting();
+  };
 
   // TODO: better solution without hack
   // Hacky way to prevent page navigation when click dropdown button on table row
@@ -230,7 +259,7 @@ export const AssignmentTable = () => {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => table.resetColumnFilters()}
+              onClick={resetFilter}
             >
               Reset
               <XIcon className="ml-2 h-4 w-4" />

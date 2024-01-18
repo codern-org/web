@@ -16,7 +16,7 @@ import { Column } from '@tanstack/react-table';
 import { CheckIcon, ListFilterIcon } from 'lucide-react';
 import { ReactNode } from 'react';
 
-type DataTableFacetedFilter<TData, TValue> = {
+type DataTableFacetedFilterProps<TData, TValue> = {
   column?: Column<TData, TValue>;
   title?: string;
   options: {
@@ -32,7 +32,7 @@ export const DataTableFacetedFilter = <TData, TValue>({
   title,
   options,
   align = 'start',
-}: DataTableFacetedFilter<TData, TValue>) => {
+}: DataTableFacetedFilterProps<TData, TValue>) => {
   const faceted = column?.getFacetedUniqueValues();
   const selectedValues = new Set(column?.getFilterValue() as string[]);
 
