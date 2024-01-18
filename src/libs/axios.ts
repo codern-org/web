@@ -8,17 +8,19 @@ export const Axios = axios.create({
 
 Axios.interceptors.request.use((request) => {
   request.transformResponse = [
-    (data) => {
-      try {
-        data = JSONBigIntParser.parse(data);
-      } catch {
+    (data, headers) => {
+      if (headers['content-type'] === 'application/json') {
         try {
-          data = JSON.parse(data);
+          data = JSONBigIntParser.parse(data);
         } catch {
-          // In case of file content, etc.
+          try {
+            data = JSON.parse(data);
+          } catch {
+            // Ignore JSON parsing error
+          }
         }
+        if (data.data) deserializeDate(data.data);
       }
-      if (data.data) deserializeDate(data.data);
       return data;
     },
   ];
