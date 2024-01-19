@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useUser } from '@/hooks/auth-hook';
 import { usePageVisibility } from '@/hooks/visibility-hook';
 import { JSONBigIntParser, deserializeDate } from '@/libs/utils';
 import { WsErrorReason } from '@/types/api-response-type';
@@ -29,6 +30,7 @@ const WebSocketProviderContext = createContext<WebSocketProviderState>(
 export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
   const ws = useRef<WebSocket>();
   const channelHandlers = useRef<Map<string, WebSocketChannelHandler[]>>(new Map());
+  const user = useUser();
   const isPageVisible = usePageVisibility();
 
   const connect = useCallback(() => {
@@ -93,10 +95,11 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
   }, []);
 
   useEffect(() => {
+    if (!user.data) return;
     if (isPageVisible) connect();
     else disconnect(1000);
     return () => disconnect(4000);
-  }, [isPageVisible, connect, disconnect]);
+  }, [user.data, isPageVisible, connect, disconnect]);
 
   const subscribe = (channel: string, cb: WebSocketChannelHandler) => {
     const handlers = channelHandlers.current.get(channel);

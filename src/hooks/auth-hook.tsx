@@ -11,13 +11,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ChangeEvent, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export const useAuth = () => {
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
-  const { toast } = useToast();
-  const { connect, disconnect } = useWebSocket();
-
-  const user = useQuery({
+export const useUser = () =>
+  useQuery({
     queryKey: ['user'],
     queryFn: () => authService.me(),
     staleTime: Infinity,
@@ -25,6 +20,13 @@ export const useAuth = () => {
     retry: false,
     refetchOnWindowFocus: false,
   });
+
+export const useAuth = () => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const { connect, disconnect } = useWebSocket();
+  const user = useUser();
 
   const signIn = (email: string, password: string) => {
     authService
