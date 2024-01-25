@@ -75,8 +75,8 @@ dependencies:
     specifier: ^3.0.6
     version: 3.0.6
   json-bigint:
-    specifier: ^1.0.0
-    version: 1.0.0
+    specifier: github:sidorares/json-bigint
+    version: github.com/sidorares/json-bigint/3391780b2a3f613bb51536c47e6cddbca31013eb
   katex:
     specifier: ^0.16.9
     version: 0.16.9
@@ -4105,12 +4105,6 @@ packages:
     hasBin: true
     dev: true
 
-  /json-bigint@1.0.0:
-    resolution: {integrity: sha512-SiPv/8VpZuWbvLSMtTDU8hEfrZWg/mH/nV/b4o0CYbSxu1UIQPLdwKOCIyLQX+VIPO5vrLX3i8qtqFyhdPSUSQ==}
-    dependencies:
-      bignumber.js: 9.1.2
-    dev: false
-
   /json-buffer@3.0.1:
     resolution: {integrity: sha512-4bV5BfR2mqfQTJm+V5tPPdf+ZpuhiIvTuAB5g8kcrXOZpTT/QwwVRWBywX1ozr6lEuPdbHxwaJlm9G6mI2sfSQ==}
     dev: true
@@ -5888,4 +5882,12 @@ packages:
 
   /zod@3.22.4:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
+    dev: false
+
+  github.com/sidorares/json-bigint/3391780b2a3f613bb51536c47e6cddbca31013eb:
+    resolution: {tarball: https://codeload.github.com/sidorares/json-bigint/tar.gz/3391780b2a3f613bb51536c47e6cddbca31013eb}
+    name: json-bigint
+    version: 1.0.0
+    dependencies:
+      bignumber.js: 9.1.2
     dev: false
