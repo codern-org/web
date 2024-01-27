@@ -28,15 +28,16 @@ export type SubmissionCodeViewProps = {
 };
 
 export const SubmissionCodeView = ({ submission }: SubmissionCodeViewProps) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [copyResult, setCopyResult] = useState('');
+
   const { workspaceId, assignmentId } = useWorkspaceParams();
   const { data: code } = useGetSubmissionCode(
     workspaceId,
     assignmentId,
     submission.id,
-    submission.fileUrl,
+    isOpen ? submission.fileUrl : undefined,
   );
-
-  const [copyResult, setCopyResult] = useState('');
 
   const copyToClipboard = () => {
     if (!code) return setCopyResult('Code is not load yet');
@@ -47,7 +48,10 @@ export const SubmissionCodeView = ({ submission }: SubmissionCodeViewProps) => {
   };
 
   return (
-    <Dialog>
+    <Dialog
+      open={isOpen}
+      onOpenChange={setIsOpen}
+    >
       <DialogTrigger asChild>
         <Button
           size="sm"
@@ -55,7 +59,7 @@ export const SubmissionCodeView = ({ submission }: SubmissionCodeViewProps) => {
           className="h-6 space-x-1 px-2 py-0"
         >
           <EyeIcon className="h-4 w-4" />
-          <span>View code</span>
+          <span className="hidden lg:block">View code</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="flex h-3/4 max-w-3xl flex-col">
