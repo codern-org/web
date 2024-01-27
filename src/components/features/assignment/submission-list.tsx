@@ -5,7 +5,7 @@ import { XIcon } from 'lucide-react';
 
 export const SubmissionList = () => {
   const { workspaceId, assignmentId } = useWorkspaceParams();
-  const { data: submissions } = useListSubmission(workspaceId, assignmentId);
+  const { data: submissions } = useListSubmission(workspaceId, assignmentId, false);
 
   if (!submissions || submissions.length === 0) {
     return (

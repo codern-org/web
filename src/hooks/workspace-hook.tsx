@@ -113,7 +113,14 @@ export const useCreateSubmission = (workspaceId: bigint, assignmentId: bigint) =
 
 export const useListSubmission = (workspaceId: bigint, assignmentId: bigint, all: boolean) =>
   useQuery({
-    queryKey: ['workspaces', workspaceId, 'assignments', assignmentId, 'submissions', all && 'all'],
+    queryKey: [
+      'workspaces',
+      workspaceId,
+      'assignments',
+      assignmentId,
+      'submissions',
+      all ? 'all' : 'individual',
+    ],
     queryFn: () => workspaceService.listSubmission(workspaceId, assignmentId, all),
   });
 
@@ -145,7 +152,7 @@ export const useListSubmissionSubscription = (workspaceId: bigint, assignmentId:
   useEffect(() => {
     const updateSubmissions = (newSubmission: Submission) => {
       queryClient.setQueryData(
-        ['workspaces', workspaceId, 'assignments', assignmentId, 'submissions'],
+        ['workspaces', workspaceId, 'assignments', assignmentId, 'submissions', 'individual'],
         (submissions: Submission[]) => {
           return submissions.map((submission) => {
             if (submission.id === newSubmission.id) return newSubmission;

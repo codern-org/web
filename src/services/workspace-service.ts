@@ -132,10 +132,11 @@ class WorkspaceService extends ApiService {
     assignmentId: bigint,
     all: boolean,
   ): Promise<Submission[]> {
-    const url = '/workspaces/:workspaceId/assignments/:assignmentId/submissions'
+    let url = '/workspaces/:workspaceId/assignments/:assignmentId/submissions'
       .replace(':workspaceId', workspaceId.toString())
       .replace(':assignmentId', assignmentId.toString());
-    return this.get(url + `?all=${all}`)
+    if (all) url += '?all=true';
+    return this.get(url)
       .then((response) => {
         return response.data.data as unknown as Submission[];
       })
