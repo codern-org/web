@@ -20,14 +20,11 @@ export const AssignmentContent = () => {
         direction="horizontal"
         className="container flex h-full flex-col justify-between space-y-4 overflow-hidden py-6 lg:flex-row lg:space-x-4 lg:space-y-0"
       >
-        <ResizablePanel defaultSize={40}>
+        <ResizablePanel defaultSize={50}>
           <ProblemPane />
         </ResizablePanel>
         <ResizableHandle withHandle />
-        <ResizablePanel
-          defaultSize={60}
-          className="h-full w-full lg:h-auto lg:w-3/5"
-        >
+        <ResizablePanel defaultSize={50}>
           <Suspense>
             <EditorProvider cacheKey={assignmentId.toString()}>
               <EditorPane />

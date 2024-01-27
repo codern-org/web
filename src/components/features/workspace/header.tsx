@@ -18,16 +18,24 @@ export const WorkspaceHeader = () => {
         <WorkspaceBreadcrumb className="pt-6" />
 
         <div className="flex items-center justify-between space-x-8 py-8">
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-5">
             <Image
               src={workspace?.profileUrl}
               alt=""
-              className="h-11 w-11 rounded-md"
+              className="h-12 w-12 rounded-md"
             />
             {workspace ? (
-              <h2 className="text-4xl font-semibold tracking-tight">{workspace.name}</h2>
+              <div className="flex flex-col">
+                <h2 className="text-3xl font-semibold leading-tight tracking-tight">
+                  {workspace.name}
+                </h2>
+                <div className="mb-1 text-sm text-secondary-foreground">{workspace.ownerName}</div>
+              </div>
             ) : (
-              <Skeleton className="h-9 w-48" />
+              <div className="flex flex-col">
+                <Skeleton className="mb-2 h-7 w-48" />
+                <Skeleton className="h-4 w-48" />
+              </div>
             )}
           </div>
 
