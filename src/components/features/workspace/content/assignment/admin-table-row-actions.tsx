@@ -24,11 +24,11 @@ import { Row } from '@tanstack/react-table';
 import { MoreHorizontalIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-type AssignmentTableRowActionsProps = {
+type AdminAssignmentTableRowActionsProps = {
   row: Row<Assignment>;
 };
 
-export const AssignmentTableRowActions = ({ row }: AssignmentTableRowActionsProps) => {
+export const AdminAssignmentTableRowActions = ({ row }: AdminAssignmentTableRowActionsProps) => {
   const { workspaceId } = useWorkspaceParams();
   const assignmentId = row.original.id;
   const { mutate: deleteAssignment } = useDeleteAssignment(workspaceId, assignmentId);
@@ -49,6 +49,9 @@ export const AssignmentTableRowActions = ({ row }: AssignmentTableRowActionsProp
           align="end"
           className="w-[160px]"
         >
+          <Link to={RoutePath.ASSIGNMENT(workspaceId, assignmentId)}>
+            <DropdownMenuItem>Try</DropdownMenuItem>
+          </Link>
           <Link to={RoutePath.EDIT_ASSIGNMENT(workspaceId, assignmentId)}>
             <DropdownMenuItem>Edit</DropdownMenuItem>
           </Link>

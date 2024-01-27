@@ -1,7 +1,9 @@
 import { Button } from '@/components/common/button';
 import { DataTableFacetedFilter } from '@/components/common/data-table-faceted-filer';
 import { DataTablePagination } from '@/components/common/data-table-pagination';
+import { Image } from '@/components/common/image';
 import { SearchInput } from '@/components/common/search-input';
+import { Skeleton } from '@/components/common/skeleton';
 import {
   Table,
   TableBody,
@@ -12,7 +14,7 @@ import {
 } from '@/components/common/table';
 import { SubmissionCodeView } from '@/components/features/assignment/submission-code-view';
 import { useWorkspaceParams } from '@/hooks/router-hook';
-import { useListSubmissionByWorkspaceId } from '@/hooks/workspace-hook';
+import { useGetAssignmentQuery, useListSubmission } from '@/hooks/workspace-hook';
 import { formatDate } from '@/libs/utils';
 import { Submission } from '@/types/workspace-type';
 import {
@@ -54,12 +56,27 @@ const statuses = [
   },
 ];
 
-const columns: ColumnDef<Submission>[] = [
+const getColumns: (maxScore: number) => ColumnDef<Submission>[] = (maxScore: number) => [
   {
     accessorKey: 'id',
     header: 'ID',
     cell: ({ row }) => row.original.id.toString(),
     filterFn: (row, _, value) => row.original.id.toString().includes(value),
+  },
+  {
+    accessorKey: 'submitterName',
+    header: 'Submitter name',
+    cell: ({ row }) => (
+      <div className="flex items-center space-x-3">
+        <Image
+          src={row.original.submitterProfileUrl}
+          alt=""
+          className="h-7 w-7 rounded-full"
+        />
+        <span className="font-medium">{row.original.submitterName}</span>
+      </div>
+    ),
+    filterFn: (row, _, value) => row.original.submitterName.includes(value),
   },
   {
     accessorKey: 'language',
@@ -69,7 +86,7 @@ const columns: ColumnDef<Submission>[] = [
   {
     accessorKey: 'score',
     header: 'Score',
-    cell: ({ row }) => row.original.score,
+    cell: ({ row }) => row.original.score + '/' + maxScore,
   },
   {
     accessorKey: 'status',
@@ -99,10 +116,12 @@ const columns: ColumnDef<Submission>[] = [
   },
 ];
 
-export const WorkspaceSubmissionTable = () => {
-  const { workspaceId } = useWorkspaceParams();
-  const { data: submissions, isLoading } = useListSubmissionByWorkspaceId(workspaceId);
+export const SubmissionTable = () => {
+  const { workspaceId, assignmentId } = useWorkspaceParams();
+  const { data: submissions, isLoading } = useListSubmission(workspaceId, assignmentId, true);
+  const { data: assignment } = useGetAssignmentQuery(workspaceId, assignmentId);
 
+  const columns = useMemo(() => (assignment ? getColumns(assignment.maxScore) : []), [assignment]);
   const data = useMemo(
     () => submissions?.sort((a, b) => b.submittedAt.getTime() - a.submittedAt.getTime()) || [],
     [submissions],
@@ -129,7 +148,7 @@ export const WorkspaceSubmissionTable = () => {
   const isFiltered = table.getState().columnFilters.length > 0;
 
   return (
-    <div className="space-y-4">
+    <div className="container space-y-4 py-6">
       <div className="flex flex-col justify-between md:flex-row md:items-center">
         <h3 className="mb-4 text-lg font-medium md:mb-0">Submission</h3>
         <div className="flex flex-row-reverse space-x-2 space-x-reverse md:flex-row md:space-x-2">
@@ -144,20 +163,36 @@ export const WorkspaceSubmissionTable = () => {
             </Button>
           )}
 
-          <DataTableFacetedFilter
-            column={table.getColumn('status')}
-            title="Status"
-            options={statuses}
-            align="end"
-          />
+          {columns.length !== 0 ? (
+            <>
+              <DataTableFacetedFilter
+                column={table.getColumn('status')}
+                title="Status"
+                options={statuses}
+                align="end"
+              />
 
-          <SearchInput
-            type="search"
-            className="h-9 py-0"
-            placeholder="Search by id"
-            value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
-            onChange={(event) => table.getColumn('id')?.setFilterValue(event.target.value)}
-          />
+              <SearchInput
+                type="search"
+                className="h-9 w-64 py-0"
+                placeholder="Search by submitter name"
+                value={(table.getColumn('submitterName')?.getFilterValue() as string) ?? ''}
+                onChange={(event) =>
+                  table.getColumn('submitterName')?.setFilterValue(event.target.value)
+                }
+              />
+
+              <SearchInput
+                type="search"
+                className="h-9 py-0"
+                placeholder="Search by id"
+                value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
+                onChange={(event) => table.getColumn('id')?.setFilterValue(event.target.value)}
+              />
+            </>
+          ) : (
+            <Skeleton className="h-9 w-64" />
+          )}
         </div>
       </div>
       <div className="space-y-4">

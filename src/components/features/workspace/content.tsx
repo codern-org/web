@@ -1,9 +1,9 @@
 import { Skeleton } from '@/components/common/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/common/tab';
+import { AdminAssignmentTable } from '@/components/features/workspace/content/assignment/admin-table';
 import { AssignmentTable } from '@/components/features/workspace/content/assignment/table';
 import { WorkspaceParticipantTable } from '@/components/features/workspace/content/participant/table';
 import { WorkspaceScoreboardTable } from '@/components/features/workspace/content/scoreboard/table';
-import { WorkspaceSubmissionTable } from '@/components/features/workspace/content/submission/table';
 import { useWorkspaceParams } from '@/hooks/router-hook';
 import { useGetWorkspaceQuery } from '@/hooks/workspace-hook';
 import {
@@ -35,13 +35,13 @@ export const WorkspaceContent = () => {
         path: RoutePath.WORKSPACE(workspace.id, WorkspaceContentEnum.ASSIGNMENT),
         label: 'Assignment',
         content: <AssignmentTable />,
-        restrictedRole: [WorkspaceRole.MEMBER, WorkspaceRole.ADMIN, WorkspaceRole.OWNER],
+        restrictedRole: [WorkspaceRole.MEMBER],
       },
       {
-        value: WorkspaceContentEnum.SUBMISSION,
-        path: RoutePath.WORKSPACE(workspace.id, WorkspaceContentEnum.SUBMISSION),
-        label: 'Submission',
-        content: <WorkspaceSubmissionTable />,
+        value: WorkspaceContentEnum.ASSIGNMENT,
+        path: RoutePath.WORKSPACE(workspace.id, WorkspaceContentEnum.ASSIGNMENT),
+        label: 'Assignment',
+        content: <AdminAssignmentTable />,
         restrictedRole: [WorkspaceRole.ADMIN, WorkspaceRole.OWNER],
       },
       {

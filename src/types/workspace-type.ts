@@ -80,6 +80,9 @@ export type Testcase = {
 
 export type Submission = {
   id: bigint;
+  submitterId: string;
+  submitterName: string;
+  submitterProfileUrl: string;
   language: string;
   status: AssignmentStatus;
   score: number;

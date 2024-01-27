@@ -14,7 +14,7 @@ import { Loader2Icon, XIcon } from 'lucide-react';
 export const ProblemPane = () => {
   const { workspaceId, assignmentId } = useWorkspaceParams();
   const { tab, setTab } = useProblemPane();
-  const { data: submissions } = useListSubmission(workspaceId, assignmentId);
+  const { data: submissions } = useListSubmission(workspaceId, assignmentId, false);
   const { data: assignment } = useGetAssignmentQuery(workspaceId, assignmentId);
   const {
     data: detail,

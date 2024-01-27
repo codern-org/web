@@ -111,16 +111,10 @@ export const useCreateSubmission = (workspaceId: bigint, assignmentId: bigint) =
   });
 };
 
-export const useListSubmissionByWorkspaceId = (workspaceId: bigint) =>
+export const useListSubmission = (workspaceId: bigint, assignmentId: bigint, all: boolean) =>
   useQuery({
-    queryKey: ['workspaces', workspaceId, 'submissions'],
-    queryFn: () => workspaceService.listSubmissionByWorkspace(workspaceId),
-  });
-
-export const useListSubmission = (workspaceId: bigint, assignmentId: bigint) =>
-  useQuery({
-    queryKey: ['workspaces', workspaceId, 'assignments', assignmentId, 'submissions'],
-    queryFn: () => workspaceService.listSubmission(workspaceId, assignmentId),
+    queryKey: ['workspaces', workspaceId, 'assignments', assignmentId, 'submissions', all && 'all'],
+    queryFn: () => workspaceService.listSubmission(workspaceId, assignmentId, all),
   });
 
 export const useGetSubmissionCode = (

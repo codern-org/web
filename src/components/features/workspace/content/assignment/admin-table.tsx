@@ -1,4 +1,3 @@
-import { Badge } from '@/components/common/badge';
 import { Button } from '@/components/common/button';
 import { DataTableColumnHeader } from '@/components/common/data-table-column-header';
 import { DataTableFacetedFilter } from '@/components/common/data-table-faceted-filer';
@@ -12,16 +11,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/common/table';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/common/tooltip';
+import { AdminAssignmentTableRowActions } from '@/components/features/workspace/content/assignment/admin-table-row-actions';
 import { useWorkspaceParams } from '@/hooks/router-hook';
 import { useGetWorkspaceQuery, useListAssignmentQuery } from '@/hooks/workspace-hook';
 import { RoutePath } from '@/libs/constants';
-import { formartDateDist, formatDate } from '@/libs/utils';
+import { formatDate } from '@/libs/utils';
 import { Assignment, WorkspaceRole } from '@/types/workspace-type';
 import {
   ColumnDef,
@@ -37,32 +31,9 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { CircleIcon, Loader2Icon, PlusIcon, XIcon } from 'lucide-react';
+import { Loader2Icon, PlusIcon, XIcon } from 'lucide-react';
 import { MouseEvent, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
-const statuses = [
-  {
-    value: 'TODO',
-    label: 'Todo',
-    icon: <CircleIcon className="h-2 w-2 fill-yellow-400 stroke-none" />,
-  },
-  {
-    value: 'GRADING',
-    label: 'Grading',
-    icon: <CircleIcon className="h-2 w-2 fill-muted-foreground stroke-none" />,
-  },
-  {
-    value: 'INCOMPLETED',
-    label: 'Failed',
-    icon: <CircleIcon className="h-2 w-2 fill-danger stroke-none" />,
-  },
-  {
-    value: 'COMPLETED',
-    label: 'Passed',
-    icon: <CircleIcon className="h-2 w-2 fill-green-400 stroke-none" />,
-  },
-];
 
 const levels = [
   {
@@ -139,64 +110,12 @@ const columns: ColumnDef<Assignment>[] = [
     enableHiding: false,
   },
   {
-    header: 'Submission',
-    cell: ({ row }) => {
-      if (!row.original.lastSubmittedAt) return <>-</>;
-      const isLate = row.original.dueDate
-        ? row.original.lastSubmittedAt > row.original.dueDate
-        : false;
-      return (
-        <TooltipProvider delayDuration={0}>
-          <Tooltip>
-            <TooltipTrigger>
-              <Badge variant={isLate ? 'muted' : 'outline'}>{isLate ? 'Late' : 'In time'}</Badge>
-            </TooltipTrigger>
-            <TooltipContent className="flex flex-col">
-              <span className="text-xs">
-                Submitted on {formatDate(row.original.lastSubmittedAt, 'EEE, d MMM yyyy p')}
-              </span>
-              {isLate && (
-                <span className="text-xs text-muted-foreground">
-                  (Late {formartDateDist(row.original.dueDate, row.original.lastSubmittedAt)})
-                </span>
-              )}
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      );
-    },
-  },
-  {
-    accessorKey: 'score',
-    header: 'Score',
-    cell: ({ row }) => {
-      return row.original.score === null ? (
-        <span className="text-xs text-muted-foreground">None</span>
-      ) : (
-        <span className="text-xs">
-          {row.original.score} / {row.original.maxScore}
-        </span>
-      );
-    },
-  },
-  {
-    accessorKey: 'status',
-    header: 'Status',
-    cell: ({ row }) => {
-      const status = statuses.find((status) => status.value === row.original.status);
-      if (!status) return null;
-      return (
-        <div className="flex items-center space-x-2">
-          {status.icon}
-          <span className="capitalize">{status.label}</span>
-        </div>
-      );
-    },
-    filterFn: (row, id, value) => value.includes(row.getValue(id)),
+    id: 'actions',
+    cell: ({ row }) => <AdminAssignmentTableRowActions row={row} />,
   },
 ];
 
-export const AssignmentTable = () => {
+export const AdminAssignmentTable = () => {
   const navigate = useNavigate();
   const { workspaceId } = useWorkspaceParams();
   const { data: assignments, isLoading } = useListAssignmentQuery(workspaceId);
@@ -239,7 +158,7 @@ export const AssignmentTable = () => {
     const state = target.getAttribute('data-state'); // For close dialog
     const buttonType = target.getAttribute('type'); // For dialog button click
     if (role === 'menuitem' || state === 'open' || buttonType) return;
-    navigate(RoutePath.ASSIGNMENT(workspaceId, row.original.id));
+    navigate(RoutePath.LIST_SUBMISSION(workspaceId, row.original.id));
   };
 
   return (
@@ -260,12 +179,6 @@ export const AssignmentTable = () => {
             </Button>
           )}
 
-          <DataTableFacetedFilter
-            column={table.getColumn('status')}
-            title="Status"
-            options={statuses}
-            align="end"
-          />
           <DataTableFacetedFilter
             column={table.getColumn('level')}
             title="Level"

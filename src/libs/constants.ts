@@ -29,6 +29,8 @@ export const RoutePath = {
     `/dashboard/workspace/${workspaceId}/assignment/create`,
   EDIT_ASSIGNMENT: (workspaceId: bigint, assignmentId: bigint) =>
     `/dashboard/workspace/${workspaceId}/assignment/${assignmentId}/edit`,
+  LIST_SUBMISSION: (workspaceId: bigint, assignmentId: bigint) =>
+    `/dashboard/workspace/${workspaceId}/assignment/${assignmentId}/submission`,
 };
 
 export const getBaseRoutePath = (pathname: string) =>
@@ -45,7 +47,6 @@ export const isValidAccountSettingsContent = (content: string = '') =>
 
 export enum WorkspaceContent {
   ASSIGNMENT = 'assignment',
-  SUBMISSION = 'submission',
   SCOREBOARD = 'scoreboard',
   PARTICIPANT = 'participant',
   SETTINGS = 'settings',

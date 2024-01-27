@@ -127,23 +127,15 @@ class WorkspaceService extends ApiService {
       .catch(this.throwError);
   }
 
-  public async listSubmissionByWorkspace(workspaceId: bigint): Promise<Submission[]> {
-    const url = '/workspaces/:workspaceId/submissions'.replace(
-      ':workspaceId',
-      workspaceId.toString(),
-    );
-    return this.get(url)
-      .then((response) => {
-        return response.data.data as unknown as Submission[];
-      })
-      .catch(this.throwError);
-  }
-
-  public async listSubmission(workspaceId: bigint, assignmentId: bigint): Promise<Submission[]> {
+  public async listSubmission(
+    workspaceId: bigint,
+    assignmentId: bigint,
+    all: boolean,
+  ): Promise<Submission[]> {
     const url = '/workspaces/:workspaceId/assignments/:assignmentId/submissions'
       .replace(':workspaceId', workspaceId.toString())
       .replace(':assignmentId', assignmentId.toString());
-    return this.get(url)
+    return this.get(url + `?all=${all}`)
       .then((response) => {
         return response.data.data as unknown as Submission[];
       })
