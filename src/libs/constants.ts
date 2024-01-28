@@ -40,6 +40,7 @@ export const getBaseRoutePath = (pathname: string) =>
 
 export enum AccountSettingsContent {
   PROFILE = 'profile',
+  SECURITY = 'security',
 }
 
 export const isValidAccountSettingsContent = (content: string = '') =>

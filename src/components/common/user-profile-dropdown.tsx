@@ -12,7 +12,7 @@ import { Image } from '@/components/common/image';
 import { useAuth } from '@/hooks/auth-hook';
 import { RoutePath } from '@/libs/constants';
 import { UserAccountType } from '@/types/auth-type';
-import { ChevronDownIcon, LockIcon, LogOutIcon, SettingsIcon } from 'lucide-react';
+import { ChevronDownIcon, LogOutIcon, SettingsIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export type UserProfileDropdownProps = {
@@ -53,12 +53,6 @@ export const UserProfileDropdown = ({
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <DropdownMenuItem asChild>
-            <Link to={RoutePath.CHANGE_PASSWORD}>
-              <LockIcon className="mr-2 h-4 w-4" />
-              <span>Change password</span>
-            </Link>
-          </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link to={RoutePath.FALLBACK_ACCOUNT_SETTINGS}>
               <SettingsIcon className="mr-2 h-4 w-4" />

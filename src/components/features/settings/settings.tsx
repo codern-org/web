@@ -1,9 +1,10 @@
 import { buttonVariants } from '@/components/common/button';
 import { Separator } from '@/components/common/separator';
 import { AccountProfileSettings } from '@/components/features/settings/content/profile';
+import { SecuritySettings } from '@/components/features/settings/content/security';
 import { AccountSettingsContent, RoutePath } from '@/libs/constants';
 import { classNames } from '@/libs/utils';
-import { LucideIcon, UserIcon } from 'lucide-react';
+import { LockKeyhole, LucideIcon, UserIcon } from 'lucide-react';
 import { HTMLAttributes, ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
@@ -13,6 +14,12 @@ const sidebarNavItems: SidebarNavItem[] = [
     title: 'Profile',
     tab: AccountSettingsContent.PROFILE,
     content: <AccountProfileSettings />,
+  },
+  {
+    icon: LockKeyhole,
+    title: 'Security',
+    tab: AccountSettingsContent.SECURITY,
+    content: <SecuritySettings />,
   },
 ];
 
