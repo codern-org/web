@@ -246,6 +246,7 @@ export const useGetScoreboardQuery = (workspaceId: bigint) =>
   useQuery({
     queryKey: ['workspace', workspaceId, 'scoreboard'],
     queryFn: () => workspaceService.getScoreboard(workspaceId),
+    refetchInterval: 1 * 60 * 1000,
   });
 
 export const useGetAssignmentQuery = (workspaceId: bigint, assignmentId: bigint | undefined) =>

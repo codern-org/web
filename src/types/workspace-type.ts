@@ -3,18 +3,16 @@ export type Workspace = {
   name: string;
   profileUrl: string;
   createdAt: Date;
-
   ownerName: string;
   ownerProfileUrl: string;
   participantCount: number;
   totalAssignment: number;
+
   completedAssignment: number;
   role: WorkspaceRole;
   favortie: boolean;
   joinedAt: Date;
   recentlyVisitedAt: Date;
-
-  participants?: WorkspaceParticipant[];
 };
 
 export enum WorkspaceRole {

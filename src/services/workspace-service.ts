@@ -56,7 +56,7 @@ class WorkspaceService extends ApiService {
   }
 
   public async joinWorkspace(code: string): Promise<Workspace> {
-    return this.get(`/join/${code}`)
+    return this.get(`/workspaces/join/${code}`)
       .then((response) => {
         return response.data.data as unknown as Workspace;
       })

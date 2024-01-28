@@ -1,6 +1,9 @@
+import { Button } from '@/components/common/button';
 import { NavigationBar, NavigationBarProps } from '@/components/common/navigation-bar';
 import { UserProfileDropdown } from '@/components/common/user-profile-dropdown';
 import { useAuth } from '@/hooks/auth-hook';
+import { RoutePath } from '@/libs/constants';
+import { Link } from 'react-router-dom';
 
 export const DashboardNavBar = (props: NavigationBarProps) => {
   const { user } = useAuth();
@@ -23,6 +26,24 @@ export const DashboardNavBar = (props: NavigationBarProps) => {
           email={user.data.email}
           accountType={user.data.accountType}
         />
+      )}
+
+      {!user.isLoading && !user.data && (
+        <>
+          <Button
+            variant="ghost"
+            size="sm"
+            asChild
+          >
+            <Link to={RoutePath.SIGNIN}>Sign in</Link>
+          </Button>
+          <Button
+            size="sm"
+            asChild
+          >
+            <Link to={RoutePath.SIGNUP}>Sign up</Link>
+          </Button>
+        </>
       )}
     </NavigationBar>
   );

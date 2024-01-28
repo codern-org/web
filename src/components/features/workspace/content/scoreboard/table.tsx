@@ -11,9 +11,9 @@ import {
   TableRow,
 } from '@/components/common/table';
 import { useWorkspaceParams } from '@/hooks/router-hook';
-import { useGetScoreboardQuery, useListWorkspaceParticipantQuery } from '@/hooks/workspace-hook';
+import { useGetScoreboardQuery } from '@/hooks/workspace-hook';
 import { formatDate } from '@/libs/utils';
-import { WorkspaceRank, WorkspaceRole } from '@/types/workspace-type';
+import { WorkspaceRank } from '@/types/workspace-type';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -80,16 +80,8 @@ const columns: ColumnDef<WorkspaceRank>[] = [
 export const WorkspaceScoreboardTable = () => {
   const { workspaceId } = useWorkspaceParams();
   const { data: scoreboard, isLoading } = useGetScoreboardQuery(workspaceId);
-  const { data: participants } = useListWorkspaceParticipantQuery(workspaceId);
 
-  const data = useMemo(() => {
-    if (!participants || !scoreboard) return [];
-    const memberIds = participants
-      .filter((participant) => participant.role === WorkspaceRole.MEMBER)
-      .map((participant) => participant.userId);
-    return scoreboard.filter((data) => memberIds.includes(data.userId));
-  }, [scoreboard, participants]);
-
+  const data = useMemo(() => scoreboard || [], [scoreboard]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
 
