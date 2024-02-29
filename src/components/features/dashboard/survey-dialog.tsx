@@ -6,7 +6,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/common/dialog';
 import {
   Form,
@@ -48,7 +47,10 @@ export const SurveyDialog = () => {
           form.reset();
         }}
       >
-        <DialogTrigger asChild>
+        <a
+          href="https://kmutt.me/codern-survey"
+          target="_blank"
+        >
           <Button
             type="button"
             size="sm"
@@ -58,7 +60,7 @@ export const SurveyDialog = () => {
               We are now on early access, We need your feedback 😘
             </div>
           </Button>
-        </DialogTrigger>
+        </a>
         <DialogContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
