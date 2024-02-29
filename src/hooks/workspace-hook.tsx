@@ -3,7 +3,7 @@ import { useStrictForm } from '@/hooks/form-hook';
 import { useWorkspaceParams } from '@/hooks/router-hook';
 import { toast } from '@/hooks/toast-hook';
 import { useWebSocket } from '@/hooks/websocket-hook';
-import { RoutePath, WorkspaceContent } from '@/libs/constants';
+import { RoutePath, WorkspaceContent, isDefaultProfileUrl } from '@/libs/constants';
 import { ApiService } from '@/services/api-service';
 import { workspaceService } from '@/services/workspace-service';
 import {
@@ -12,9 +12,17 @@ import {
   CreateAssignmentSchemaValues,
   parseToCreateAssignmentSchema,
 } from '@/types/schema/assignment-schema';
+import {
+  CreateWorkspaceFormDefaultValues,
+  CreateWorkspaceFormSchema,
+  CreateWorkspaceFormSchemaValues,
+  UpdateWorkspaceFormDefaultValues,
+  UpdateWorkspaceFormSchema,
+  UpdateWorkspaceFormSchemaValues,
+} from '@/types/schema/workspace-schema';
 import { Assignment, CreateSubmissionParams, Submission, Workspace } from '@/types/workspace-type';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { ChangeEvent, useEffect, useRef } from 'react';
 import { useFieldArray } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
@@ -201,6 +209,62 @@ export const useGetWorkspaceQuery = (id: bigint) =>
     gcTime: 0,
   });
 
+export const useCreateWorkspace = () => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: (workspace: CreateWorkspaceFormSchemaValues) =>
+      workspaceService.createWorkspace(workspace),
+    onSuccess: (newWorkspace) => {
+      queryClient.invalidateQueries({ queryKey: ['workspaces'] });
+      toast({
+        title: 'Create workspace successfully',
+        description: '',
+        action: (
+          <ToastAction
+            altText="View new workspace"
+            onClick={() =>
+              navigate(RoutePath.WORKSPACE(newWorkspace.id, WorkspaceContent.ASSIGNMENT))
+            }
+            children="View"
+          />
+        ),
+      });
+      navigate(RoutePath.DASHBOARD);
+    },
+    onError: (error) => {
+      toast({
+        variant: 'danger',
+        title: 'Cannot create workspace',
+        description: error.message,
+      });
+    },
+  });
+};
+
+export const useCreateWorkspaceForm = () => {
+  const { mutate: create, isPending: isCreating } = useCreateWorkspace();
+
+  const form = useStrictForm(CreateWorkspaceFormSchema, CreateWorkspaceFormDefaultValues);
+  const profileInputRef = useRef<HTMLInputElement>(null);
+  const profileUrl = form.watch('profileUrl');
+
+  const editProfile = (event: ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files?.length) return;
+    const blobUrl = URL.createObjectURL(event.target.files[0]);
+    form.setValue('profileUrl', blobUrl);
+  };
+
+  return {
+    form,
+    profileInputRef,
+    profileUrl,
+    editProfile,
+    create,
+    isCreating,
+  };
+};
+
 export const useJoinWorkspace = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -287,6 +351,63 @@ export const useAssignmentTestcase = (workspaceId: bigint, assignment: Assignmen
     retry: false,
   });
 
+export const useUpdateWorkspace = (workspaceId: bigint) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (workspace: UpdateWorkspaceFormSchemaValues) =>
+      workspaceService.updateWorkspace(workspaceId, workspace),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['workspaces', workspaceId] });
+      toast({
+        title: 'Update workspace successfully',
+      });
+    },
+    onError: (error) => {
+      toast({
+        variant: 'danger',
+        title: 'Cannot update this workspace',
+        description: error.message,
+      });
+    },
+  });
+};
+
+export const useUpdateWorkspaceForm = () => {
+  const { workspaceId } = useWorkspaceParams();
+  const { mutate: update, isPending: isUpdating } = useUpdateWorkspace(workspaceId);
+
+  const { data: workspace, isPending: isLoading } = useGetWorkspaceQuery(workspaceId);
+
+  const form = useStrictForm(UpdateWorkspaceFormSchema, UpdateWorkspaceFormDefaultValues);
+  const profileInputRef = useRef<HTMLInputElement>(null);
+  const profileUrl = form.watch('profileUrl');
+
+  const editProfile = (event: ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files?.length) return;
+    const blobUrl = URL.createObjectURL(event.target.files[0]);
+    form.setValue('profileUrl', blobUrl);
+  };
+
+  useEffect(() => {
+    if (!workspace) return;
+    form.reset({
+      name: workspace.name,
+      profileUrl: isDefaultProfileUrl(workspace.profileUrl) ? undefined : workspace.profileUrl,
+    });
+  }, [form, workspace]);
+
+  return {
+    form,
+    workspace,
+    profileInputRef,
+    profileUrl,
+    editProfile,
+    update,
+    isLoading,
+    isUpdating,
+  };
+};
+
 export const useUpdateAssignment = (workspaceId: bigint, assignmentId: bigint) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -306,6 +427,28 @@ export const useUpdateAssignment = (workspaceId: bigint, assignmentId: bigint) =
       toast({
         variant: 'danger',
         title: 'Cannot update this assignment',
+        description: error.message,
+      });
+    },
+  });
+};
+
+export const useDeleteWorkspace = (workspaceId: bigint) => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: () => workspaceService.deleteWorkspace(workspaceId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['workspaces'] });
+      toast({
+        title: 'Delete workspace successfully',
+      });
+      navigate(RoutePath.DASHBOARD);
+    },
+    onError: (error) => {
+      toast({
+        variant: 'danger',
+        title: 'Cannot delete this workspace',
         description: error.message,
       });
     },

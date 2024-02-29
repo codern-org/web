@@ -16,6 +16,7 @@ export const RoutePath = {
 
   WORKSPACE: (workspaceId: bigint, content: WorkspaceContent) =>
     `/dashboard/workspace/${workspaceId}/${content}`,
+  CREATE_WORKSPACE: `/dashboard/workspace/create`,
   FALLBACK_WORKSPACE: (workspaceId: bigint) => `/dashboard/workspace/${workspaceId}/assignment`,
 
   WORKSPACE_SETTINGS: (workspaceId: bigint, settings: WorkspaceSettingsContent) =>
@@ -64,3 +65,7 @@ export enum WorkspaceSettingsContent {
 
 export const isValidWorkspaceSettingsContent = (content: string = '') =>
   Object.values(WorkspaceSettingsContent).includes(content as WorkspaceSettingsContent);
+
+export const isDefaultProfileUrl = (profileUrl: string = '') => {
+  return profileUrl === '/workspaces/1/profile';
+};

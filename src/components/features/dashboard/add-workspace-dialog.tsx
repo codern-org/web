@@ -46,12 +46,12 @@ export const AddWorkspaceDialog = () => {
       <DialogTrigger asChild>
         <Button size="sm">
           <PlusIcon className="mr-0.5 h-4 w-4" />
-          Workspace
+          Join
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add a new workspace</DialogTitle>
+          <DialogTitle>Join workspace</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>

@@ -10,7 +10,7 @@ export type Workspace = {
 
   completedAssignment: number;
   role: WorkspaceRole;
-  favortie: boolean;
+  favorite: boolean;
   joinedAt: Date;
   recentlyVisitedAt: Date;
 };

@@ -1,13 +1,21 @@
 import { Badge } from '@/components/common/badge';
+import { Button } from '@/components/common/button';
 import { SearchInput } from '@/components/common/search-input';
 import { AddWorkspaceDialog } from '@/components/features/dashboard/add-workspace-dialog';
 import { SurveyDialog } from '@/components/features/dashboard/survey-dialog';
 import { WorkspaceCard } from '@/components/features/dashboard/workspace-card';
 import { WorkspaceCardSkeleton } from '@/components/features/dashboard/workspace-card-skeleton';
+import { useAuth } from '@/hooks/auth-hook';
 import { useListWorkspaceQuery } from '@/hooks/workspace-hook';
+import { RoutePath } from '@/libs/constants';
+import { UserAccountType } from '@/types/auth-type';
+import { PlusIcon } from 'lucide-react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export const DashboardContent = () => {
+  const { user } = useAuth();
+
   const { data: workspaces, isLoading } = useListWorkspaceQuery();
   const [workspaceFilter, setWorkspaceFilter] = useState<string>('');
 
@@ -37,6 +45,18 @@ export const DashboardContent = () => {
             onChange={(event) => setWorkspaceFilter(event.target.value)}
           />
           <AddWorkspaceDialog />
+          {user?.data?.accountType === UserAccountType.PRO && (
+            <Button
+              size="sm"
+              className="h-9"
+              asChild
+            >
+              <Link to={RoutePath.CREATE_WORKSPACE}>
+                <PlusIcon className="mr-1 h-4 w-4" />
+                Create
+              </Link>
+            </Button>
+          )}
         </div>
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">

@@ -45,7 +45,7 @@ export type ChangePassFormValues = z.infer<typeof ChangePassFormSchema>;
 export const AccountProfileSettingsSchema = z.object({
   displayName: z
     .string()
-    .min(1, { message: 'Display name must be al least 1 character' })
+    .min(1, { message: 'Display name must be at least 1 character' })
     .trim(),
   profileUrl: z.string().trim(),
 });

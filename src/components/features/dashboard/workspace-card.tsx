@@ -14,10 +14,18 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/common/tooltip';
+import { useUpdateWorkspace } from '@/hooks/workspace-hook';
 import { RoutePath, WorkspaceContent } from '@/libs/constants';
 import { compactNumber } from '@/libs/utils';
 import { Workspace, WorkspaceRole } from '@/types/workspace-type';
-import { BookOpenIcon, MoreVerticalIcon, SettingsIcon, StarIcon, Users2Icon } from 'lucide-react';
+import {
+  BookOpenIcon,
+  MoreVerticalIcon,
+  SettingsIcon,
+  StarIcon,
+  Users2Icon,
+  XIcon,
+} from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 type WorkspaceCardProps = {
@@ -34,8 +42,16 @@ export const WorkspaceCard = ({ workspace }: WorkspaceCardProps) => {
     completedAssignment,
     role,
     participantCount,
+    favorite,
   } = workspace;
+  const { mutate: update } = useUpdateWorkspace(id);
+
   const progress = totalAssignment ? Math.round((completedAssignment / totalAssignment) * 100) : 0;
+
+  // TODO: Make clicking on favorite button update the favorite status instantly, still have to refresh the page to see the change
+  const handleFavorite = () => {
+    update({ favorite: !favorite });
+  };
 
   return (
     <Card className="bg-background transition-colors hover:border-primary">
@@ -61,10 +77,20 @@ export const WorkspaceCard = ({ workspace }: WorkspaceCardProps) => {
                 <MoreVerticalIcon className="h-5 w-5" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-36">
-              <DropdownMenuItem>
-                <StarIcon className="mr-2 h-4 w-4" /> Favorite
-              </DropdownMenuItem>
+            <DropdownMenuContent className="w-40">
+              <Link to="#">
+                <DropdownMenuItem onClick={() => handleFavorite()}>
+                  {!favorite ? (
+                    <>
+                      <StarIcon className="mr-2 h-4 w-4" /> Favorite
+                    </>
+                  ) : (
+                    <>
+                      <XIcon className="mr-2 h-4 w-4" /> Unfavorite
+                    </>
+                  )}
+                </DropdownMenuItem>
+              </Link>
               {[WorkspaceRole.ADMIN, WorkspaceRole.OWNER].includes(workspace.role) && (
                 <DropdownMenuItem asChild>
                   <Link to={RoutePath.FALLBACK_WORKSPACE_SETTINGS(workspace.id)}>

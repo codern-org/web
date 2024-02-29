@@ -1,5 +1,11 @@
+import { Axios } from '@/libs/axios';
+import { resolveFileUrl } from '@/libs/utils';
 import { ApiService } from '@/services/api-service';
 import { CreateAssignmentSchemaValues } from '@/types/schema/assignment-schema';
+import {
+  CreateWorkspaceFormSchemaValues,
+  UpdateWorkspaceFormSchemaValues,
+} from '@/types/schema/workspace-schema';
 import {
   Assignment,
   Submission,
@@ -9,6 +15,26 @@ import {
 } from '@/types/workspace-type';
 
 class WorkspaceService extends ApiService {
+  public async createWorkspace(workspace: CreateWorkspaceFormSchemaValues): Promise<Workspace> {
+    const url = '/workspaces';
+
+    const formData = new FormData();
+    formData.append('name', workspace.name);
+
+    if (workspace.profileUrl) {
+      const profileUrl = resolveFileUrl(workspace.profileUrl);
+      const profile = await Axios.get(profileUrl, {
+        baseURL: '',
+        responseType: 'blob',
+      }).then((response) => new File([response.data], 'profile'));
+      formData.append('profile', profile, 'profile');
+    }
+
+    return this.post(url, formData)
+      .then((response) => response.data.data as unknown as Workspace)
+      .catch(this.throwError);
+  }
+
   public async createAssignment(
     workspaceId: bigint,
     assignment: CreateAssignmentSchemaValues,
@@ -155,6 +181,35 @@ class WorkspaceService extends ApiService {
     return this.getFileContent(url, true).then((data) => data.replace(/\n$/, ''));
   }
 
+  public async updateWorkspace(
+    workspaceId: bigint,
+    workspace: UpdateWorkspaceFormSchemaValues,
+  ): Promise<void> {
+    const url = '/workspaces/:workspaceId'.replace(':workspaceId', workspaceId.toString());
+
+    const formData = new FormData();
+    if (workspace.name) {
+      formData.append('name', workspace.name);
+    }
+
+    if (workspace.favorite !== undefined) {
+      formData.append('favorite', workspace.favorite.toString());
+    }
+
+    if (workspace.profileUrl) {
+      const profileUrl = resolveFileUrl(workspace.profileUrl);
+      const profile = await Axios.get(profileUrl, {
+        baseURL: '',
+        responseType: 'blob',
+      }).then((response) => new File([response.data], 'profile'));
+      formData.append('profile', profile, 'profile');
+    }
+
+    return this.patch(url, formData)
+      .then(() => {})
+      .catch(this.throwError);
+  }
+
   public async updateAssignment(
     workspaceId: bigint,
     assignmentId: bigint,
@@ -178,6 +233,13 @@ class WorkspaceService extends ApiService {
     });
 
     return this.patch(url, formData)
+      .then(() => {})
+      .catch(this.throwError);
+  }
+
+  public async deleteWorkspace(workspaceId: bigint): Promise<void> {
+    const url = '/workspaces/:workspaceId'.replace(':workspaceId', workspaceId.toString());
+    return this.delete(url)
       .then(() => {})
       .catch(this.throwError);
   }
