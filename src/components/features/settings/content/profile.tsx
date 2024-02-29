@@ -57,6 +57,7 @@ export const AccountProfileSettings = () => {
               ref={profileInputRef}
               onChange={editProfile}
               className="hidden"
+              accept="image/*"
             />
             <Button
               type="submit"
