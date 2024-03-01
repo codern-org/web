@@ -70,6 +70,12 @@ export type Assignment = {
   lastSubmittedAt: Date;
 };
 
+export type Invitation = {
+  id: number;
+  validAt: Date;
+  validUntil: Date;
+};
+
 export type Testcase = {
   id: bigint;
   inputFileUrl: string;

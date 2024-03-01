@@ -3,11 +3,13 @@ import { resolveFileUrl } from '@/libs/utils';
 import { ApiService } from '@/services/api-service';
 import { CreateAssignmentSchemaValues } from '@/types/schema/assignment-schema';
 import {
+  CreateInvitationSchemaValues,
   CreateWorkspaceFormSchemaValues,
   UpdateWorkspaceFormSchemaValues,
 } from '@/types/schema/workspace-schema';
 import {
   Assignment,
+  Invitation,
   Submission,
   Workspace,
   WorkspaceParticipant,
@@ -59,6 +61,23 @@ class WorkspaceService extends ApiService {
 
     return this.post(url, formData)
       .then(() => assignment)
+      .catch(this.throwError);
+  }
+
+  public async createInvitation(
+    workspaceId: bigint,
+    invitation: CreateInvitationSchemaValues,
+  ): Promise<CreateInvitationSchemaValues> {
+    const url = '/workspaces/:workspaceId/invitation'.replace(
+      ':workspaceId',
+      workspaceId.toString(),
+    );
+
+    return this.post(url, {
+      validAt: new Date(invitation.validAt).toISOString(),
+      validUntil: new Date(invitation.validUntil).toISOString(),
+    })
+      .then(() => invitation)
       .catch(this.throwError);
   }
 
@@ -138,6 +157,18 @@ class WorkspaceService extends ApiService {
     return this.get(url)
       .then((response) => {
         return response.data.data as unknown as Assignment[];
+      })
+      .catch(this.throwError);
+  }
+
+  public async listInvitation(workspaceId: bigint): Promise<Invitation[]> {
+    const url = '/workspaces/:workspaceId/invitation'.replace(
+      ':workspaceId',
+      workspaceId.toString(),
+    );
+    return this.get(url)
+      .then((response) => {
+        return response.data.data as unknown as Invitation[];
       })
       .catch(this.throwError);
   }

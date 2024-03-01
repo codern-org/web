@@ -47,3 +47,12 @@ export const DeleteWorkspaceFormSchema = z.object({
 export type DeleteWorkspaceFormSchemaValues = z.infer<typeof DeleteWorkspaceFormSchema>;
 
 export const DeleteWorkspaceFormDefaultValues: Partial<DeleteWorkspaceFormSchemaValues> = {};
+
+export const CreateInvitationSchema = z.object({
+  validAt: z.date({ required_error: 'Please pick a date' }),
+  validUntil: z.date({ required_error: 'Please pick a date' }),
+});
+
+export type CreateInvitationSchemaValues = z.infer<typeof CreateInvitationSchema>;
+
+export const InvitationDefaultValues: Partial<CreateInvitationSchemaValues> = {};

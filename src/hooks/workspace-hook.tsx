@@ -13,6 +13,7 @@ import {
   parseToCreateAssignmentSchema,
 } from '@/types/schema/assignment-schema';
 import {
+  CreateInvitationSchemaValues,
   CreateWorkspaceFormDefaultValues,
   CreateWorkspaceFormSchema,
   CreateWorkspaceFormSchemaValues,
@@ -93,6 +94,26 @@ export const useCreateAssignmentForm = () => {
     appendTestcase,
     removeTestcase,
   };
+};
+
+export const useCreateInvitation = (workspaceId: bigint) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (invitation: CreateInvitationSchemaValues) =>
+      workspaceService.createInvitation(workspaceId, invitation),
+    onSuccess: () => {
+      toast({
+        title: 'Create invitation successfully',
+      });
+      queryClient.invalidateQueries({ queryKey: ['workspaces', workspaceId, 'invitation'] });
+    },
+    onError: () => {
+      toast({
+        variant: 'danger',
+        title: 'Cannot create invitation',
+      });
+    },
+  });
 };
 
 export const useCreateSubmission = (workspaceId: bigint, assignmentId: bigint) => {
@@ -199,6 +220,12 @@ export const useListAssignmentQuery = (workspaceId: bigint) =>
     queryFn: () => workspaceService.listAssignment(workspaceId),
     staleTime: Infinity,
     gcTime: 0,
+  });
+
+export const useListInvitationQuery = (workspaceId: bigint) =>
+  useQuery({
+    queryKey: ['workspaces', workspaceId, 'invitation'],
+    queryFn: () => workspaceService.listInvitation(workspaceId),
   });
 
 export const useGetWorkspaceQuery = (id: bigint) =>
