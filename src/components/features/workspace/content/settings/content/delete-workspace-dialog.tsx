@@ -59,8 +59,8 @@ export const DeleteWorkspaceDialog = () => {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <div className="flex space-x-4">
-            <AlertTriangle className="h-4 w-4" />
+          <div className="flex items-center space-x-2 text-danger">
+            <AlertTriangle className="h-6 w-6 fill-danger text-white" />
             <DialogTitle>Delete workspace</DialogTitle>
           </div>
         </DialogHeader>
@@ -75,10 +75,12 @@ export const DeleteWorkspaceDialog = () => {
               name="confirmation"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-md">Confirmation</FormLabel>
+                  <FormLabel className="text-md">
+                    If you are sure you want to delete this workspace
+                  </FormLabel>
                   <FormDescription className="pb-4">
-                    If you are sure you want to delete this workspace, please type the workspace
-                    name as a confirmation. This action cannot be undone!
+                    To confirm, <u>please "{workspace?.name}" as a confirmation</u> <br />
+                    This action cannot be undone!
                   </FormDescription>
                   <FormControl>
                     <div className="flex flex-col space-y-4">
@@ -95,7 +97,7 @@ export const DeleteWorkspaceDialog = () => {
                           variant="danger"
                         >
                           {isDeleting && <Loader2Icon className="mr-2 h-3 w-3 animate-spin" />}
-                          Confirm delete
+                          Delete
                         </Button>
                         <Button
                           type="button"

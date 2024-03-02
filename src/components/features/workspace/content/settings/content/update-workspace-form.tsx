@@ -11,7 +11,6 @@ import { Image } from '@/components/common/image';
 import { Input } from '@/components/common/input';
 import { useUpdateWorkspaceForm } from '@/hooks/workspace-hook';
 import { UpdateWorkspaceFormSchemaValues } from '@/types/schema/workspace-schema';
-import { Separator } from '@radix-ui/react-dropdown-menu';
 import { Loader2Icon, PencilIcon, PlusIcon } from 'lucide-react';
 
 export const UpdateWorkspaceForm = () => {
@@ -77,35 +76,30 @@ export const UpdateWorkspaceForm = () => {
                   This is the profile picture of your workspace. You can change it by clicking the
                   edit button.
                 </div>
-                <div className="flex justify-center">
-                  <div className="relative">
-                    <Input
-                      type="file"
-                      ref={profileInputRef}
-                      onChange={editProfile}
-                      className="hidden"
-                    />
-                    <Image
-                      src={profileUrl}
-                      alt="Workspace profile picture"
-                      className="h-32 w-32 rounded-full border"
-                    />
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="absolute bottom-3 left-0 h-8"
-                      type="button"
-                      onClick={() => profileInputRef.current?.click()}
-                    >
-                      <PencilIcon className="mr-1 h-3 w-3" />
-                      Edit
-                    </Button>
-                  </div>
-                </div>
+                <Input
+                  type="file"
+                  ref={profileInputRef}
+                  onChange={editProfile}
+                  className="hidden"
+                />
+                <Image
+                  src={profileUrl}
+                  alt="Workspace profile picture"
+                  className="h-32 w-32 rounded-full border"
+                />
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="absolute bottom-3 left-0 h-8"
+                  type="button"
+                  onClick={() => profileInputRef.current?.click()}
+                >
+                  <PencilIcon className="mr-1 h-3 w-3" />
+                  Edit
+                </Button>
               </>
             )}
           </div>
-          <Separator />
           <Button
             type="submit"
             className="w-fit"
