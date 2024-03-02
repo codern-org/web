@@ -81,8 +81,16 @@ const levels = [
 
 const columns: ColumnDef<Assignment>[] = [
   {
-    header: 'No.',
+    accessorKey: 'id',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="No,"
+      />
+    ),
     cell: ({ row }) => row.index + 1,
+    enableSorting: true,
+    enableHiding: false,
   },
   {
     accessorKey: 'name',
@@ -204,7 +212,7 @@ export const AssignmentTable = () => {
 
   const data = useMemo(() => assignments || [], [assignments]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([{ id: 'id', desc: true }]);
 
   const table = useReactTable({
     data,
