@@ -18,6 +18,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/common/tooltip';
+import { useLocalStorage } from '@/hooks/localstorage-hook';
 import { useWorkspaceParams } from '@/hooks/router-hook';
 import { useGetWorkspaceQuery, useListAssignmentQuery } from '@/hooks/workspace-hook';
 import { RoutePath } from '@/libs/constants';
@@ -26,6 +27,7 @@ import { Assignment, WorkspaceRole } from '@/types/workspace-type';
 import {
   ColumnDef,
   ColumnFiltersState,
+  PaginationState,
   Row,
   SortingState,
   flexRender,
@@ -38,7 +40,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { CircleIcon, Loader2Icon, PlusIcon, XIcon } from 'lucide-react';
-import { MouseEvent, useMemo, useState } from 'react';
+import { MouseEvent, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const statuses = [
@@ -211,18 +213,38 @@ export const AssignmentTable = () => {
   const { data: workspace } = useGetWorkspaceQuery(workspaceId);
 
   const data = useMemo(() => assignments || [], [assignments]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [sorting, setSorting] = useState<SortingState>([{ id: 'id', desc: true }]);
+  const [tableState, setTableState] = useLocalStorage('assignment-table-state', {
+    sorting: [{ id: 'id', desc: true }] as SortingState,
+    columnFilters: [] as ColumnFiltersState,
+    pagination: { pageIndex: 0, pageSize: 10 } as PaginationState,
+  });
 
   const table = useReactTable({
     data,
     columns,
-    state: {
-      sorting,
-      columnFilters,
+    state: tableState,
+    onSortingChange: (updater) => {
+      console.log(updater);
+      if (typeof updater === 'function') {
+        setTableState({ ...tableState, sorting: updater(tableState.sorting) });
+      } else {
+        setTableState({ ...tableState, sorting: updater });
+      }
     },
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
+    onColumnFiltersChange: (updater) => {
+      if (typeof updater === 'function') {
+        setTableState({ ...tableState, columnFilters: updater(tableState.columnFilters) });
+      } else {
+        setTableState({ ...tableState, columnFilters: updater });
+      }
+    },
+    onPaginationChange: (updater) => {
+      if (typeof updater === 'function') {
+        setTableState({ ...tableState, pagination: updater(tableState.pagination) });
+      } else {
+        setTableState({ ...tableState, pagination: updater });
+      }
+    },
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
