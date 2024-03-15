@@ -508,3 +508,23 @@ export const useDeleteAssignment = (workspaceId: bigint, assignmentId: bigint) =
     },
   });
 };
+
+export const useDeleteInvitation = (workspaceId: bigint, invitationId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => workspaceService.deleteInvitation(workspaceId, invitationId),
+    onSuccess: () => {
+      toast({
+        title: 'Delete invitation successfully',
+      });
+      queryClient.invalidateQueries({ queryKey: ['workspaces', workspaceId, 'invitation'] });
+    },
+    onError: (error) => {
+      toast({
+        variant: 'danger',
+        title: 'Cannot delete this assignment',
+        description: error.message,
+      });
+    },
+  });
+};

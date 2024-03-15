@@ -25,6 +25,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/common/table';
+import { InvitationTableRowActions } from '@/components/features/workspace/content/settings/content/invitation-table-row-actions';
 import { useStrictForm } from '@/hooks/form-hook';
 import { useWorkspaceParams } from '@/hooks/router-hook';
 import {
@@ -81,6 +82,10 @@ const columns: ColumnDef<Invitation>[] = [
     accessorKey: 'validUntil',
     header: 'Expire date',
     cell: ({ row }) => formatDate(row.original.validUntil, 'EEE, d MMM yyyy p'),
+  },
+  {
+    id: 'actions',
+    cell: ({ row }) => <InvitationTableRowActions row={row} />,
   },
 ];
 
