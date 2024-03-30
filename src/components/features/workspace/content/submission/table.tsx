@@ -61,7 +61,6 @@ const getColumns: (maxScore: number) => ColumnDef<Submission>[] = (maxScore: num
     accessorKey: 'id',
     header: 'ID',
     cell: ({ row }) => row.original.id.toString(),
-    filterFn: (row, _, value) => row.original.id.toString().includes(value),
   },
   {
     accessorKey: 'submitterName',
@@ -76,7 +75,6 @@ const getColumns: (maxScore: number) => ColumnDef<Submission>[] = (maxScore: num
         <span className="font-medium">{row.original.submitterName}</span>
       </div>
     ),
-    filterFn: (row, _, value) => row.original.submitterName.includes(value),
   },
   {
     accessorKey: 'language',
