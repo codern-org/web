@@ -63,14 +63,13 @@ export default function IndexPage() {
           <span>Star us on GitHub</span>
           <ChevronRightIcon className="h-4 w-4" />
         </Link>
-        <h1 className="text-center text-6xl font-bold">
-          New Generation <br />
+        <h1 className="bg-gradient-to-tl from-black from-40% bg-clip-text pb-2 text-center text-6xl font-bold text-transparent dark:from-white dark:from-50%">
+          Next Generation <br />
           Coding Platform
         </h1>
-        <p className="my-10 text-center text-lg text-muted-foreground">
-          Designed for both coding event organizers and enthusiastic end-users, <br />
-          Codern offers a world where programming skills flourish through interactive coding
-          adventures.
+        <p className="my-8 text-center text-lg text-muted-foreground">
+          Code, submit, and get a result faster, <br />
+          automate instructor workflow
         </p>
         <div className="flex flex-row space-x-4">
           <Link to={RoutePath.SIGNIN}>
