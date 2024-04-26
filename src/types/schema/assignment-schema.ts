@@ -17,6 +17,7 @@ export const CreateAssignmentSchema = z.object({
     .min(1, { message: 'Please enter a time limit' })
     .pipe(z.coerce.number()),
   level: z.nativeEnum(AssignmentLevel, { required_error: 'Please select a level' }),
+  dueDate: z.date().optional(),
   detail: z
     .string({ required_error: 'Please enter a detail' })
     .min(1, { message: 'Please enter a detail' }),

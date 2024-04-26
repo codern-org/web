@@ -1,5 +1,7 @@
 import { Badge } from '@/components/common/badge';
 import { Button } from '@/components/common/button';
+import { Calendar } from '@/components/common/calendar';
+import { Checkbox } from '@/components/common/checkbox';
 import {
   Form,
   FormControl,
@@ -9,6 +11,7 @@ import {
   FormMessage,
 } from '@/components/common/form';
 import { Input } from '@/components/common/input';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/common/popover';
 import {
   Select,
   SelectContent,
@@ -20,16 +23,19 @@ import { Separator } from '@/components/common/separator';
 import { Textarea } from '@/components/common/textarea';
 import { AssignmentDetailPreview } from '@/components/features/workspace/content/assignment/assignment-detail-preview';
 import { useCreateAssignmentForm } from '@/hooks/workspace-hook';
+import { classNames } from '@/libs/utils';
 import { CreateAssignmentSchemaValues } from '@/types/schema/assignment-schema';
 import { AssignmentLevel } from '@/types/workspace-type';
+import { format } from 'date-fns';
 import {
   AlertTriangleIcon,
+  CalendarIcon,
   ExternalLinkIcon,
   Loader2Icon,
   PlusIcon,
   TrashIcon,
 } from 'lucide-react';
-import { DragEvent } from 'react';
+import { DragEvent, useState } from 'react';
 
 export const CreateAssignmentForm = () => {
   const {
@@ -43,6 +49,7 @@ export const CreateAssignmentForm = () => {
     appendTestcase,
     removeTestcase,
   } = useCreateAssignmentForm();
+  const [hasDueDate, setHasDueDate] = useState<boolean>(false);
 
   const handleDropFile = <T extends HTMLInputElement | HTMLTextAreaElement>(
     event: DragEvent<T>,
@@ -151,6 +158,65 @@ export const CreateAssignmentForm = () => {
                       </SelectContent>
                     </Select>
                     <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="dueDate"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="items-top flex space-x-1.5">
+                      <Checkbox
+                        id="due-date"
+                        className="mr-1.5"
+                        onCheckedChange={(checked) => {
+                          if (!checked) form.setValue('dueDate', undefined);
+                          setHasDueDate(!!checked);
+                        }}
+                      />
+                      <div className="grid gap-1.5 text-sm">
+                        <label
+                          htmlFor="due-date"
+                          className="leading-none"
+                        >
+                          Due date
+                        </label>
+                        <p className="leading-none text-muted-foreground">
+                          Mark a submission as <Badge variant="outline">Late</Badge> if it's
+                          submitted after the specific date.
+                        </p>
+                      </div>
+                    </FormLabel>
+                    <FormControl>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            className={classNames('w-full justify-start', !hasDueDate && 'hidden')}
+                          >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {field.value ? (
+                              format(field.value, 'dd MMM yyyy')
+                            ) : (
+                              <span>Pick a due date</span>
+                            )}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent
+                          className="w-auto p-0"
+                          align="start"
+                        >
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={{ before: new Date() }}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </FormControl>
                   </FormItem>
                 )}
               />
