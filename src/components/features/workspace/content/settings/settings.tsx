@@ -1,12 +1,11 @@
 import { buttonVariants } from '@/components/common/button';
 import { Separator } from '@/components/common/separator';
-import { WorkspaceAdminSettings } from '@/components/features/workspace/content/settings/content/admin';
 import { WorkspaceGeneralSettings } from '@/components/features/workspace/content/settings/content/general';
 import { WorkspaceInvitationSettings } from '@/components/features/workspace/content/settings/content/invitation';
 import { useWorkspaceParams } from '@/hooks/router-hook';
 import { RoutePath, WorkspaceSettingsContent } from '@/libs/constants';
 import { classNames } from '@/libs/utils';
-import { LucideIcon, SettingsIcon, UserPlusIcon, UsersIcon } from 'lucide-react';
+import { LucideIcon, SettingsIcon, UserPlusIcon } from 'lucide-react';
 import { HTMLAttributes, ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
@@ -17,12 +16,13 @@ const sidebarNavItems: SidebarNavItem[] = [
     tab: WorkspaceSettingsContent.GENERAL,
     content: <WorkspaceGeneralSettings />,
   },
-  {
-    icon: UsersIcon,
-    title: 'Admin',
-    tab: WorkspaceSettingsContent.ADMIN,
-    content: <WorkspaceAdminSettings />,
-  },
+  // TODO: implement this
+  // {
+  //   icon: UsersIcon,
+  //   title: 'Admin',
+  //   tab: WorkspaceSettingsContent.ADMIN,
+  //   content: <WorkspaceAdminSettings />,
+  // },
   {
     icon: UserPlusIcon,
     title: 'Invitation',
