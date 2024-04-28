@@ -35,7 +35,7 @@ import {
   PlusIcon,
   TrashIcon,
 } from 'lucide-react';
-import { DragEvent, useState } from 'react';
+import { DragEvent, useEffect, useState } from 'react';
 
 export const CreateAssignmentForm = () => {
   const {
@@ -49,7 +49,11 @@ export const CreateAssignmentForm = () => {
     appendTestcase,
     removeTestcase,
   } = useCreateAssignmentForm();
-  const [hasDueDate, setHasDueDate] = useState<boolean>(false);
+
+  // For checkbox
+  const formDueDate = form.watch('dueDate');
+  const [hasDueDate, setHasDueDate] = useState<boolean>(!!formDueDate);
+  useEffect(() => setHasDueDate(!!formDueDate), [formDueDate]); // Synchornize with async form
 
   const handleDropFile = <T extends HTMLInputElement | HTMLTextAreaElement>(
     event: DragEvent<T>,
@@ -170,6 +174,7 @@ export const CreateAssignmentForm = () => {
                       <Checkbox
                         id="due-date"
                         className="mr-1.5"
+                        checked={hasDueDate}
                         onCheckedChange={(checked) => {
                           if (!checked) form.setValue('dueDate', undefined);
                           setHasDueDate(!!checked);
@@ -182,10 +187,10 @@ export const CreateAssignmentForm = () => {
                         >
                           Due date
                         </label>
-                        <p className="leading-none text-muted-foreground">
+                        <div className="leading-none text-muted-foreground">
                           Mark a submission as <Badge variant="outline">Late</Badge> if it's
                           submitted after the specific date.
-                        </p>
+                        </div>
                       </div>
                     </FormLabel>
                     <FormControl>

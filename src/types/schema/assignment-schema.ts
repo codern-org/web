@@ -8,14 +8,12 @@ export const CreateAssignmentSchema = z.object({
   description: z
     .string({ required_error: 'Please enter a description' })
     .min(1, { message: 'Please enter a description' }),
-  memoryLimit: z
-    .string({ required_error: 'Please enter a memory limit' })
-    .min(1, { message: 'Please enter a memory limit' })
-    .pipe(z.coerce.number()),
-  timeLimit: z
-    .string({ required_error: 'Please enter a time limit' })
-    .min(1, { message: 'Please enter a time limit' })
-    .pipe(z.coerce.number()),
+  memoryLimit: z.coerce
+    .number({ required_error: 'Please enter a memory limit' })
+    .min(1, { message: 'Please enter a memory limit' }),
+  timeLimit: z.coerce
+    .number({ required_error: 'Please enter a time limit' })
+    .min(1, { message: 'Please enter a time limit' }),
   level: z.nativeEnum(AssignmentLevel, { required_error: 'Please select a level' }),
   dueDate: z.date().optional(),
   detail: z
@@ -43,14 +41,15 @@ export const parseToCreateAssignmentSchema = (
   detail: string,
   testcases: CreateAssignmentSchemaValues['testcases'],
 ): CreateAssignmentSchemaValues => {
-  const { name, description, memoryLimit, timeLimit, level } = assignment;
+  const { name, description, memoryLimit, timeLimit, level, dueDate } = assignment;
   return {
     name,
     description,
-    memoryLimit: memoryLimit.toString(),
-    timeLimit: timeLimit.toString(),
+    memoryLimit,
+    timeLimit,
     level,
+    dueDate,
     detail,
     testcases,
-  } as unknown as CreateAssignmentSchemaValues; // TODO: fix this hack (zod type number <-> string)
+  } as CreateAssignmentSchemaValues;
 };

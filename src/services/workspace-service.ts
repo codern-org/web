@@ -54,6 +54,10 @@ class WorkspaceService extends ApiService {
     formData.append('level', assignment.level);
     formData.append('detail', new Blob([assignment.detail]), 'detail.md');
 
+    if (assignment.dueDate) {
+      formData.append('dueDate', assignment.dueDate.toISOString());
+    }
+
     assignment.testcases.forEach((testcase, i) => {
       formData.append('testcaseInput', new Blob([testcase.in + '\n']), `${i + 1}.in`);
       formData.append('testcaseOutput', new Blob([testcase.out + '\n']), `${i + 1}.out`);
@@ -257,6 +261,10 @@ class WorkspaceService extends ApiService {
     formData.append('timeLimit', assignment.timeLimit.toString());
     formData.append('level', assignment.level);
     formData.append('detail', new Blob([assignment.detail]), 'detail.md');
+
+    if (assignment.dueDate) {
+      formData.append('dueDate', assignment.dueDate.toISOString());
+    }
 
     assignment.testcases.forEach((testcase, i) => {
       formData.append('testcaseInput', new Blob([testcase.in + '\n']), `${i + 1}.in`);
