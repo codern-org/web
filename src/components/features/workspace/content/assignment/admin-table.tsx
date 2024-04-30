@@ -1,3 +1,4 @@
+import { Badge } from '@/components/common/badge';
 import { Button } from '@/components/common/button';
 import { DataTableColumnHeader } from '@/components/common/data-table-column-header';
 import { DataTableFacetedFilter } from '@/components/common/data-table-faceted-filer';
@@ -11,6 +12,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/common/table';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/common/tooltip';
 import { AdminAssignmentTableRowActions } from '@/components/features/workspace/content/assignment/admin-table-row-actions';
 import { useLocalStorage } from '@/hooks/localstorage-hook';
 import { useWorkspaceParams } from '@/hooks/router-hook';
@@ -76,7 +83,30 @@ const columns: ColumnDef<Assignment>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex flex-col space-y-1">
-          <span className="font-medium leading-none">{row.original.name}</span>
+          <span className="font-medium leading-none">
+            {row.original.name}
+            <TooltipProvider delayDuration={0}>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Badge
+                    variant="secondary"
+                    className="ml-1.5"
+                  >
+                    {new Date() > row.original.publishDate ? 'Public' : 'Private'}
+                  </Badge>
+                </TooltipTrigger>
+                <TooltipContent>
+                  Publish date: {formatDate(row.original.publishDate, 'EEE, d MMM yyyy p')}
+                  <br />
+                  {new Date() < row.original.publishDate && (
+                    <span className="text-muted-foreground">
+                      (An assignment will not be visble to members until the publish date)
+                    </span>
+                  )}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </span>
           <span className="text-muted-foreground">{row.original.description}</span>
         </div>
       );

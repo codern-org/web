@@ -53,6 +53,7 @@ class WorkspaceService extends ApiService {
     formData.append('timeLimit', assignment.timeLimit.toString());
     formData.append('level', assignment.level);
     formData.append('detail', new Blob([assignment.detail]), 'detail.md');
+    formData.append('publishDate', assignment.publishDate.toISOString());
 
     if (assignment.dueDate) {
       formData.append('dueDate', assignment.dueDate.toISOString());
@@ -261,6 +262,7 @@ class WorkspaceService extends ApiService {
     formData.append('timeLimit', assignment.timeLimit.toString());
     formData.append('level', assignment.level);
     formData.append('detail', new Blob([assignment.detail]), 'detail.md');
+    formData.append('publishDate', assignment.publishDate.toISOString());
 
     if (assignment.dueDate) {
       formData.append('dueDate', assignment.dueDate.toISOString());

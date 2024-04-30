@@ -180,7 +180,6 @@ export const CreateAssignmentForm = () => {
                           <Button
                             variant="outline"
                             className="w-full justify-start"
-                            disabled={isEditing}
                           >
                             <CalendarIcon className="mr-2 h-4 w-4" />
                             {field.value ? (
@@ -198,7 +197,7 @@ export const CreateAssignmentForm = () => {
                             mode="single"
                             selected={field.value}
                             onSelect={field.onChange}
-                            disabled={{ before: new Date() }}
+                            month={field.value}
                             initialFocus
                           />
                         </PopoverContent>
@@ -260,6 +259,7 @@ export const CreateAssignmentForm = () => {
                             selected={field.value || undefined} // turn null -> undefined
                             onSelect={field.onChange}
                             disabled={{ before: new Date() }}
+                            month={field.value || undefined}
                             initialFocus
                           />
                         </PopoverContent>
