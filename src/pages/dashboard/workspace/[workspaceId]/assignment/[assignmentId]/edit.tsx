@@ -8,7 +8,7 @@ function EditAssignmentPage() {
   return (
     <PageLayout>
       <DashboardNavBar />
-      <div className="min-h-screen bg-accent/30">
+      <div className="flex min-h-screen flex-col bg-accent/30">
         <CreateAssignmentHeader />
         <CreateAssignmentForm />
       </div>

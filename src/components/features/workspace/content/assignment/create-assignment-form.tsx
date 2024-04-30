@@ -82,8 +82,11 @@ export const CreateAssignmentForm = () => {
   };
 
   if (isLoading) {
-    // TODO: skeleton
-    return <></>;
+    return (
+      <div className="flex flex-1 items-center justify-center">
+        <Loader2Icon className="mr-2 animate-spin" /> Loading...
+      </div>
+    );
   }
 
   return (
