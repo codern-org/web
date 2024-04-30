@@ -40,13 +40,14 @@ export const parseToCreateAssignmentSchema = (
   detail: string,
   testcases: CreateAssignmentSchemaValues['testcases'],
 ): CreateAssignmentSchemaValues => {
-  const { name, description, memoryLimit, timeLimit, level, dueDate } = assignment;
+  const { name, description, memoryLimit, timeLimit, level, publishDate, dueDate } = assignment;
   return {
     name,
     description,
     memoryLimit,
     timeLimit,
     level,
+    publishDate,
     dueDate,
     detail,
     testcases,

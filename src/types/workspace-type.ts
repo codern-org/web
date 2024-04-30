@@ -64,6 +64,7 @@ export type Assignment = {
   level: AssignmentLevel;
   updatedAt: Date;
   createdAt: Date;
+  publishDate: Date;
   dueDate: Date;
   status: AssignmentStatus;
   testcases: Testcase[];
