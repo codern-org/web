@@ -43,8 +43,8 @@ export const CreateAssignmentForm = () => {
     create,
     update,
     isEditing,
-    isCreating,
     isLoading,
+    isPending,
     testcases,
     appendTestcase,
     removeTestcase,
@@ -170,10 +170,50 @@ export const CreateAssignmentForm = () => {
               />
               <FormField
                 control={form.control}
+                name="publishDate"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Publish date</FormLabel>
+                    <FormControl>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            className="w-full justify-start"
+                            disabled={isEditing}
+                          >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {field.value ? (
+                              format(field.value, 'dd MMM yyyy')
+                            ) : (
+                              <span>Pick a publish date</span>
+                            )}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent
+                          className="w-auto p-0"
+                          align="start"
+                        >
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={{ before: new Date() }}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="dueDate"
                 render={({ field }) => (
                   <FormItem className="w-full">
-                    <FormLabel className="items-top flex space-x-1.5">
+                    <FormLabel className="items-top flex space-x-1.5 pt-2">
                       <Checkbox
                         id="due-date"
                         className="mr-1.5"
@@ -217,7 +257,7 @@ export const CreateAssignmentForm = () => {
                         >
                           <Calendar
                             mode="single"
-                            selected={field.value}
+                            selected={field.value || undefined} // turn null -> undefined
                             onSelect={field.onChange}
                             disabled={{ before: new Date() }}
                             initialFocus
@@ -225,6 +265,7 @@ export const CreateAssignmentForm = () => {
                         </PopoverContent>
                       </Popover>
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -417,9 +458,9 @@ export const CreateAssignmentForm = () => {
 
           <Button
             type="submit"
-            disabled={isCreating}
+            disabled={isPending}
           >
-            {isCreating && <Loader2Icon className="mr-2 h-3 w-3 animate-spin" />}
+            {isPending && <Loader2Icon className="mr-2 h-3 w-3 animate-spin" />}
             {isEditing ? 'Edit' : 'Create'}
           </Button>
         </form>

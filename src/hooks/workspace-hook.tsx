@@ -7,7 +7,6 @@ import { RoutePath, WorkspaceContent, isDefaultProfileUrl } from '@/libs/constan
 import { ApiService } from '@/services/api-service';
 import { workspaceService } from '@/services/workspace-service';
 import {
-  CreateAssignmentDefaultValues,
   CreateAssignmentSchema,
   CreateAssignmentSchemaValues,
   parseToCreateAssignmentSchema,
@@ -54,7 +53,8 @@ export const useCreateAssignment = (workspaceId: bigint) => {
 export const useCreateAssignmentForm = () => {
   const { workspaceId, assignmentId } = useWorkspaceParams();
   const { mutate: create, isPending: isCreating } = useCreateAssignment(workspaceId);
-  const { mutate: update, isPending: isDeleting } = useUpdateAssignment(workspaceId, assignmentId);
+  const { mutate: update, isPending: isUpdating } = useUpdateAssignment(workspaceId, assignmentId);
+  const isPending = isCreating || isUpdating;
 
   const { data: assignment, isLoading: isAssignmentLoading } = useGetAssignmentQuery(
     workspaceId,
@@ -68,7 +68,7 @@ export const useCreateAssignmentForm = () => {
   const { data: detail, isLoading: isDetailLoading } = useAssignmentDetail(workspaceId, assignment);
   const isLoading = isAssignmentLoading || isDetailLoading || isTestcaseLoading;
 
-  const form = useStrictForm(CreateAssignmentSchema, CreateAssignmentDefaultValues);
+  const form = useStrictForm(CreateAssignmentSchema, { publishDate: new Date() });
   const {
     fields: testcaseFields,
     append: appendTestcase,
@@ -88,8 +88,7 @@ export const useCreateAssignmentForm = () => {
     create,
     update,
     isEditing: !!assignment,
-    isCreating,
-    isDeleting,
+    isPending,
     isLoading,
     testcases: testcaseFields,
     appendTestcase,

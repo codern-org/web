@@ -15,7 +15,8 @@ export const CreateAssignmentSchema = z.object({
     .number({ required_error: 'Please enter a time limit' })
     .min(1, { message: 'Please enter a time limit' }),
   level: z.nativeEnum(AssignmentLevel, { required_error: 'Please select a level' }),
-  dueDate: z.date().optional(),
+  publishDate: z.date({ required_error: 'Please select a publish date' }),
+  dueDate: z.date().optional().nullable(),
   detail: z
     .string({ required_error: 'Please enter a detail' })
     .min(1, { message: 'Please enter a detail' }),
@@ -33,8 +34,6 @@ export const CreateAssignmentSchema = z.object({
 });
 
 export type CreateAssignmentSchemaValues = z.infer<typeof CreateAssignmentSchema>;
-
-export const CreateAssignmentDefaultValues: Partial<CreateAssignmentSchemaValues> = {};
 
 export const parseToCreateAssignmentSchema = (
   assignment: Assignment,
