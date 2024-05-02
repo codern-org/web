@@ -399,13 +399,17 @@ export const useAssignmentTestcase = (
     refetchOnWindowFocus: !noRefetch,
   });
 
-export const useUpdateWorkspace = (workspaceId: bigint) => {
+export const useUpdateWorkspace = (workspaceId: bigint, refetchAll: boolean = false) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (workspace: UpdateWorkspaceFormSchemaValues) =>
       workspaceService.updateWorkspace(workspaceId, workspace),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['workspaces', workspaceId] });
+      if (refetchAll) {
+        queryClient.invalidateQueries({ queryKey: ['workspaces'] });
+      } else {
+        queryClient.invalidateQueries({ queryKey: ['workspaces', workspaceId] });
+      }
       toast({
         title: 'Update workspace successfully',
       });

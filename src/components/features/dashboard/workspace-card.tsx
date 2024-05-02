@@ -44,11 +44,10 @@ export const WorkspaceCard = ({ workspace }: WorkspaceCardProps) => {
     participantCount,
     favorite,
   } = workspace;
-  const { mutate: update } = useUpdateWorkspace(id);
+  const { mutate: update } = useUpdateWorkspace(id, true);
 
   const progress = totalAssignment ? Math.round((completedAssignment / totalAssignment) * 100) : 0;
 
-  // TODO: Make clicking on favorite button update the favorite status instantly, still have to refresh the page to see the change
   const handleFavorite = () => {
     update({ favorite: !favorite });
   };
