@@ -59,13 +59,19 @@ export const useCreateAssignmentForm = () => {
   const { data: assignment, isLoading: isAssignmentLoading } = useGetAssignmentQuery(
     workspaceId,
     assignmentId,
+    true,
   );
 
   const { data: testcases, isLoading: isTestcaseLoading } = useAssignmentTestcase(
     workspaceId,
     assignment,
+    true,
   );
-  const { data: detail, isLoading: isDetailLoading } = useAssignmentDetail(workspaceId, assignment);
+  const { data: detail, isLoading: isDetailLoading } = useAssignmentDetail(
+    workspaceId,
+    assignment,
+    true,
+  );
   const isLoading = isAssignmentLoading || isDetailLoading || isTestcaseLoading;
 
   const form = useStrictForm(CreateAssignmentSchema, { publishDate: new Date() });
@@ -340,22 +346,36 @@ export const useGetScoreboardQuery = (workspaceId: bigint) =>
     refetchInterval: 1 * 60 * 1000,
   });
 
-export const useGetAssignmentQuery = (workspaceId: bigint, assignmentId: bigint | undefined) =>
+export const useGetAssignmentQuery = (
+  workspaceId: bigint,
+  assignmentId: bigint | undefined,
+  noRefetch: boolean = false,
+) =>
   useQuery({
     enabled: !!assignmentId,
     queryKey: ['workspaces', workspaceId, 'assignments', assignmentId],
     queryFn: () => workspaceService.getAssignment(workspaceId, assignmentId!),
+    refetchOnWindowFocus: !noRefetch,
   });
 
-export const useAssignmentDetail = (workspaceId: bigint, assignment: Assignment | undefined) =>
+export const useAssignmentDetail = (
+  workspaceId: bigint,
+  assignment: Assignment | undefined,
+  noRefetch: boolean = false,
+) =>
   useQuery({
     enabled: !!assignment,
     queryKey: ['workspaces', workspaceId, 'assignments', assignment?.id, 'detail'],
     queryFn: () => workspaceService.getAssignmentDetail(assignment?.detailUrl as string),
     retry: false,
+    refetchOnWindowFocus: !noRefetch,
   });
 
-export const useAssignmentTestcase = (workspaceId: bigint, assignment: Assignment | undefined) =>
+export const useAssignmentTestcase = (
+  workspaceId: bigint,
+  assignment: Assignment | undefined,
+  noRefetch: boolean = false,
+) =>
   useQuery({
     enabled: !!assignment,
     queryKey: ['workspaces', workspaceId, 'assignments', assignment?.id, 'testcases'],
@@ -376,6 +396,7 @@ export const useAssignmentTestcase = (workspaceId: bigint, assignment: Assignmen
       return result;
     },
     retry: false,
+    refetchOnWindowFocus: !noRefetch,
   });
 
 export const useUpdateWorkspace = (workspaceId: bigint) => {
