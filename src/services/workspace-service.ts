@@ -302,6 +302,15 @@ class WorkspaceService extends ApiService {
       .then(() => {})
       .catch(this.throwError);
   }
+
+  public async deleteParticipant(workspaceId: bigint, userId: string): Promise<void> {
+    const url = '/workspaces/:workspaceId/participants/:userId'
+      .replace(':workspaceId', workspaceId.toString())
+      .replace(':userId', userId);
+    return this.delete(url)
+      .then(() => {})
+      .catch(this.throwError);
+  }
 }
 
 export const workspaceService = new WorkspaceService();

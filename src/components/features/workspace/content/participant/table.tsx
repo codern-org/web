@@ -11,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/common/table';
+import { AdminParticipantTableRowActions } from '@/components/features/workspace/content/participant/admin-table-row-actions';
 import { useWorkspaceParams } from '@/hooks/router-hook';
 import { useGetWorkspaceQuery, useListWorkspaceParticipantQuery } from '@/hooks/workspace-hook';
 import { formatDate } from '@/libs/utils';
@@ -76,6 +77,10 @@ const columns: ColumnDef<WorkspaceParticipant>[] = [
     accessorKey: 'joinedAt',
     header: 'Joined date',
     cell: ({ row }) => formatDate(row.original.joinedAt, 'EEE, d MMM yyyy p'),
+  },
+  {
+    id: 'actions',
+    cell: ({ row }) => <AdminParticipantTableRowActions row={row} />,
   },
 ];
 

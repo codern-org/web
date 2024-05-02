@@ -553,3 +553,23 @@ export const useDeleteInvitation = (workspaceId: bigint, invitationId: number) =
     },
   });
 };
+
+export const useDeleteWorkspaceParticipant = (workspaceId: bigint, userId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => workspaceService.deleteParticipant(workspaceId, userId),
+    onSuccess: () => {
+      toast({
+        title: 'Remove participant successfully',
+      });
+      queryClient.invalidateQueries({ queryKey: ['workspaces', workspaceId] });
+    },
+    onError: (error) => {
+      toast({
+        variant: 'danger',
+        title: 'Cannot remove this participant',
+        description: error.message,
+      });
+    },
+  });
+};
