@@ -71,7 +71,12 @@ export const AdminAssignmentTableRowActions = ({ row }: AdminAssignmentTableRowA
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => deleteAssignment()}>Delete</AlertDialogAction>
+          <AlertDialogAction
+            variant="danger"
+            onClick={() => deleteAssignment()}
+          >
+            Delete
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

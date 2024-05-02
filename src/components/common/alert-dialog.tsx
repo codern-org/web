@@ -1,4 +1,4 @@
-import { buttonVariants } from '@/components/common/button';
+import { ButtonVariants, buttonVariants } from '@/components/common/button';
 import { classNames } from '@/libs/utils';
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
 import { ComponentPropsWithoutRef, ElementRef, HTMLAttributes, forwardRef } from 'react';
@@ -87,11 +87,13 @@ AlertDialogDescription.displayName = AlertDialogPrimitive.Description.displayNam
 
 export const AlertDialogAction = forwardRef<
   ElementRef<typeof AlertDialogPrimitive.Action>,
-  ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action>
->(({ className, ...props }, ref) => (
+  ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action> & {
+    variant?: ButtonVariants['variant'];
+  }
+>(({ className, variant, ...props }, ref) => (
   <AlertDialogPrimitive.Action
     ref={ref}
-    className={classNames(buttonVariants(), className)}
+    className={classNames(buttonVariants({ variant }), className)}
     {...props}
   />
 ));
