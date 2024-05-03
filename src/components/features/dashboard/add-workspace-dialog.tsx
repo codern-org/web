@@ -15,8 +15,10 @@ import {
   FormMessage,
 } from '@/components/common/form';
 import { Input } from '@/components/common/input';
+import { useAuth } from '@/hooks/auth-hook';
 import { useStrictForm } from '@/hooks/form-hook';
 import { useJoinWorkspace } from '@/hooks/workspace-hook';
+import { UserAccountType } from '@/types/auth-type';
 import {
   JoinWorkspaceFormDefaultValues,
   JoinWorkspaceFormSchema,
@@ -26,6 +28,7 @@ import { PlusIcon } from 'lucide-react';
 import { useState } from 'react';
 
 export const AddWorkspaceDialog = () => {
+  const { user } = useAuth();
   const form = useStrictForm(JoinWorkspaceFormSchema, JoinWorkspaceFormDefaultValues);
   const [isOpen, setIsOpen] = useState(false);
   const { mutate: join } = useJoinWorkspace();
@@ -44,7 +47,10 @@ export const AddWorkspaceDialog = () => {
       }}
     >
       <DialogTrigger asChild>
-        <Button size="sm">
+        <Button
+          size="sm"
+          variant={user.data?.accountType === UserAccountType.PRO ? 'secondary' : 'base'}
+        >
           <PlusIcon className="mr-0.5 h-4 w-4" />
           Join
         </Button>
