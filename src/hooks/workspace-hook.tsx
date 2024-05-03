@@ -399,20 +399,35 @@ export const useAssignmentTestcase = (
     refetchOnWindowFocus: !noRefetch,
   });
 
-export const useUpdateWorkspace = (workspaceId: bigint, refetchAll: boolean = false) => {
+type UseUpdateWorkspaceOptions = Partial<{
+  refetchAll: boolean;
+  notify: boolean;
+}>;
+
+const DefaultUseUpdateWorkspaceOptions: UseUpdateWorkspaceOptions = {
+  refetchAll: false,
+  notify: true,
+};
+
+export const useUpdateWorkspace = (
+  workspaceId: bigint,
+  options: UseUpdateWorkspaceOptions = DefaultUseUpdateWorkspaceOptions,
+) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (workspace: UpdateWorkspaceFormSchemaValues) =>
       workspaceService.updateWorkspace(workspaceId, workspace),
     onSuccess: () => {
-      if (refetchAll) {
+      if (options.refetchAll) {
         queryClient.invalidateQueries({ queryKey: ['workspaces'] });
       } else {
         queryClient.invalidateQueries({ queryKey: ['workspaces', workspaceId] });
       }
-      toast({
-        title: 'Update workspace successfully',
-      });
+      if (options.notify) {
+        toast({
+          title: 'Update workspace successfully',
+        });
+      }
     },
     onError: (error) => {
       toast({

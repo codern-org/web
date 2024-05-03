@@ -44,7 +44,7 @@ export const WorkspaceCard = ({ workspace }: WorkspaceCardProps) => {
     participantCount,
     favorite,
   } = workspace;
-  const { mutate: update } = useUpdateWorkspace(id, true);
+  const { mutate: update } = useUpdateWorkspace(id, { refetchAll: true, notify: false });
 
   const progress = totalAssignment ? Math.round((completedAssignment / totalAssignment) * 100) : 0;
 
