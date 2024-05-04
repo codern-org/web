@@ -224,7 +224,6 @@ export const AssignmentTable = () => {
     columns,
     state: tableState,
     onSortingChange: (updater) => {
-      console.log(updater);
       if (typeof updater === 'function') {
         setTableState({ ...tableState, sorting: updater(tableState.sorting) });
       } else {

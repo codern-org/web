@@ -40,7 +40,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { Loader2Icon, PlusIcon, XIcon } from 'lucide-react';
+import { GlobeIcon, Loader2Icon, LockIcon, PlusIcon, XIcon } from 'lucide-react';
 import { MouseEvent, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -92,7 +92,15 @@ const columns: ColumnDef<Assignment>[] = [
                     variant="secondary"
                     className="ml-1.5"
                   >
-                    {new Date() > row.original.publishDate ? 'Public' : 'Private'}
+                    {new Date() > row.original.publishDate ? (
+                      <>
+                        <GlobeIcon className="mr-1 size-3" /> Public
+                      </>
+                    ) : (
+                      <>
+                        <LockIcon className="mr-1 size-3" /> Private
+                      </>
+                    )}
                   </Badge>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -173,7 +181,6 @@ export const AdminAssignmentTable = () => {
     columns,
     state: tableState,
     onSortingChange: (updater) => {
-      console.log(updater);
       if (typeof updater === 'function') {
         setTableState({ ...tableState, sorting: updater(tableState.sorting) });
       } else {

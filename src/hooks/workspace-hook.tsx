@@ -9,7 +9,6 @@ import { workspaceService } from '@/services/workspace-service';
 import {
   CreateAssignmentSchema,
   CreateAssignmentSchemaValues,
-  parseToCreateAssignmentSchema,
 } from '@/types/schema/assignment-schema';
 import {
   CreateInvitationSchemaValues,
@@ -71,6 +70,7 @@ export const useCreateAssignmentForm = () => {
     workspaceId,
     assignment,
     true,
+    true,
   );
   const isLoading = isAssignmentLoading || isDetailLoading || isTestcaseLoading;
 
@@ -85,11 +85,21 @@ export const useCreateAssignmentForm = () => {
   });
 
   useEffect(() => {
-    if (!assignment || !detail || !testcases) return;
-    form.reset(parseToCreateAssignmentSchema(assignment, detail, testcases));
+    if (!assignment || !testcases || !detail) return;
+
+    const data: CreateAssignmentSchemaValues = {
+      ...assignment,
+      testcases,
+    };
+
+    const isPdfDetail = assignment?.detailUrl.endsWith('.pdf');
+    if (!isPdfDetail) data.detail = detail;
+
+    form.reset(data);
   }, [form, assignment, detail, testcases]);
 
   return {
+    assignment,
     form,
     create,
     update,
@@ -361,10 +371,11 @@ export const useGetAssignmentQuery = (
 export const useAssignmentDetail = (
   workspaceId: bigint,
   assignment: Assignment | undefined,
+  enabled: boolean,
   noRefetch: boolean = false,
 ) =>
   useQuery({
-    enabled: !!assignment,
+    enabled: enabled,
     queryKey: ['workspaces', workspaceId, 'assignments', assignment?.id, 'detail'],
     queryFn: () => workspaceService.getAssignmentDetail(assignment?.detailUrl as string),
     retry: false,

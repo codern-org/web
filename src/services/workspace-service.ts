@@ -46,13 +46,24 @@ class WorkspaceService extends ApiService {
       workspaceId.toString(),
     );
 
+    let file: Blob | undefined;
+
+    // TODO: This is a little bit of hardcoding (need to fix on `updateAssignment` too)
+    // On pdf tab, if file has been uploaded, we will prioritize detailFile over detail
+    // We can do like this one, because of file input type reset after switch to markdown tab
+    if (assignment.detailFile?.length) {
+      file = assignment.detailFile[0];
+    } else if (assignment.detail) {
+      file = new Blob([assignment.detail]);
+    }
+
     const formData = new FormData();
     formData.append('name', assignment.name);
     formData.append('description', assignment.description);
     formData.append('memoryLimit', assignment.memoryLimit.toString());
     formData.append('timeLimit', assignment.timeLimit.toString());
     formData.append('level', assignment.level);
-    formData.append('detail', new Blob([assignment.detail]), 'detail.md');
+    if (file) formData.append('detail', file, 'detail');
     formData.append('publishDate', assignment.publishDate.toISOString());
 
     if (assignment.dueDate) {
@@ -255,13 +266,21 @@ class WorkspaceService extends ApiService {
       .replace(':workspaceId', workspaceId.toString())
       .replace(':assignmentId', assignmentId.toString());
 
+    let file: Blob | undefined;
+
+    if (assignment.detailFile?.length) {
+      file = assignment.detailFile[0];
+    } else if (assignment.detail) {
+      file = new Blob([assignment.detail]);
+    }
+
     const formData = new FormData();
     formData.append('name', assignment.name);
     formData.append('description', assignment.description);
     formData.append('memoryLimit', assignment.memoryLimit.toString());
     formData.append('timeLimit', assignment.timeLimit.toString());
     formData.append('level', assignment.level);
-    formData.append('detail', new Blob([assignment.detail]), 'detail.md');
+    if (file) formData.append('detail', file, 'detail');
     formData.append('publishDate', assignment.publishDate.toISOString());
 
     if (assignment.dueDate) {

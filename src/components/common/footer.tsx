@@ -1,5 +1,5 @@
-import { ReactComponent as GitHubIcon } from '@/assets/svg/github-mark.svg';
-import { ReactComponent as VectierIcon } from '@/assets/svg/vectier-mark.svg';
+import GitHubIcon from '@/assets/svg/github-mark.svg?react';
+import VectierIcon from '@/assets/svg/vectier-mark.svg?react';
 import { ThemeSwitchBar } from '@/components/common/theme-switch-bar';
 
 export const Footer = () => {

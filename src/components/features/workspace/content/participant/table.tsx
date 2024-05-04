@@ -13,9 +13,9 @@ import {
 } from '@/components/common/table';
 import { AdminParticipantTableRowActions } from '@/components/features/workspace/content/participant/admin-table-row-actions';
 import { useWorkspaceParams } from '@/hooks/router-hook';
-import { useGetWorkspaceQuery, useListWorkspaceParticipantQuery } from '@/hooks/workspace-hook';
+import { useListWorkspaceParticipantQuery } from '@/hooks/workspace-hook';
 import { formatDate } from '@/libs/utils';
-import { WorkspaceParticipant, WorkspaceRole } from '@/types/workspace-type';
+import { WorkspaceParticipant } from '@/types/workspace-type';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -29,7 +29,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { Loader2Icon, PlusIcon, XIcon } from 'lucide-react';
+import { Loader2Icon, XIcon } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
 const roles = [
@@ -87,7 +87,6 @@ const columns: ColumnDef<WorkspaceParticipant>[] = [
 export const WorkspaceParticipantTable = () => {
   const { workspaceId } = useWorkspaceParams();
   const { data: participants, isLoading } = useListWorkspaceParticipantQuery(workspaceId);
-  const { data: workspace } = useGetWorkspaceQuery(workspaceId);
 
   const data = useMemo(() => participants || [], [participants]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -147,16 +146,16 @@ export const WorkspaceParticipantTable = () => {
             onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
           />
 
-          {workspace && [WorkspaceRole.ADMIN, WorkspaceRole.OWNER].includes(workspace.role) && (
+          {/* TODO: implement this */}
+          {/* {workspace && [WorkspaceRole.ADMIN, WorkspaceRole.OWNER].includes(workspace.role) && (
             <Button
               size="sm"
               className="h-9"
             >
-              {/* TODO: implement it */}
               <PlusIcon className="mr-1 h-4 w-4" />
               Add
             </Button>
-          )}
+          )} */}
         </div>
       </div>
       <div className="space-y-4">
@@ -183,10 +182,6 @@ export const WorkspaceParticipantTable = () => {
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && 'selected'}
-                    onClick={
-                      () => {}
-                      // navigate(RoutePath.ASSIGNMENT(workspaceId, row.original.id))
-                    }
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>

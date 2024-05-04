@@ -15,6 +15,7 @@ export const buttonVariants = cva(
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         danger:
           'border border-danger bg-danger text-primary-foreground hover:bg-primary-foreground hover:text-danger',
+        link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
         sm: 'h-9 px-3',

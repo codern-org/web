@@ -1,5 +1,5 @@
 import { Badge } from '@/components/common/badge';
-import { Button } from '@/components/common/button';
+import { Button, buttonVariants } from '@/components/common/button';
 import { Calendar } from '@/components/common/calendar';
 import { Checkbox } from '@/components/common/checkbox';
 import {
@@ -20,10 +20,11 @@ import {
   SelectValue,
 } from '@/components/common/select';
 import { Separator } from '@/components/common/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/common/tab';
 import { Textarea } from '@/components/common/textarea';
 import { AssignmentDetailPreview } from '@/components/features/workspace/content/assignment/assignment-detail-preview';
 import { useCreateAssignmentForm } from '@/hooks/workspace-hook';
-import { classNames } from '@/libs/utils';
+import { classNames, resolveFileUrl } from '@/libs/utils';
 import { CreateAssignmentSchemaValues } from '@/types/schema/assignment-schema';
 import { AssignmentLevel } from '@/types/workspace-type';
 import { format } from 'date-fns';
@@ -31,6 +32,7 @@ import {
   AlertTriangleIcon,
   CalendarIcon,
   ExternalLinkIcon,
+  EyeIcon,
   Loader2Icon,
   PlusIcon,
   TrashIcon,
@@ -39,6 +41,7 @@ import { DragEvent, useEffect, useState } from 'react';
 
 export const CreateAssignmentForm = () => {
   const {
+    assignment,
     form,
     create,
     update,
@@ -49,6 +52,8 @@ export const CreateAssignmentForm = () => {
     appendTestcase,
     removeTestcase,
   } = useCreateAssignmentForm();
+
+  const isPdfDetail = assignment?.detailUrl.endsWith('.pdf');
 
   // For checkbox
   const formDueDate = form.watch('dueDate');
@@ -61,7 +66,7 @@ export const CreateAssignmentForm = () => {
     event.preventDefault();
     event.stopPropagation();
 
-    const { files } = event.dataTransfer;
+    const file = event.dataTransfer.files[0];
     const reader = new FileReader();
 
     reader.onload = (readerEvent) => {
@@ -70,7 +75,7 @@ export const CreateAssignmentForm = () => {
       const fieldName = (event.target as T).name as keyof CreateAssignmentSchemaValues;
       form.setValue(fieldName, fileContent.toString());
     };
-    reader.readAsText(files[0]);
+    reader.readAsText(file);
   };
 
   const handleSubmit = (assignment: CreateAssignmentSchemaValues) => {
@@ -317,36 +322,84 @@ export const CreateAssignmentForm = () => {
                   )}
                 />
               </div>
-              <FormField
-                control={form.control}
-                name="detail"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="flex items-center justify-between">
-                      Detail
-                      <a
-                        href="https://www.markdownguide.org/basic-syntax/"
-                        target="_blank"
-                      >
-                        <Badge className="ml-2 space-x-1">
-                          <span>Support markdown</span>
-                          <ExternalLinkIcon className="h-3 w-3" />
-                        </Badge>
-                      </a>
-                    </FormLabel>
-                    <FormControl>
-                      <Textarea
-                        className="h-72"
-                        placeholder="Detail of an assignment"
-                        onDrop={handleDropFile}
-                        {...field}
-                      />
-                    </FormControl>
-                    <AssignmentDetailPreview detail={field.value || ''} />
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+
+              <Tabs
+                defaultValue={isPdfDetail ? 'pdf' : 'markdown'}
+                className="space-y-4"
+              >
+                <div className="flex flex-col">
+                  <FormLabel>Detail</FormLabel>
+                  <div className="mt-2">
+                    <TabsList>
+                      <TabsTrigger value="markdown">Markdown</TabsTrigger>
+                      <TabsTrigger value="pdf">PDF</TabsTrigger>
+                    </TabsList>
+                  </div>
+                </div>
+                <TabsContent value="markdown">
+                  <FormField
+                    control={form.control}
+                    name="detail"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center justify-between space-x-4">
+                          Markdown content
+                          <a
+                            href="https://www.markdownguide.org/basic-syntax/"
+                            target="_blank"
+                          >
+                            <Badge className="space-x-1">
+                              <span>Markdown guildline</span>
+                              <ExternalLinkIcon className="h-3 w-3" />
+                            </Badge>
+                          </a>
+                        </FormLabel>
+                        <FormControl>
+                          <Textarea
+                            className="h-72"
+                            placeholder="Detail of an assignment"
+                            onDrop={handleDropFile}
+                            {...field}
+                          />
+                        </FormControl>
+                        <AssignmentDetailPreview detail={field.value || ''} />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </TabsContent>
+                <TabsContent value="pdf">
+                  <FormField
+                    control={form.control}
+                    name="detailFile"
+                    render={() => (
+                      <FormItem>
+                        <FormLabel>PDF file</FormLabel>
+                        <FormControl>
+                          <div className="flex">
+                            <Input
+                              type="file"
+                              accept="application/pdf"
+                              {...form.register('detailFile')}
+                            />
+                            {isPdfDetail && (
+                              <a
+                                className={buttonVariants({ variant: 'link' })}
+                                href={resolveFileUrl(assignment?.detailUrl || '')}
+                                target="_blank"
+                              >
+                                <EyeIcon className="mr-1.5 size-4" />
+                                View file
+                              </a>
+                            )}
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </TabsContent>
+              </Tabs>
             </div>
           </div>
 
