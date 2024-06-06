@@ -1,4 +1,4 @@
-import GoogleIcon from '@/assets/svg/google-icon.svg';
+import GoogleIcon from '@/assets/svg/google-icon.svg?url';
 import { Button, ButtonProps } from '@/components/common/button';
 import { Image } from '@/components/common/image';
 import { ToastAction } from '@/components/common/toast';
