@@ -69,7 +69,7 @@ export const EditorPane = () => {
               <SelectGroup>
                 <SelectLabel>Language</SelectLabel>
                 <SelectItem value="c">C</SelectItem>
-                <SelectItem value="cpp">C++</SelectItem>
+                {/* <SelectItem value="cpp">C++</SelectItem> */}
               </SelectGroup>
             </SelectContent>
           </Select>
