@@ -76,27 +76,29 @@ export const UpdateWorkspaceForm = () => {
                   This is the profile picture of your workspace. You can change it by clicking the
                   edit button.
                 </div>
-                <Input
-                  type="file"
-                  ref={profileInputRef}
-                  onChange={editProfile}
-                  className="hidden"
-                />
-                <Image
-                  src={profileUrl}
-                  alt="Workspace profile picture"
-                  className="h-32 w-32 rounded-full border"
-                />
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="absolute bottom-3 left-0 h-8"
-                  type="button"
-                  onClick={() => profileInputRef.current?.click()}
-                >
-                  <PencilIcon className="mr-1 h-3 w-3" />
-                  Edit
-                </Button>
+                <div className="relative">
+                  <Input
+                    type="file"
+                    ref={profileInputRef}
+                    onChange={editProfile}
+                    className="hidden"
+                  />
+                  <Image
+                    src={profileUrl}
+                    alt="Workspace profile picture"
+                    className="h-48 w-48 rounded-full border"
+                  />
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="absolute bottom-3 left-0 h-8"
+                    type="button"
+                    onClick={() => profileInputRef.current?.click()}
+                  >
+                    <PencilIcon className="mr-1 h-3 w-3" />
+                    Edit
+                  </Button>
+                </div>
               </>
             )}
           </div>
