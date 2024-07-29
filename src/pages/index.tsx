@@ -55,7 +55,7 @@ export default function IndexPage() {
           target="_blank"
           className="mb-10 inline-flex items-center rounded-full bg-muted px-3 py-1 text-sm font-medium"
         >
-          <span>🎉 We are open source</span>
+          <span>🎉 We are Source-Available Software</span>
           <Separator
             orientation="vertical"
             className="mx-2 h-4"
