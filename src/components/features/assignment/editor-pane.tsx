@@ -69,7 +69,10 @@ export const EditorPane = () => {
               <SelectGroup>
                 <SelectLabel>Language</SelectLabel>
                 <SelectItem value="c">C</SelectItem>
-                <SelectItem value="cpp">C++</SelectItem>
+                {/* NOTE: temporary hotfix to remove C++ for BMH2024, because the maintainer doesn't have a time to implement this and no money ;( */}
+                {!['51603500878026190', '47101152981964253', '54194060851697101'].includes(
+                  workspaceId.toString(),
+                ) && <SelectItem value="cpp">C++</SelectItem>}
               </SelectGroup>
             </SelectContent>
           </Select>
