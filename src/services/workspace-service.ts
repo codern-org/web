@@ -252,6 +252,10 @@ class WorkspaceService extends ApiService {
       formData.append('profile', profile, 'profile');
     }
 
+    if (workspace.isScoreboardEnabled !== undefined) {
+      formData.append('isScoreboardEnabled', workspace.isScoreboardEnabled.toString());
+    }
+
     return this.patch(url, formData)
       .then(() => {})
       .catch(this.throwError);

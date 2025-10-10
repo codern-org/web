@@ -471,6 +471,7 @@ export const useUpdateWorkspaceForm = () => {
     form.reset({
       name: workspace.name,
       profileUrl: isDefaultProfileUrl(workspace.profileUrl) ? undefined : workspace.profileUrl,
+      isScoreboardEnabled: workspace.isScoreboardEnabled,
     });
   }, [form, workspace]);
 

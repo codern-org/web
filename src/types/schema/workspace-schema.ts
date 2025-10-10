@@ -32,6 +32,7 @@ export const UpdateWorkspaceFormSchema = z.object({
     .optional(),
   favorite: z.boolean().optional(),
   profileUrl: z.string().trim().optional(),
+  isScoreboardEnabled: z.boolean().optional(),
 });
 
 export type UpdateWorkspaceFormSchemaValues = z.infer<typeof UpdateWorkspaceFormSchema>;

@@ -7,6 +7,7 @@ export type Workspace = {
   ownerProfileUrl: string;
   participantCount: number;
   totalAssignment: number;
+  isScoreboardEnabled: boolean;
 
   completedAssignment: number;
   role: WorkspaceRole;

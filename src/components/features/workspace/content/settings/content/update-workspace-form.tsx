@@ -1,4 +1,5 @@
 import { Button } from '@/components/common/button';
+import { Checkbox } from '@/components/common/checkbox';
 import {
   Form,
   FormControl,
@@ -25,7 +26,7 @@ export const UpdateWorkspaceForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="space-y-4"
+        className="space-y-6"
       >
         <div className="flex space-x-5">
           <div className="flex w-4/6 flex-col space-y-4">
@@ -102,19 +103,48 @@ export const UpdateWorkspaceForm = () => {
               </>
             )}
           </div>
-          <Button
-            type="submit"
-            className="w-fit"
-            disabled={
-              workspace?.name === form.getValues('name') &&
-              (workspace?.profileUrl === form.getValues('profileUrl') || !profileUrl) &&
-              !isUpdating
-            }
-          >
-            {isUpdating && <Loader2Icon className="mr-2 animate-spin" />}
-            {isUpdating ? 'Saving...' : 'Save changes'}
-          </Button>
+          <div className="flex flex-col space-y-2">
+            <FormField
+              control={form.control}
+              name="isScoreboardEnabled"
+              render={({ field }) => (
+                <FormLabel className="items-top flex space-x-1.5 pt-2">
+                  <Checkbox
+                    id="enable-scoreboard"
+                    className="mr-1.5"
+                    checked={!!field.value}
+                    onCheckedChange={() => field.onChange(!field.value)}
+                  />
+                  <div className="grid gap-1.5 text-sm">
+                    <label
+                      htmlFor="due-date"
+                      className="leading-none"
+                    >
+                      Enable scoreboard
+                    </label>
+                    <div className="leading-none text-muted-foreground">
+                      Allow everyone in the workspace to see the scoreboard. If disabled, only
+                      admins can see it.
+                    </div>
+                  </div>
+                </FormLabel>
+              )}
+            />
+          </div>
         </div>
+        <Button
+          type="submit"
+          className="w-fit"
+          disabled={
+            workspace?.name === form.getValues('name') &&
+            (workspace?.profileUrl === form.getValues('profileUrl') || !profileUrl) &&
+            workspace?.isScoreboardEnabled == form.getValues('isScoreboardEnabled') &&
+            !isUpdating
+          }
+        >
+          {isUpdating && <Loader2Icon className="mr-2 animate-spin" />}
+          {isUpdating ? 'Saving...' : 'Save changes'}
+        </Button>
       </form>
     </Form>
   );
